@@ -1,0 +1,42 @@
+{
+	"name": "SqlServer_onprem",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"servername": {
+				"type": "string",
+				"defaultValue": "KRISHHPC\\SQLEXPRESS"
+			},
+			"databasename": {
+				"type": "string",
+				"defaultValue": "krishh"
+			},
+			"username": {
+				"type": "string",
+				"defaultValue": "sa"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"server": "@{linkedService().servername}",
+			"database": "@{linkedService().databasename}",
+			"encrypt": "mandatory",
+			"trustServerCertificate": true,
+			"authenticationType": "SQL",
+			"userName": "@{linkedService().username}",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "AzureKeyVaultsqlserver",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "sqlserverpassword"
+			}
+		},
+		"connectVia": {
+			"referenceName": "SHIR-1",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
