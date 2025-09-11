@@ -18,10 +18,6 @@
 					"numberOfExternalNodes": 1
 				}
 			}
-		},
-		"managedVirtualNetwork": {
-			"type": "ManagedVirtualNetworkReference",
-			"referenceName": "default"
 		}
 	}
 }
