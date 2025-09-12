@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "CosmosDb",
 		"typeProperties": {
-			"accountEndpoint": "https://dev-reinsurance-grids-global01-cosmos.documents.azure.com:443/",
+			"accountEndpoint": "https://krishh-cosmos-db.documents.azure.com:443/",
 			"database": "product-builder"
 		},
 		"connectVia": {
