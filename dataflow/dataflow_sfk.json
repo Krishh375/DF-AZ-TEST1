@@ -1,0 +1,55 @@
+{
+	"name": "dataflow_sfk",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"linkedService": {
+						"referenceName": "AzureBlobStorage1",
+						"type": "LinkedServiceReference"
+					},
+					"name": "adlssource"
+				}
+			],
+			"sinks": [
+				{
+					"linkedService": {
+						"referenceName": "Snowflake_ls",
+						"type": "LinkedServiceReference"
+					},
+					"name": "sinksnowflake"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(useSchema: false,",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'delimited',",
+				"     container: 'inputcontainer',",
+				"     folderPath: 'demo',",
+				"     fileName: 'EXCELDEMO.csv',",
+				"     columnDelimiter: ',',",
+				"     escapeChar: '\\\\',",
+				"     quoteChar: '\\\"',",
+				"     columnNamesAsHeader: false) ~> adlssource",
+				"adlssource sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'table',",
+				"     tableName: 'ELEMENTS',",
+				"     schemaName: 'MY_SCHEMA',",
+				"     deletable: false,",
+				"     insertable: true,",
+				"     updateable: false,",
+				"     upsertable: false,",
+				"     store: 'snowflake',",
+				"     store: 'snowflakeV2',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     stageInsert: true) ~> sinksnowflake"
+			]
+		}
+	}
+}
