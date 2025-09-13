@@ -1,0 +1,188 @@
+{
+	"name": "TransformContractSectionViewBordereau",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureDestinyGlobal",
+						"type": "DatasetReference"
+					},
+					"name": "AzureDestinyGlobal"
+				},
+				{
+					"dataset": {
+						"referenceName": "pb_productBuilder_container",
+						"type": "DatasetReference"
+					},
+					"name": "productBuilderContractSections"
+				},
+				{
+					"dataset": {
+						"referenceName": "pb_contractsection_container",
+						"type": "DatasetReference"
+					},
+					"name": "ContractSectionViewBordereau"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "pb_contractsection_container",
+						"type": "DatasetReference"
+					},
+					"name": "UpdateCosmosDB"
+				},
+				{
+					"dataset": {
+						"referenceName": "pb_contractsection_container",
+						"type": "DatasetReference"
+					},
+					"name": "DeleteItemsInCosmos"
+				}
+			],
+			"transformations": [
+				{
+					"name": "LookupContractSection"
+				},
+				{
+					"name": "LookupId"
+				},
+				{
+					"name": "DerivedColumns"
+				},
+				{
+					"name": "AggregateColumns"
+				},
+				{
+					"name": "SelectAttributes"
+				},
+				{
+					"name": "InsertOrUpdate"
+				},
+				{
+					"name": "UnusedData"
+				},
+				{
+					"name": "SelectItemKeys"
+				},
+				{
+					"name": "SetToDeleteUnusedData"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ContractSectionID as integer,",
+				"          LastUpdatedBy as string,",
+				"          IEContactID as integer,",
+				"          CanViewBordereauFlag as boolean",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT [eua].[ContractSectionID]\\r\\n,[eua].[LastUpdatedBy]\\r\\n,[eua].[IEContactID]\\r\\n,[eub].[CanViewBordereauFlag]\\r\\nFROM [DestinyGlobal].[dbo].[FacExternalUserAssignment] AS [eua]\\r\\nINNER JOIN [DestinyGlobal].[dbo].[FacExternalUserBordereau] AS [eub] ON [eua].[FacExternalUserAssignmentID] = [eub].[FacExternalUserAssignmentID]',",
+				"     format: 'query') ~> AzureDestinyGlobal",
+				"source(output(",
+				"          typeId as string,",
+				"          cosmosContractSectionId as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     query: 'SELECT DISTINCT\\r\\n    f.typeId AS typeId,                     \\r\\n    f.contractSectionId AS cosmosContractSectionId\\r\\nFROM behaviors AS f\\r\\nWHERE f.type = \"contractSection\"\\r\\nAND f.isDeleted = false',",
+				"     format: 'documentQuery',",
+				"     systemColumns: false) ~> productBuilderContractSections",
+				"source(output(",
+				"          id as string,",
+				"          typeId as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     query: 'SELECT DISTINCT\\r\\n    d.id,\\r\\n    d.typeId\\r\\nFROM bordereau AS d\\r\\nWHERE d.type = \"bordereau\"',",
+				"     format: 'documentQuery',",
+				"     systemColumns: false) ~> ContractSectionViewBordereau",
+				"AzureDestinyGlobal, productBuilderContractSections lookup(ContractSectionID == cosmosContractSectionId,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> LookupContractSection",
+				"LookupContractSection, ContractSectionViewBordereau lookup(productBuilderContractSections@typeId == ContractSectionViewBordereau@typeId,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> LookupId",
+				"LookupId derive(type = \"bordereau\",",
+				"          user = @(ieContactId=IEContactID,",
+				"          canViewBordereau=CanViewBordereauFlag),",
+				"          lastUpdatedBy = @(email=LastUpdatedBy,",
+				"          userContextId=\"\")) ~> DerivedColumns",
+				"DerivedColumns aggregate(groupBy(id,",
+				"          productBuilderContractSections@typeId,",
+				"          type),",
+				"     users = collect(user),",
+				"          lastUpdatedBy = first(DerivedColumns@lastUpdatedBy)) ~> AggregateColumns",
+				"AggregateColumns select(mapColumn(",
+				"          id,",
+				"          typeId,",
+				"          type,",
+				"          users,",
+				"          lastUpdatedBy",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> SelectAttributes",
+				"SelectAttributes alterRow(upsertIf(!isNull(id)),",
+				"     insertIf(isNull(id))) ~> InsertOrUpdate",
+				"ContractSectionViewBordereau, SelectAttributes exists(ContractSectionViewBordereau@id == SelectAttributes@id,",
+				"     negate:true,",
+				"     broadcast: 'auto')~> UnusedData",
+				"UnusedData select(mapColumn(",
+				"          id,",
+				"          typeId",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> SelectItemKeys",
+				"SelectItemKeys alterRow(deleteIf(true())) ~> SetToDeleteUnusedData",
+				"InsertOrUpdate sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          typeId as string,",
+				"          type as string,",
+				"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
+				"          environments as string[],",
+				"          users as (ieContactId as integer, emailNotifications as integer[])[],",
+				"          lastUpdatedBy as (email as string, userContextId as string),",
+				"          isDeleted as boolean",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'document',",
+				"     mapColumn(",
+				"          id,",
+				"          typeId,",
+				"          type,",
+				"          users,",
+				"          lastUpdatedBy",
+				"     )) ~> UpdateCosmosDB",
+				"SetToDeleteUnusedData sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          typeId as string,",
+				"          type as string,",
+				"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
+				"          environments as string[],",
+				"          users as (ieContactId as integer, emailNotifications as integer[])[],",
+				"          lastUpdatedBy as (email as string, userContextId as string),",
+				"          isDeleted as boolean",
+				"     ),",
+				"     deletable:true,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'document',",
+				"     partitionKey: ['/typeId'],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> DeleteItemsInCosmos"
+			]
+		}
+	}
+}

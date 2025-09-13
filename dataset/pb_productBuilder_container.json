@@ -1,0 +1,15 @@
+{
+	"name": "pb_productBuilder_container",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "productbuilderCosmos",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {},
+		"typeProperties": {
+			"collectionName": "product-builder"
+		}
+	}
+}

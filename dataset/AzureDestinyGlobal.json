@@ -1,0 +1,12 @@
+{
+	"name": "AzureDestinyGlobal",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AZDestinyGlobalDatabase",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
