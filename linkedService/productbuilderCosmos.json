@@ -1,0 +1,11 @@
+{
+	"name": "productbuilderCosmos",
+	"properties": {
+		"annotations": [],
+		"type": "CosmosDb",
+		"typeProperties": {
+			"accountEndpoint": "https://krishh-cosmos-db.documents.azure.com:443/",
+			"database": "product-builder"
+		}
+	}
+}
