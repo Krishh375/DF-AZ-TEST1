@@ -5,7 +5,7 @@
 			"referenceName": "productbuilderCosmos",
 			"type": "LinkedServiceReference",
 			"parameters": {
-				"Database_name": "cosmos_dataflow3"
+				"Database_name": "cosmos_dataflow2"
 			}
 		},
 		"annotations": [],
@@ -81,7 +81,7 @@
 			}
 		},
 		"typeProperties": {
-			"collectionName": "cosmosContractSectionId"
+			"collectionName": "bordereau"
 		}
 	}
 }
