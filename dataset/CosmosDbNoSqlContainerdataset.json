@@ -3,13 +3,16 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "productbuilderCosmos",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"Database_name": "customer_id"
+			}
 		},
 		"annotations": [],
 		"type": "CosmosDbSqlApiCollection",
 		"schema": {},
 		"typeProperties": {
-			"collectionName": "shop_number"
+			"collectionName": "new_data"
 		}
 	}
 }
