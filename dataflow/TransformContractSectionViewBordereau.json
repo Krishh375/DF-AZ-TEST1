@@ -81,7 +81,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'SELECT [eua].[ContractSectionID]\\r\\n,[eua].[LastUpdatedBy]\\r\\n,[eua].[IEContactID]\\r\\n,[eub].[CanViewBordereauFlag]\\r\\nFROM [DestinyGlobal].[dbo].[FacExternalUserAssignment] AS [eua]\\r\\nINNER JOIN [DestinyGlobal].[dbo].[FacExternalUserBordereau] AS [eub] ON [eua].[FacExternalUserAssignmentID] = [eub].[FacExternalUserAssignmentID]',",
+				"     query: 'SELECT\\n    eua.ContractSectionID,\\n    eua.LastUpdatedBy,\\n    eua.IEContactID,\\n    eub.CanViewBordereauFlag\\nFROM dbo.FacExternalUserAssignment AS eua\\nINNER JOIN dbo.FacExternalUserBordereau AS eub\\n    ON eua.FacExternalUserAssignmentID = eub.FacExternalUserAssignmentID;\\nGO',",
 				"     format: 'query') ~> AzureDestinyGlobal",
 				"source(output(",
 				"          typeId as string,",
