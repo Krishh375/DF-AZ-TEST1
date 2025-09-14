@@ -3,7 +3,10 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "productbuilderCosmos",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"Database_name": "cosmos_dataflow3"
+			}
 		},
 		"annotations": [],
 		"type": "CosmosDbSqlApiCollection",
@@ -78,7 +81,7 @@
 			}
 		},
 		"typeProperties": {
-			"collectionName": "contract-section"
+			"collectionName": "cosmosContractSectionId"
 		}
 	}
 }
