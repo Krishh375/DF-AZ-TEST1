@@ -1,0 +1,15 @@
+{
+	"name": "CosmosDbNoSqlContainerdataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "productbuilderCosmos",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {},
+		"typeProperties": {
+			"collectionName": "shop_number"
+		}
+	}
+}
