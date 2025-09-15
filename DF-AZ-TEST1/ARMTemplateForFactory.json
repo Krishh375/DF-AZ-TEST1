@@ -1000,7 +1000,7 @@
 							"sink": {
 								"type": "JsonSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
+									"type": "AzureBlobFSWriteSettings"
 								},
 								"formatSettings": {
 									"type": "JsonWriteSettings"
@@ -1356,6 +1356,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "json_contract.json",
 						"folderPath": "sinkfolder",
 						"fileSystem": "democontainer"
 					},
@@ -1533,22 +1534,23 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
+					"referenceName": "AzureDataLakeStorageLS",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
 				"type": "Json",
 				"typeProperties": {
 					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": "output",
-						"container": "demo"
+						"type": "AzureBlobFSLocation",
+						"fileName": "sample_dummy.json",
+						"folderPath": "sinkfolder",
+						"fileSystem": "democontainer"
 					}
 				},
 				"schema": {}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
 			]
 		},
 		{
@@ -2647,7 +2649,7 @@
 					"sinks": [
 						{
 							"dataset": {
-								"referenceName": "pb_contractsection_container",
+								"referenceName": "Jsonsink",
 								"type": "DatasetReference"
 							},
 							"name": "UpdateCosmosDB"
@@ -2751,19 +2753,14 @@
 						"SelectItemKeys alterRow(deleteIf(true())) ~> SetToDeleteUnusedData",
 						"InsertOrUpdate sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     input(",
-						"          typeId as string,",
-						"          type as string,",
-						"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
-						"          environments as string[],",
-						"          users as (ieContactId as integer, emailNotifications as integer[])[],",
-						"          lastUpdatedBy as (email as string, userContextId as string),",
-						"          isDeleted as boolean",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     saveOrder: 1,",
+						"     mapColumn(",
+						"          typeId,",
+						"          users",
 						"     ),",
-						"     deletable:false,",
-						"     insertable:true,",
-						"     updateable:false,",
-						"     upsertable:false,",
 						"     format: 'document') ~> UpdateCosmosDB",
 						"SetToDeleteUnusedData sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
@@ -2790,7 +2787,8 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/AzureDestinyGlobal')]",
 				"[concat(variables('factoryId'), '/datasets/pb_productBuilder_container')]",
-				"[concat(variables('factoryId'), '/datasets/pb_contractsection_container')]"
+				"[concat(variables('factoryId'), '/datasets/pb_contractsection_container')]",
+				"[concat(variables('factoryId'), '/datasets/Jsonsink')]"
 			]
 		},
 		{
