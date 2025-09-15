@@ -126,7 +126,6 @@
 				"     negate:true,",
 				"     broadcast: 'auto')~> UnusedData",
 				"UnusedData select(mapColumn(",
-				"          id,",
 				"          typeId",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
