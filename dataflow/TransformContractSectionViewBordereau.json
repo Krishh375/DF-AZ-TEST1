@@ -29,7 +29,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "pb_contractsection_container",
+						"referenceName": "Jsonsink",
 						"type": "DatasetReference"
 					},
 					"name": "UpdateCosmosDB"
@@ -133,19 +133,14 @@
 				"SelectItemKeys alterRow(deleteIf(true())) ~> SetToDeleteUnusedData",
 				"InsertOrUpdate sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     input(",
-				"          typeId as string,",
-				"          type as string,",
-				"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
-				"          environments as string[],",
-				"          users as (ieContactId as integer, emailNotifications as integer[])[],",
-				"          lastUpdatedBy as (email as string, userContextId as string),",
-				"          isDeleted as boolean",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     saveOrder: 1,",
+				"     mapColumn(",
+				"          typeId,",
+				"          users",
 				"     ),",
-				"     deletable:false,",
-				"     insertable:true,",
-				"     updateable:false,",
-				"     upsertable:false,",
 				"     format: 'document') ~> UpdateCosmosDB",
 				"SetToDeleteUnusedData sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
