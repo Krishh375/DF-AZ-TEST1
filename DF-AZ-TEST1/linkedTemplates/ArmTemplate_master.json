@@ -1,0 +1,526 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "DF-AZ-TEST1"
+		},
+		"AZDestinyGlobalDatabase_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AZDestinyGlobalDatabase'"
+		},
+		"AzureBlobPracdacdemo_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobPracdacdemo'"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"AzureBlobStorage2_servicePrincipalCredential": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalCredential' of 'AzureBlobStorage2'"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"Db21_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Db21'"
+		},
+		"Oracle1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Oracle1'"
+		},
+		"Oracle2_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Oracle2'",
+			"defaultValue": "host=@{linkedService().hostname};port=@{linkedService().portname};sid=@{linkedService().sid};user id=asdf;Password=@{linkedService().password}"
+		},
+		"RestService_clientSecret": {
+			"type": "secureString",
+			"metadata": "Secure string for 'clientSecret' of 'RestService'"
+		},
+		"ServiceNow_LS_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'ServiceNow_LS'"
+		},
+		"Sftp_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Sftp'"
+		},
+		"Snowflake_ls_privateKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'privateKey' of 'Snowflake_ls'"
+		},
+		"Snowflake_ls_privateKeyPassphrase": {
+			"type": "secureString",
+			"metadata": "Secure string for 'privateKeyPassphrase' of 'Snowflake_ls'"
+		},
+		"destinationimmuls_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'destinationimmuls'"
+		},
+		"immutablecopyls_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'immutablecopyls'"
+		},
+		"productbuilderCosmos_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'productbuilderCosmos'"
+		},
+		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "krishh123.database.windows.net"
+		},
+		"AZDestinyGlobalDatabase_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "DestinyGlobal"
+		},
+		"AZDestinyGlobalDatabase_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "krishh"
+		},
+		"Azdemoappentra_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://dempappentrakey.vault.azure.net/"
+		},
+		"AzureBlobStorage2_properties_typeProperties_serviceEndpoint": {
+			"type": "string",
+			"defaultValue": "https://azdevsanewadls.blob.core.windows.net/"
+		},
+		"AzureBlobStorage2_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "16b3c013-d300-468d-ac64-7eda0820b6d3"
+		},
+		"AzureBlobStorage2_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "bb00111b-668b-4ba3-b619-21fa36679640"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://azlearnsagen2.dfs.core.windows.net/"
+		},
+		"AzureDataLakeStorageLS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsdemostorage21.dfs.core.windows.net/"
+		},
+		"AzureKeyVaultsqlserver_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://sqlserver-cred-onprem.vault.azure.net/"
+		},
+		"AzurePostgreSql_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "az-postgres-demo.postgres.database.azure.com"
+		},
+		"AzurePostgreSql_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "testdemodatabase"
+		},
+		"HttpServer1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://httpstat.us/200?sleep=60000000"
+		},
+		"Oracle1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "@{linkedService().server}"
+		},
+		"Oracle1_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "@{linkedService().username}"
+		},
+		"RestService_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "@{linkedService().Baseurlendpoint}"
+		},
+		"RestService_properties_typeProperties_clientId": {
+			"type": "string",
+			"defaultValue": "@{linkedService().clientid}"
+		},
+		"ServiceNow_LS_properties_typeProperties_endpoint": {
+			"type": "string",
+			"defaultValue": "https://dev318723.service-now.com/nav_to.do?uri=oauth_entity.do?sys_id=2f0b92ea93332210bd0eb4897bba102e%26sysparm_view=default"
+		},
+		"ServiceNow_LS_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "thatikondakrishna77@gmail.com"
+		},
+		"Sftp_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "az-postgres-demo.postgres.database.azure.com"
+		},
+		"Sftp_properties_typeProperties_hostKeyFingerprint": {
+			"type": "string",
+			"defaultValue": "flkfllessllfdfld"
+		},
+		"Sftp_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "pg"
+		},
+		"Snowflake_ls_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "MY_DATABASE"
+		},
+		"SqlServer_onprem_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "@{linkedService().servername}"
+		},
+		"SqlServer_onprem_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "@{linkedService().databasename}"
+		},
+		"SqlServer_onprem_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "@{linkedService().username}"
+		},
+		"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kv-devqa-datafactory-bi.vault.azure.net/"
+		},
+		"triggereventstorage_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"AzureBlobStorageendpoint_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/pracdemostorage"
+		},
+		"AzureBlobStorageendpoint_properties_groupId": {
+			"type": "string",
+			"defaultValue": "blob"
+		},
+		"AzureBlobStorageendpoint_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"pracdemostorage.blob.core.windows.net"
+			]
+		},
+		"AzureDataLakeStorage299_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/pracdemostorage"
+		},
+		"AzureDataLakeStorage299_properties_groupId": {
+			"type": "string",
+			"defaultValue": "dfs"
+		},
+		"AzureDataLakeStorage299_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"pracdemostorage.dfs.core.windows.net"
+			]
+		},
+		"AzureSqlDatabase194_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Sql/servers/azlearndb"
+		},
+		"AzureSqlDatabase194_properties_groupId": {
+			"type": "string",
+			"defaultValue": "sqlServer"
+		},
+		"AzureSqlDatabase194_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"azlearndb.database.windows.net"
+			]
+		},
+		"AzureSqlDatabase310_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
+		},
+		"AzureSqlDatabase310_properties_groupId": {
+			"type": "string",
+			"defaultValue": "sqlServer"
+		},
+		"AzureSqlDatabase310_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"krishh123.database.windows.net"
+			]
+		},
+		"CosmosDb_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.DocumentDB/databaseAccounts/krishh-cosmos-db"
+		},
+		"CosmosDb_properties_groupId": {
+			"type": "string",
+			"defaultValue": "Sql"
+		},
+		"CosmosDb_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"krishh-cosmos-db.documents.azure.com"
+			]
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "DF-AZ-TEST1_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AZDestinyGlobalDatabase_password": {
+						"value": "[parameters('AZDestinyGlobalDatabase_password')]"
+					},
+					"AzureBlobPracdacdemo_connectionString": {
+						"value": "[parameters('AzureBlobPracdacdemo_connectionString')]"
+					},
+					"AzureBlobStorage2_servicePrincipalCredential": {
+						"value": "[parameters('AzureBlobStorage2_servicePrincipalCredential')]"
+					},
+					"AzureDataLakeStorage1_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					},
+					"Oracle1_password": {
+						"value": "[parameters('Oracle1_password')]"
+					},
+					"Oracle2_connectionString": {
+						"value": "[parameters('Oracle2_connectionString')]"
+					},
+					"RestService_clientSecret": {
+						"value": "[parameters('RestService_clientSecret')]"
+					},
+					"ServiceNow_LS_password": {
+						"value": "[parameters('ServiceNow_LS_password')]"
+					},
+					"Sftp_password": {
+						"value": "[parameters('Sftp_password')]"
+					},
+					"destinationimmuls_connectionString": {
+						"value": "[parameters('destinationimmuls_connectionString')]"
+					},
+					"immutablecopyls_connectionString": {
+						"value": "[parameters('immutablecopyls_connectionString')]"
+					},
+					"productbuilderCosmos_connectionString": {
+						"value": "[parameters('productbuilderCosmos_connectionString')]"
+					},
+					"AZDestinyGlobalDatabase_properties_typeProperties_server": {
+						"value": "[parameters('AZDestinyGlobalDatabase_properties_typeProperties_server')]"
+					},
+					"AZDestinyGlobalDatabase_properties_typeProperties_database": {
+						"value": "[parameters('AZDestinyGlobalDatabase_properties_typeProperties_database')]"
+					},
+					"AZDestinyGlobalDatabase_properties_typeProperties_userName": {
+						"value": "[parameters('AZDestinyGlobalDatabase_properties_typeProperties_userName')]"
+					},
+					"Azdemoappentra_properties_typeProperties_baseUrl": {
+						"value": "[parameters('Azdemoappentra_properties_typeProperties_baseUrl')]"
+					},
+					"AzureBlobStorage2_properties_typeProperties_serviceEndpoint": {
+						"value": "[parameters('AzureBlobStorage2_properties_typeProperties_serviceEndpoint')]"
+					},
+					"AzureBlobStorage2_properties_typeProperties_tenant": {
+						"value": "[parameters('AzureBlobStorage2_properties_typeProperties_tenant')]"
+					},
+					"AzureBlobStorage2_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('AzureBlobStorage2_properties_typeProperties_servicePrincipalId')]"
+					},
+					"AzureDataLakeStorage1_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"AzureKeyVaultsqlserver_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVaultsqlserver_properties_typeProperties_baseUrl')]"
+					},
+					"HttpServer1_properties_typeProperties_url": {
+						"value": "[parameters('HttpServer1_properties_typeProperties_url')]"
+					},
+					"Oracle1_properties_typeProperties_server": {
+						"value": "[parameters('Oracle1_properties_typeProperties_server')]"
+					},
+					"Oracle1_properties_typeProperties_username": {
+						"value": "[parameters('Oracle1_properties_typeProperties_username')]"
+					},
+					"RestService_properties_typeProperties_url": {
+						"value": "[parameters('RestService_properties_typeProperties_url')]"
+					},
+					"RestService_properties_typeProperties_clientId": {
+						"value": "[parameters('RestService_properties_typeProperties_clientId')]"
+					},
+					"ServiceNow_LS_properties_typeProperties_endpoint": {
+						"value": "[parameters('ServiceNow_LS_properties_typeProperties_endpoint')]"
+					},
+					"ServiceNow_LS_properties_typeProperties_username": {
+						"value": "[parameters('ServiceNow_LS_properties_typeProperties_username')]"
+					},
+					"Sftp_properties_typeProperties_host": {
+						"value": "[parameters('Sftp_properties_typeProperties_host')]"
+					},
+					"Sftp_properties_typeProperties_hostKeyFingerprint": {
+						"value": "[parameters('Sftp_properties_typeProperties_hostKeyFingerprint')]"
+					},
+					"Sftp_properties_typeProperties_userName": {
+						"value": "[parameters('Sftp_properties_typeProperties_userName')]"
+					},
+					"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ls_kv_datafactory_bi_properties_typeProperties_baseUrl')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "DF-AZ-TEST1_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Db21_connectionString": {
+						"value": "[parameters('Db21_connectionString')]"
+					},
+					"AzureDataLakeStorageLS_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorageLS_properties_typeProperties_url')]"
+					},
+					"SqlServer_onprem_properties_typeProperties_server": {
+						"value": "[parameters('SqlServer_onprem_properties_typeProperties_server')]"
+					},
+					"SqlServer_onprem_properties_typeProperties_database": {
+						"value": "[parameters('SqlServer_onprem_properties_typeProperties_database')]"
+					},
+					"SqlServer_onprem_properties_typeProperties_userName": {
+						"value": "[parameters('SqlServer_onprem_properties_typeProperties_userName')]"
+					},
+					"AzureBlobStorageendpoint_properties_privateLinkResourceId": {
+						"value": "[parameters('AzureBlobStorageendpoint_properties_privateLinkResourceId')]"
+					},
+					"AzureBlobStorageendpoint_properties_groupId": {
+						"value": "[parameters('AzureBlobStorageendpoint_properties_groupId')]"
+					},
+					"AzureBlobStorageendpoint_properties_fqdns": {
+						"value": "[parameters('AzureBlobStorageendpoint_properties_fqdns')]"
+					},
+					"AzureDataLakeStorage299_properties_privateLinkResourceId": {
+						"value": "[parameters('AzureDataLakeStorage299_properties_privateLinkResourceId')]"
+					},
+					"AzureDataLakeStorage299_properties_groupId": {
+						"value": "[parameters('AzureDataLakeStorage299_properties_groupId')]"
+					},
+					"AzureDataLakeStorage299_properties_fqdns": {
+						"value": "[parameters('AzureDataLakeStorage299_properties_fqdns')]"
+					},
+					"AzureSqlDatabase194_properties_privateLinkResourceId": {
+						"value": "[parameters('AzureSqlDatabase194_properties_privateLinkResourceId')]"
+					},
+					"AzureSqlDatabase194_properties_groupId": {
+						"value": "[parameters('AzureSqlDatabase194_properties_groupId')]"
+					},
+					"AzureSqlDatabase194_properties_fqdns": {
+						"value": "[parameters('AzureSqlDatabase194_properties_fqdns')]"
+					},
+					"AzureSqlDatabase310_properties_privateLinkResourceId": {
+						"value": "[parameters('AzureSqlDatabase310_properties_privateLinkResourceId')]"
+					},
+					"AzureSqlDatabase310_properties_groupId": {
+						"value": "[parameters('AzureSqlDatabase310_properties_groupId')]"
+					},
+					"AzureSqlDatabase310_properties_fqdns": {
+						"value": "[parameters('AzureSqlDatabase310_properties_fqdns')]"
+					},
+					"CosmosDb_properties_privateLinkResourceId": {
+						"value": "[parameters('CosmosDb_properties_privateLinkResourceId')]"
+					},
+					"CosmosDb_properties_groupId": {
+						"value": "[parameters('CosmosDb_properties_groupId')]"
+					},
+					"CosmosDb_properties_fqdns": {
+						"value": "[parameters('CosmosDb_properties_fqdns')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "DF-AZ-TEST1_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureBlobStorage1_connectionString": {
+						"value": "[parameters('AzureBlobStorage1_connectionString')]"
+					},
+					"Snowflake_ls_privateKey": {
+						"value": "[parameters('Snowflake_ls_privateKey')]"
+					},
+					"Snowflake_ls_privateKeyPassphrase": {
+						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
+					},
+					"AzurePostgreSql_properties_typeProperties_server": {
+						"value": "[parameters('AzurePostgreSql_properties_typeProperties_server')]"
+					},
+					"AzurePostgreSql_properties_typeProperties_database": {
+						"value": "[parameters('AzurePostgreSql_properties_typeProperties_database')]"
+					},
+					"Snowflake_ls_properties_typeProperties_database": {
+						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "DF-AZ-TEST1_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"triggereventstorage_properties_typeProperties_scope": {
+						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_2')]"
+			]
+		}
+	]
+}

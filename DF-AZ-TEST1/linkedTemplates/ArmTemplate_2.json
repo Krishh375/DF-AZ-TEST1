@@ -1,0 +1,1022 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "DF-AZ-TEST1"
+		},
+		"AzureBlobStorage1_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'AzureBlobStorage1'"
+		},
+		"Snowflake_ls_privateKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'privateKey' of 'Snowflake_ls'"
+		},
+		"Snowflake_ls_privateKeyPassphrase": {
+			"type": "secureString",
+			"metadata": "Secure string for 'privateKeyPassphrase' of 'Snowflake_ls'"
+		},
+		"AzurePostgreSql_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "az-postgres-demo.postgres.database.azure.com"
+		},
+		"AzurePostgreSql_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "testdemodatabase"
+		},
+		"Snowflake_ls_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "MY_DATABASE"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/immutablepipelinecopy')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobStorageWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "sourceimmu",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "destinationimmu",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-04-28T22:19:25Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/lookuppipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.1:00:00",
+							"retry": 3,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "XmlSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET",
+									"requestTimeout": "0.00:10:00"
+								},
+								"formatSettings": {
+									"type": "XmlReadSettings",
+									"validationMode": "none",
+									"namespaces": true
+								}
+							},
+							"dataset": {
+								"referenceName": "Xmldataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-04-27T15:59:48Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ADLSGen2datasetsink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "sinkfolder",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": "[parameters('AzureBlobStorage1_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "vnetintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzurePostgreSql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzurePostgreSql",
+				"version": "2.0",
+				"typeProperties": {
+					"server": "[parameters('AzurePostgreSql_properties_typeProperties_server')]",
+					"port": 5432,
+					"database": "[parameters('AzurePostgreSql_properties_typeProperties_database')]",
+					"sslMode": 3,
+					"authenticationType": "SystemAssignedManagedIdentity"
+				},
+				"connectVia": {
+					"referenceName": "vnetintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Snowflake_ls')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SnowflakeV2",
+				"typeProperties": {
+					"authenticationType": "KeyPair",
+					"accountIdentifier": "sjejrok-fm56566",
+					"user": "Krishh1996",
+					"database": "[parameters('Snowflake_ls_properties_typeProperties_database')]",
+					"warehouse": "MY_WAREHOUSE",
+					"privateKey": {
+						"type": "SecureString",
+						"value": "[parameters('Snowflake_ls_privateKey')]"
+					},
+					"privateKeyPassphrase": {
+						"type": "SecureString",
+						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "vnetintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TransformContractSectionViewBordereau')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureDestinyGlobal",
+								"type": "DatasetReference"
+							},
+							"name": "AzureDestinyGlobal"
+						},
+						{
+							"dataset": {
+								"referenceName": "pb_productBuilder_container",
+								"type": "DatasetReference"
+							},
+							"name": "productBuilderContractSections"
+						},
+						{
+							"dataset": {
+								"referenceName": "pb_contractsection_container",
+								"type": "DatasetReference"
+							},
+							"name": "ContractSectionViewBordereau"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "pb_contractsection_container",
+								"type": "DatasetReference"
+							},
+							"name": "UpdateCosmosDB"
+						},
+						{
+							"dataset": {
+								"referenceName": "pb_contractsection_container",
+								"type": "DatasetReference"
+							},
+							"name": "DeleteItemsInCosmos"
+						}
+					],
+					"transformations": [
+						{
+							"name": "LookupContractSection"
+						},
+						{
+							"name": "LookupId"
+						},
+						{
+							"name": "DerivedColumns"
+						},
+						{
+							"name": "AggregateColumns"
+						},
+						{
+							"name": "SelectAttributes"
+						},
+						{
+							"name": "InsertOrUpdate"
+						},
+						{
+							"name": "UnusedData"
+						},
+						{
+							"name": "SelectItemKeys"
+						},
+						{
+							"name": "SetToDeleteUnusedData"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ContractSectionID as integer,",
+						"          LastUpdatedBy as string,",
+						"          IEContactID as integer,",
+						"          CanViewBordereauFlag as boolean",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT [eua].[ContractSectionID] ,[eua].[LastUpdatedBy] ,[eua].[IEContactID] ,[eub].[CanViewBordereauFlag] FROM [DestinyGlobal].[dbo].[FacExternalUserAssignment] AS [eua] INNER JOIN [DestinyGlobal].[dbo].[FacExternalUserBordereau] AS [eub] ON [eua].[FacExternalUserAssignmentID] = [eub].[FacExternalUserAssignmentID]',",
+						"     format: 'query') ~> AzureDestinyGlobal",
+						"source(output(",
+						"          typeId as string,",
+						"          cosmosContractSectionId as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     query: 'SELECT DISTINCT\\r\\n    f.typeId AS typeId,                     \\r\\n    f.contractSectionId AS cosmosContractSectionId\\r\\nFROM behaviors AS f\\r\\nWHERE f.type = \"contractSection\"\\r\\nAND f.isDeleted = false',",
+						"     format: 'documentQuery',",
+						"     systemColumns: false) ~> productBuilderContractSections",
+						"source(output(",
+						"          typeId as string,",
+						"          type as string,",
+						"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
+						"          environments as string[],",
+						"          users as (ieContactId as integer, emailNotifications as integer[])[],",
+						"          lastUpdatedBy as (email as string, userContextId as string),",
+						"          isDeleted as boolean",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'document',",
+						"     systemColumns: false) ~> ContractSectionViewBordereau",
+						"AzureDestinyGlobal, productBuilderContractSections lookup(ContractSectionID == cosmosContractSectionId,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupContractSection",
+						"LookupContractSection, ContractSectionViewBordereau lookup(productBuilderContractSections@typeId == ContractSectionViewBordereau@typeId,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupId",
+						"LookupId derive(typeId = \"bordereau\",",
+						"          CanViewBordereauFlag = @(ieContactId=IEContactID,",
+						"          canViewBordereau=CanViewBordereauFlag)) ~> DerivedColumns",
+						"DerivedColumns aggregate(groupBy(typeId),",
+						"     users = collect(CanViewBordereauFlag)) ~> AggregateColumns",
+						"AggregateColumns select(skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> SelectAttributes",
+						"SelectAttributes alterRow(upsertIf(!isNull(typeId)),",
+						"     insertIf(isNull(users))) ~> InsertOrUpdate",
+						"ContractSectionViewBordereau, productBuilderContractSections exists(ContractSectionViewBordereau@typeId == productBuilderContractSections@typeId,",
+						"     negate:true,",
+						"     broadcast: 'auto')~> UnusedData",
+						"UnusedData select(mapColumn(",
+						"          typeId",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> SelectItemKeys",
+						"SelectItemKeys alterRow(deleteIf(true())) ~> SetToDeleteUnusedData",
+						"InsertOrUpdate sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          typeId as string,",
+						"          type as string,",
+						"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
+						"          environments as string[],",
+						"          users as (ieContactId as integer, emailNotifications as integer[])[],",
+						"          lastUpdatedBy as (email as string, userContextId as string),",
+						"          isDeleted as boolean",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:true,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'document') ~> UpdateCosmosDB",
+						"SetToDeleteUnusedData sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          typeId as string,",
+						"          type as string,",
+						"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
+						"          environments as string[],",
+						"          users as (ieContactId as integer, emailNotifications as integer[])[],",
+						"          lastUpdatedBy as (email as string, userContextId as string),",
+						"          isDeleted as boolean",
+						"     ),",
+						"     deletable:true,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'document',",
+						"     partitionKey: ['/typeId'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> DeleteItemsInCosmos"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ADLSdatasetsource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "EMPLOYEE.csv",
+						"folderPath": "sourcefolder",
+						"container": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzurePostgreSqlTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzurePostgreSql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "a",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "public",
+					"table": "employees"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzurePostgreSql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Binarydatasetcompresssink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"container": "demo"
+					},
+					"compression": {
+						"type": "deflate",
+						"level": "Optimal"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Binarysourcecompress')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "textfile.txt",
+						"folderPath": "compressfiletext",
+						"container": "inputcontainer"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Jsonsink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "output",
+						"container": "demo"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Jsonsource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "json sample.json",
+						"folderPath": "input",
+						"container": "democontainer"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Snowflakedataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Snowflake_ls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SnowflakeV2Table",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "RECORD_ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "ELEMENT_ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TEXT",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "EMBEDDINGS",
+						"type": "ARRAY"
+					},
+					{
+						"name": "TYPE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "SYSTEM",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "LAYOUT_WIDTH",
+						"type": "NUMBER",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "LAYOUT_HEIGHT",
+						"type": "NUMBER",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "POINTS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "URL",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "VERSION",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "DATE_CREATED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "DATE_PROCESSED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "DATE_MODIFIED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "SENT_FROM",
+						"type": "ARRAY"
+					},
+					{
+						"name": "SENT_TO",
+						"type": "ARRAY"
+					}
+				],
+				"typeProperties": {
+					"schema": "MY_SCHEMA",
+					"table": "ELEMENTS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Snowflake_ls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Sourcecompresszip')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Binary",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "textfile 2.zip",
+						"folderPath": "compressfiletext",
+						"container": "inputcontainer"
+					},
+					"compression": {
+						"type": "ZipDeflate",
+						"level": "Optimal"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/csvdatasetjsonfile')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "VolcanoData.json",
+						"folderPath": "input",
+						"container": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/csvdatasetsource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "EXCELDEMO.csv",
+						"folderPath": "demo",
+						"container": "inputcontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/sinkcsvdataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"outputfolder": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": {
+							"value": "@dataset().outputfolder",
+							"type": "Expression"
+						},
+						"container": "demo"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_sfk')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"linkedService": {
+								"referenceName": "AzureBlobStorage1",
+								"type": "LinkedServiceReference"
+							},
+							"name": "adlssource"
+						}
+					],
+					"sinks": [
+						{
+							"linkedService": {
+								"referenceName": "Snowflake_ls",
+								"type": "LinkedServiceReference"
+							},
+							"name": "sinksnowflake"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(useSchema: false,",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     format: 'delimited',",
+						"     container: 'inputcontainer',",
+						"     folderPath: 'demo',",
+						"     fileName: 'EXCELDEMO.csv',",
+						"     columnDelimiter: ',',",
+						"     escapeChar: '\\\\',",
+						"     quoteChar: '\\\"',",
+						"     columnNamesAsHeader: false) ~> adlssource",
+						"adlssource sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'table',",
+						"     tableName: 'ELEMENTS',",
+						"     schemaName: 'MY_SCHEMA',",
+						"     deletable: false,",
+						"     insertable: true,",
+						"     updateable: false,",
+						"     upsertable: false,",
+						"     store: 'snowflake',",
+						"     store: 'snowflakeV2',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     stageInsert: true) ~> sinksnowflake"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]",
+				"[concat(variables('factoryId'), '/linkedServices/Snowflake_ls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/FOREACHpipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ForEach",
+						"type": "ForEach",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@pipeline().parameters.outputfolder",
+								"type": "Expression"
+							},
+							"isSequential": false,
+							"batchCount": 2,
+							"activities": [
+								{
+									"name": "Copy data",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobStorageReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "DelimitedTextSink",
+											"storeSettings": {
+												"type": "AzureBlobStorageWriteSettings"
+											},
+											"formatSettings": {
+												"type": "DelimitedTextWriteSettings",
+												"quoteAllText": true,
+												"fileExtension": ".txt"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "csvdatasetsource",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "sinkcsvdataset",
+											"type": "DatasetReference",
+											"parameters": {
+												"outputfolder": "output"
+											}
+										}
+									]
+								},
+								{
+									"name": "Web",
+									"type": "WebActivity",
+									"dependsOn": [
+										{
+											"activity": "Copy data",
+											"dependencyConditions": [
+												"Succeeded"
+											]
+										}
+									],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"method": "GET",
+										"headers": {},
+										"url": "Https://httpstat.us/200?sleep=60000"
+									}
+								},
+								{
+									"name": "Execute Pipeline1",
+									"type": "ExecutePipeline",
+									"dependsOn": [
+										{
+											"activity": "Copy data",
+											"dependencyConditions": [
+												"Failed"
+											]
+										}
+									],
+									"policy": {
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"pipeline": {
+											"referenceName": "lookuppipeline",
+											"type": "PipelineReference"
+										},
+										"waitOnCompletion": true,
+										"parameters": {}
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"outputfolder": {
+						"type": "array"
+					}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-05-08T09:03:13Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/csvdatasetsource')]",
+				"[concat(variables('factoryId'), '/datasets/sinkcsvdataset')]",
+				"[concat(variables('factoryId'), '/pipelines/lookuppipeline')]"
+			]
+		}
+	]
+}

@@ -1,0 +1,196 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "DF-AZ-TEST1"
+		},
+		"AZDestinyGlobalDatabase_password": {
+			"value": ""
+		},
+		"AzureBlobPracdacdemo_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage1_connectionString": {
+			"value": ""
+		},
+		"AzureBlobStorage2_servicePrincipalCredential": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"Db21_connectionString": {
+			"value": ""
+		},
+		"Oracle1_password": {
+			"value": ""
+		},
+		"Oracle2_connectionString": {
+			"value": "host=@{linkedService().hostname};port=@{linkedService().portname};sid=@{linkedService().sid};user id=asdf;Password=@{linkedService().password}"
+		},
+		"RestService_clientSecret": {
+			"value": ""
+		},
+		"ServiceNow_LS_password": {
+			"value": ""
+		},
+		"Sftp_password": {
+			"value": ""
+		},
+		"Snowflake_ls_privateKey": {
+			"value": ""
+		},
+		"Snowflake_ls_privateKeyPassphrase": {
+			"value": ""
+		},
+		"destinationimmuls_connectionString": {
+			"value": ""
+		},
+		"immutablecopyls_connectionString": {
+			"value": ""
+		},
+		"productbuilderCosmos_connectionString": {
+			"value": ""
+		},
+		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
+			"value": "krishh123.database.windows.net"
+		},
+		"AZDestinyGlobalDatabase_properties_typeProperties_database": {
+			"value": "DestinyGlobal"
+		},
+		"AZDestinyGlobalDatabase_properties_typeProperties_userName": {
+			"value": "krishh"
+		},
+		"Azdemoappentra_properties_typeProperties_baseUrl": {
+			"value": "https://dempappentrakey.vault.azure.net/"
+		},
+		"AzureBlobStorage2_properties_typeProperties_serviceEndpoint": {
+			"value": "https://azdevsanewadls.blob.core.windows.net/"
+		},
+		"AzureBlobStorage2_properties_typeProperties_tenant": {
+			"value": "16b3c013-d300-468d-ac64-7eda0820b6d3"
+		},
+		"AzureBlobStorage2_properties_typeProperties_servicePrincipalId": {
+			"value": "bb00111b-668b-4ba3-b619-21fa36679640"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://azlearnsagen2.dfs.core.windows.net/"
+		},
+		"AzureDataLakeStorageLS_properties_typeProperties_url": {
+			"value": "https://adlsdemostorage21.dfs.core.windows.net/"
+		},
+		"AzureKeyVaultsqlserver_properties_typeProperties_baseUrl": {
+			"value": "https://sqlserver-cred-onprem.vault.azure.net/"
+		},
+		"AzurePostgreSql_properties_typeProperties_server": {
+			"value": "az-postgres-demo.postgres.database.azure.com"
+		},
+		"AzurePostgreSql_properties_typeProperties_database": {
+			"value": "testdemodatabase"
+		},
+		"HttpServer1_properties_typeProperties_url": {
+			"value": "https://httpstat.us/200?sleep=60000000"
+		},
+		"Oracle1_properties_typeProperties_server": {
+			"value": "@{linkedService().server}"
+		},
+		"Oracle1_properties_typeProperties_username": {
+			"value": "@{linkedService().username}"
+		},
+		"RestService_properties_typeProperties_url": {
+			"value": "@{linkedService().Baseurlendpoint}"
+		},
+		"RestService_properties_typeProperties_clientId": {
+			"value": "@{linkedService().clientid}"
+		},
+		"ServiceNow_LS_properties_typeProperties_endpoint": {
+			"value": "https://dev318723.service-now.com/nav_to.do?uri=oauth_entity.do?sys_id=2f0b92ea93332210bd0eb4897bba102e%26sysparm_view=default"
+		},
+		"ServiceNow_LS_properties_typeProperties_username": {
+			"value": "thatikondakrishna77@gmail.com"
+		},
+		"Sftp_properties_typeProperties_host": {
+			"value": "az-postgres-demo.postgres.database.azure.com"
+		},
+		"Sftp_properties_typeProperties_hostKeyFingerprint": {
+			"value": "flkfllessllfdfld"
+		},
+		"Sftp_properties_typeProperties_userName": {
+			"value": "pg"
+		},
+		"Snowflake_ls_properties_typeProperties_database": {
+			"value": "MY_DATABASE"
+		},
+		"SqlServer_onprem_properties_typeProperties_server": {
+			"value": "@{linkedService().servername}"
+		},
+		"SqlServer_onprem_properties_typeProperties_database": {
+			"value": "@{linkedService().databasename}"
+		},
+		"SqlServer_onprem_properties_typeProperties_userName": {
+			"value": "@{linkedService().username}"
+		},
+		"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
+			"value": "https://kv-devqa-datafactory-bi.vault.azure.net/"
+		},
+		"triggereventstorage_properties_typeProperties_scope": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"AzureBlobStorageendpoint_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/pracdemostorage"
+		},
+		"AzureBlobStorageendpoint_properties_groupId": {
+			"value": "blob"
+		},
+		"AzureBlobStorageendpoint_properties_fqdns": {
+			"value": [
+				"pracdemostorage.blob.core.windows.net"
+			]
+		},
+		"AzureDataLakeStorage299_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/pracdemostorage"
+		},
+		"AzureDataLakeStorage299_properties_groupId": {
+			"value": "dfs"
+		},
+		"AzureDataLakeStorage299_properties_fqdns": {
+			"value": [
+				"pracdemostorage.dfs.core.windows.net"
+			]
+		},
+		"AzureSqlDatabase194_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Sql/servers/azlearndb"
+		},
+		"AzureSqlDatabase194_properties_groupId": {
+			"value": "sqlServer"
+		},
+		"AzureSqlDatabase194_properties_fqdns": {
+			"value": [
+				"azlearndb.database.windows.net"
+			]
+		},
+		"AzureSqlDatabase310_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
+		},
+		"AzureSqlDatabase310_properties_groupId": {
+			"value": "sqlServer"
+		},
+		"AzureSqlDatabase310_properties_fqdns": {
+			"value": [
+				"krishh123.database.windows.net"
+			]
+		},
+		"CosmosDb_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.DocumentDB/databaseAccounts/krishh-cosmos-db"
+		},
+		"CosmosDb_properties_groupId": {
+			"value": "Sql"
+		},
+		"CosmosDb_properties_fqdns": {
+			"value": [
+				"krishh-cosmos-db.documents.azure.com"
+			]
+		}
+	}
+}
