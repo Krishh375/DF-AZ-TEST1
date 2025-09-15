@@ -109,7 +109,7 @@
 				"     multiple: false,",
 				"     pickup: 'any',",
 				"     broadcast: 'auto')~> LookupContractSection",
-				"LookupContractSection, ContractSectionViewBordereau lookup(productBuilderContractSections@typeId != ContractSectionViewBordereau@typeId,",
+				"LookupContractSection, ContractSectionViewBordereau lookup(productBuilderContractSections@typeId == ContractSectionViewBordereau@typeId,",
 				"     multiple: false,",
 				"     pickup: 'any',",
 				"     broadcast: 'auto')~> LookupId",
