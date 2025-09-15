@@ -5,7 +5,7 @@
 			"referenceName": "productbuilderCosmos",
 			"type": "LinkedServiceReference",
 			"parameters": {
-				"Database_name": "dataflow_bordereau_complete"
+				"Database_name": "pb_productBuilder_container"
 			}
 		},
 		"annotations": [],
@@ -81,7 +81,7 @@
 			}
 		},
 		"typeProperties": {
-			"collectionName": "bordereau_complete"
+			"collectionName": "contractSection"
 		}
 	}
 }
