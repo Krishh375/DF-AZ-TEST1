@@ -2617,7 +2617,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/TransformContractSectionViewBordereau')]",
+			"name": "[concat(parameters('factoryName'), '/TransformContractSectionViewBordereau_blob')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
