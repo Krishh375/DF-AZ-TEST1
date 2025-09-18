@@ -2,7 +2,7 @@
 	"name": "DF-AZ-TEST1",
 	"properties": {
 		"globalConfigurations": {
-			"PolicyValidationEnabled": "false",
+			"PolicyValidationEnabled": "true",
 			"PipelineBillingEnabled": "true"
 		}
 	},
