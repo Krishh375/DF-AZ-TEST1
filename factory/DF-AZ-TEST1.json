@@ -2,7 +2,8 @@
 	"name": "DF-AZ-TEST1",
 	"properties": {
 		"globalConfigurations": {
-			"PolicyValidationEnabled": "true"
+			"PolicyValidationEnabled": "true",
+			"PipelineBillingEnabled": "true"
 		}
 	},
 	"location": "eastus",
