@@ -13,7 +13,8 @@
 			"encryptionTypesClient": "(AES128, AES192, AES256, 3DES112, 3DES168)",
 			"cryptoChecksumClient": "accepted",
 			"cryptoChecksumTypesClient": "(SHA1, SHA256, SHA384, SHA512)",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI4MDEyMWI5NS03ZmY1LTRmZGUtYTEwMC1iOWYxOGZmNjYxZDEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"supportV1DataTypes": true,
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJhNGY4OTAzMS05Zjg4LTQxZDUtYjA2ZC1hMGU3NGQyYTFkZWEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "SHIR-1",
