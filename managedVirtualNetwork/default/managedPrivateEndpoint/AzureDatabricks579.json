@@ -1,0 +1,7 @@
+{
+	"name": "AzureDatabricks579",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/Databricks-learn/providers/Microsoft.Databricks/workspaces/learndb",
+		"groupId": "databricks_ui_api"
+	}
+}
