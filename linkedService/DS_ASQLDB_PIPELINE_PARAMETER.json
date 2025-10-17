@@ -11,10 +11,7 @@
 			"trustServerCertificate": true,
 			"authenticationType": "SQL",
 			"userName": "sa",
-			"alwaysEncryptedSettings": {
-				"alwaysEncryptedAkvAuthType": "ManagedIdentity"
-			},
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJkZGFhZmI1Ni04YmVjLTRhNWQtODM3Mi1lNjBkOTAzNGFmMjIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmNmU3NTdmYi1mMmY0LTQ2N2QtOTg2Yy0zNjk3NmUwM2Y2NjMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "SHIR-1",
