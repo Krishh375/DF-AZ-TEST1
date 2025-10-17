@@ -7,7 +7,7 @@
 		"typeProperties": {
 			"server": "KRISHHNAPC\\SQLEXPRESS",
 			"database": "ADF_DB",
-			"encrypt": "optional",
+			"encrypt": "false",
 			"trustServerCertificate": false,
 			"authenticationType": "SQL",
 			"userName": "sa",
