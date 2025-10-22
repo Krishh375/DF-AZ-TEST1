@@ -1,0 +1,10 @@
+{
+	"name": "PrivateLinkService869",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService",
+		"groupId": "",
+		"fqdns": [
+			"myprivatelinkservice.abae9e61-1c45-43f7-a86a-f09d0c878115.westus2.azure.privatelinkservice"
+		]
+	}
+}
