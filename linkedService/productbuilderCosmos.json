@@ -3,7 +3,8 @@
 	"properties": {
 		"parameters": {
 			"Database_name": {
-				"type": "string"
+				"type": "string",
+				"defaultValue": "dataflow_bordereau"
 			}
 		},
 		"annotations": [],
