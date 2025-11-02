@@ -1,0 +1,30 @@
+{
+	"name": "AzureSqlDataset_Students",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "name",
+				"type": "varchar"
+			},
+			{
+				"name": "class",
+				"type": "varchar"
+			},
+			{
+				"name": "dept",
+				"type": "varchar"
+			}
+		]
+	}
+}
