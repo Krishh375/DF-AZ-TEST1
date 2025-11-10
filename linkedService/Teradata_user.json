@@ -1,0 +1,20 @@
+{
+	"name": "Teradata_user",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Teradata",
+		"version": "2.0",
+		"typeProperties": {
+			"server": "192.168.1.9",
+			"authenticationType": "Basic",
+			"username": "krishh",
+			"sslMode": "Prefer",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIwOThiNmEyYS0yZDk0LTQ3NjktOWFlNS0yYmJmNjk1MWYxZmEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "SHIR-1",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
