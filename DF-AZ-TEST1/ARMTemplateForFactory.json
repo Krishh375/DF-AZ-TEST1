@@ -3865,6 +3865,13 @@
 								"type": "DatasetReference"
 							},
 							"name": "source3"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_SA_param_source",
+								"type": "DatasetReference"
+							},
+							"name": "source4"
 						}
 					],
 					"sinks": [
@@ -3888,6 +3895,13 @@
 								"type": "DatasetReference"
 							},
 							"name": "sink3"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS4",
+								"type": "DatasetReference"
+							},
+							"name": "sink4"
 						}
 					],
 					"transformations": [],
@@ -3901,6 +3915,9 @@
 						"source(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> source3",
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source4",
 						"source sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     umask: 0022,",
@@ -3921,7 +3938,14 @@
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink3"
+						"     skipDuplicateMapOutputs: true) ~> sink3",
+						"source4 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink4"
 					]
 				}
 			},
@@ -3929,7 +3953,8 @@
 				"[concat(variables('factoryId'), '/datasets/Dataset_SA_param_source')]",
 				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_sink_dataflow')]",
 				"[concat(variables('factoryId'), '/datasets/Dataset_sink_dataflow2')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_adls_dataflow_sink3')]"
+				"[concat(variables('factoryId'), '/datasets/Dataset_adls_dataflow_sink3')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS4')]"
 			]
 		},
 		{
@@ -4075,9 +4100,11 @@
 									"source": {},
 									"source2": {},
 									"source3": {},
+									"source4": {},
 									"sink1": {},
 									"sink2": {},
-									"sink3": {}
+									"sink3": {},
+									"sink4": {}
 								}
 							},
 							"staging": {},
@@ -4086,7 +4113,7 @@
 								"computeType": "General"
 							},
 							"traceLevel": "Fine",
-							"runConcurrently": false
+							"runConcurrently": true
 						}
 					}
 				],
@@ -4098,6 +4125,35 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
 				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_Sink_ADLS4')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "file4.csv",
+						"folderPath": "sinkfolder4",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
 			]
 		}
 	]
