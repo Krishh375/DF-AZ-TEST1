@@ -84,7 +84,7 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     saveOrder: 1) ~> sink1",
+				"     saveOrder: 4) ~> sink1",
 				"source2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",
@@ -92,7 +92,7 @@
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     saveOrder: 1) ~> sink2",
+				"     saveOrder: 3) ~> sink2",
 				"source3 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",
@@ -107,7 +107,8 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink4"
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 2) ~> sink4"
 			]
 		}
 	}
