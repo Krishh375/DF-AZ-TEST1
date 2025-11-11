@@ -11,23 +11,29 @@
 		"AzureBlobPracdacdemo_connectionString": {
 			"value": ""
 		},
-		"AzureBlobStorage1_connectionString": {
-			"value": ""
-		},
 		"AzureBlobStorage2_servicePrincipalCredential": {
 			"value": ""
 		},
 		"AzureDataLakeStorage1_accountKey": {
 			"value": ""
 		},
+		"AzureDatabricks_LS_AT_accessToken": {
+			"value": ""
+		},
+		"AzureSqlDatabase2_password": {
+			"value": ""
+		},
+		"DS_ASQLDB_PIPELINE_PARAMETER_password": {
+			"value": ""
+		},
 		"Db21_connectionString": {
 			"value": ""
 		},
-		"Oracle1_password": {
+		"Oracle_LS_connectionString": {
 			"value": ""
 		},
-		"Oracle2_connectionString": {
-			"value": "host=@{linkedService().hostname};port=@{linkedService().portname};sid=@{linkedService().sid};user id=asdf;Password=@{linkedService().password}"
+		"Oracle_ls_V2_password": {
+			"value": ""
 		},
 		"RestService_clientSecret": {
 			"value": ""
@@ -44,13 +50,19 @@
 		"Snowflake_ls_privateKeyPassphrase": {
 			"value": ""
 		},
+		"SqlServer_VNET_password": {
+			"value": ""
+		},
 		"destinationimmuls_connectionString": {
 			"value": ""
 		},
 		"immutablecopyls_connectionString": {
 			"value": ""
 		},
-		"productbuilderCosmos_connectionString": {
+		"Teradata_password": {
+			"value": ""
+		},
+		"Teradata_user_password": {
 			"value": ""
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
@@ -64,6 +76,9 @@
 		},
 		"Azdemoappentra_properties_typeProperties_baseUrl": {
 			"value": "https://dempappentrakey.vault.azure.net/"
+		},
+		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
+			"value": "https://adlsdemostorage21.blob.core.windows.net/"
 		},
 		"AzureBlobStorage2_properties_typeProperties_serviceEndpoint": {
 			"value": "https://azdevsanewadls.blob.core.windows.net/"
@@ -80,6 +95,9 @@
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"value": "https://adlsdemostorage21.dfs.core.windows.net/"
 		},
+		"AzureDatabricks_LS_AT_properties_typeProperties_existingClusterId": {
+			"value": "0810-031931-uk5fa7qm"
+		},
 		"AzureKeyVaultsqlserver_properties_typeProperties_baseUrl": {
 			"value": "https://sqlserver-cred-onprem.vault.azure.net/"
 		},
@@ -89,14 +107,35 @@
 		"AzurePostgreSql_properties_typeProperties_database": {
 			"value": "testdemodatabase"
 		},
+		"AzureSqlDatabase2_properties_typeProperties_server": {
+			"value": "krishh123.database.windows.net"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_database": {
+			"value": "krishhdb"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_userName": {
+			"value": "krishh"
+		},
+		"DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_server": {
+			"value": "KRISHHNAPC\\SQLEXPRESS"
+		},
+		"DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_database": {
+			"value": "ADF_DB"
+		},
+		"DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_userName": {
+			"value": "sa"
+		},
 		"HttpServer1_properties_typeProperties_url": {
 			"value": "https://httpstat.us/200?sleep=60000000"
 		},
-		"Oracle1_properties_typeProperties_server": {
-			"value": "@{linkedService().server}"
+		"LS_ADLS2_properties_typeProperties_serviceEndpoint": {
+			"value": "https://adlsdemostorage21.blob.core.windows.net/"
 		},
-		"Oracle1_properties_typeProperties_username": {
-			"value": "@{linkedService().username}"
+		"Oracle_ls_V2_properties_typeProperties_server": {
+			"value": "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST= KrishhNaPC)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=XE)))"
+		},
+		"Oracle_ls_V2_properties_typeProperties_username": {
+			"value": "C##krishh"
 		},
 		"RestService_properties_typeProperties_url": {
 			"value": "@{linkedService().Baseurlendpoint}"
@@ -122,6 +161,15 @@
 		"Snowflake_ls_properties_typeProperties_database": {
 			"value": "MY_DATABASE"
 		},
+		"SqlServer_VNET_properties_typeProperties_server": {
+			"value": "KRISHHNAPC\\SQLEXPRESS"
+		},
+		"SqlServer_VNET_properties_typeProperties_database": {
+			"value": "[[ADF_DB]"
+		},
+		"SqlServer_VNET_properties_typeProperties_userName": {
+			"value": "sa"
+		},
 		"SqlServer_onprem_properties_typeProperties_server": {
 			"value": "@{linkedService().servername}"
 		},
@@ -134,8 +182,32 @@
 		"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
 			"value": "https://kv-devqa-datafactory-bi.vault.azure.net/"
 		},
+		"productbuilderCosmos_properties_typeProperties_accountEndpoint": {
+			"value": "https://az-cosmos-new-database.documents.azure.com:443/"
+		},
+		"productbuilderCosmos_properties_typeProperties_database": {
+			"value": "@{linkedService().Database_name}"
+		},
 		"triggereventstorage_properties_typeProperties_scope": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"SSIS-IR-SAMI_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
+			"value": "krishh123.database.windows.net"
+		},
+		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
+			"value": "krishh123.database.windows.net"
+		},
+		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
+			"value": "krishh"
+		},
+		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
+			"value": ""
+		},
+		"AzureBlobStorage705_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"AzureBlobStorage705_properties_groupId": {
+			"value": "blob"
 		},
 		"AzureBlobStorageendpoint_properties_privateLinkResourceId": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/pracdemostorage"
@@ -191,6 +263,29 @@
 			"value": [
 				"krishh-cosmos-db.documents.azure.com"
 			]
+		},
+		"PrivateLinkService_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
+		},
+		"PrivateLinkService_properties_groupId": {
+			"value": ""
+		},
+		"PrivateLinkService_properties_fqdns": {
+			"value": [
+				"free-sql-mi-5213063.23d6faffe15a.database.windows.net"
+			]
+		},
+		"Teradata_properties_typeProperties_server": {
+			"value": "192.168.1.9"
+		},
+		"Teradata_properties_typeProperties_username": {
+			"value": "dbc"
+		},
+		"Teradata_user_properties_typeProperties_server": {
+			"value": "192.168.1.9"
+		},
+		"Teradata_user_properties_typeProperties_username": {
+			"value": "krishh"
 		},
 		"containerUri": {
 			"value": ""
