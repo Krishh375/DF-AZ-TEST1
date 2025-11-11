@@ -28,13 +28,17 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'delimited',",
-				"     container: 'inputcontainer',",
+				"     fileSystem: 'inputcontainer',",
 				"     folderPath: 'demo',",
 				"     fileName: 'EXCELDEMO.csv',",
 				"     columnDelimiter: ',',",
 				"     escapeChar: '\\\\',",
 				"     quoteChar: '\\\"',",
-				"     columnNamesAsHeader: false) ~> adlssource",
+				"     columnNamesAsHeader: false,",
+				"     partitionBy('key',",
+				"          0,",
+				"          ERROR_FUNCTION('')",
+				"     )) ~> adlssource",
 				"adlssource sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'table',",
@@ -48,6 +52,7 @@
 				"     store: 'snowflakeV2',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1,",
 				"     stageInsert: true) ~> sinksnowflake"
 			]
 		}
