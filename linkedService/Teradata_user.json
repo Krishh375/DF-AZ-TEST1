@@ -4,11 +4,13 @@
 	"properties": {
 		"annotations": [],
 		"type": "Teradata",
+		"version": "2.0",
 		"typeProperties": {
 			"server": "10.72.224.54",
 			"authenticationType": "Basic",
 			"username": "dbc",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0NWQ1MWYwMS1kYTQ2LTRlMTgtOWJmNS1mNTJiZDM4YzlhNTQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"sslMode": "Prefer",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyMTFmYzQxNS00YTAzLTRkOTctODY1Yy04ODIzZmFhODM4MzEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "SHIR-1",
