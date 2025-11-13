@@ -10,7 +10,7 @@
 			"authenticationType": "Basic",
 			"username": "dbc",
 			"sslMode": "Prefer",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJkMTM3Y2YxNC1kMWI2LTQ5ZWItOTg3Mi1hYmU4ZDJmNTMyNjAiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0NWJmMjc2Ny01ZjhjLTQ5ZTAtYmYwNi1iMjA0MmQxYzlmMzciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "SHIR-1",
