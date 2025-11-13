@@ -53,16 +53,19 @@
 		"SqlServer_VNET_password": {
 			"value": ""
 		},
+		"Teradata_password": {
+			"value": ""
+		},
+		"Teradata_user_password": {
+			"value": ""
+		},
 		"destinationimmuls_connectionString": {
 			"value": ""
 		},
 		"immutablecopyls_connectionString": {
 			"value": ""
 		},
-		"Teradata_password": {
-			"value": ""
-		},
-		"Teradata_user_password": {
+		"SqlServer1_password": {
 			"value": ""
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
@@ -179,6 +182,18 @@
 		"SqlServer_onprem_properties_typeProperties_userName": {
 			"value": "@{linkedService().username}"
 		},
+		"Teradata_properties_typeProperties_server": {
+			"value": "10.72.224.54"
+		},
+		"Teradata_properties_typeProperties_username": {
+			"value": "dbc"
+		},
+		"Teradata_user_properties_typeProperties_server": {
+			"value": "192.168.1.9"
+		},
+		"Teradata_user_properties_typeProperties_username": {
+			"value": "krishh"
+		},
 		"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
 			"value": "https://kv-devqa-datafactory-bi.vault.azure.net/"
 		},
@@ -264,28 +279,14 @@
 				"krishh-cosmos-db.documents.azure.com"
 			]
 		},
-		"PrivateLinkService_properties_privateLinkResourceId": {
-			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
+		"SqlServer1_properties_typeProperties_server": {
+			"value": "tk-testVM"
 		},
-		"PrivateLinkService_properties_groupId": {
-			"value": ""
+		"SqlServer1_properties_typeProperties_database": {
+			"value": "master"
 		},
-		"PrivateLinkService_properties_fqdns": {
-			"value": [
-				"free-sql-mi-5213063.23d6faffe15a.database.windows.net"
-			]
-		},
-		"Teradata_properties_typeProperties_server": {
-			"value": "192.168.1.9"
-		},
-		"Teradata_properties_typeProperties_username": {
-			"value": "dbc"
-		},
-		"Teradata_user_properties_typeProperties_server": {
-			"value": "192.168.1.9"
-		},
-		"Teradata_user_properties_typeProperties_username": {
-			"value": "krishh"
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "tknew"
 		},
 		"containerUri": {
 			"value": ""

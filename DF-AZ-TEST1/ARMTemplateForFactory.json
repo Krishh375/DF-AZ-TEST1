@@ -71,6 +71,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_VNET'"
 		},
+		"Teradata_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Teradata'"
+		},
+		"Teradata_user_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Teradata_user'"
+		},
 		"destinationimmuls_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'destinationimmuls'"
@@ -79,13 +87,9 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'immutablecopyls'"
 		},
-		"Teradata_password": {
+		"SqlServer1_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'Teradata'"
-		},
-		"Teradata_user_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'Teradata_user'"
+			"metadata": "Secure string for 'password' of 'SqlServer1'"
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
 			"type": "string",
@@ -239,6 +243,22 @@
 			"type": "string",
 			"defaultValue": "@{linkedService().username}"
 		},
+		"Teradata_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "10.72.224.54"
+		},
+		"Teradata_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "dbc"
+		},
+		"Teradata_user_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "192.168.1.9"
+		},
+		"Teradata_user_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "krishh"
+		},
 		"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://kv-devqa-datafactory-bi.vault.azure.net/"
@@ -348,35 +368,17 @@
 				"krishh-cosmos-db.documents.azure.com"
 			]
 		},
-		"PrivateLinkService_properties_privateLinkResourceId": {
+		"SqlServer1_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
+			"defaultValue": "tk-testVM"
 		},
-		"PrivateLinkService_properties_groupId": {
+		"SqlServer1_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": ""
+			"defaultValue": "master"
 		},
-		"PrivateLinkService_properties_fqdns": {
-			"type": "array",
-			"defaultValue": [
-				"free-sql-mi-5213063.23d6faffe15a.database.windows.net"
-			]
-		},
-		"Teradata_properties_typeProperties_server": {
+		"SqlServer1_properties_typeProperties_userName": {
 			"type": "string",
-			"defaultValue": "192.168.1.9"
-		},
-		"Teradata_properties_typeProperties_username": {
-			"type": "string",
-			"defaultValue": "dbc"
-		},
-		"Teradata_user_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "192.168.1.9"
-		},
-		"Teradata_user_properties_typeProperties_username": {
-			"type": "string",
-			"defaultValue": "krishh"
+			"defaultValue": "tknew"
 		}
 	},
 	"variables": {
@@ -670,6 +672,59 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_parallel')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow_test",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source": {},
+									"source2": {},
+									"source3": {},
+									"source4": {},
+									"sink1": {},
+									"sink2": {},
+									"sink3": {},
+									"sink4": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine",
+							"runConcurrently": true
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/executedataflow')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -844,29 +899,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Xmldataset')]"
 			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipelinewait')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Wait",
-						"type": "Wait",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"waitTimeInSeconds": 1
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
@@ -1455,6 +1487,29 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/pipelinewait')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Wait",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 1
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/postgrespipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1525,6 +1580,77 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/csvdatasetsource')]",
 				"[concat(variables('factoryId'), '/datasets/AzurePostgreSqlTable')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/teradata_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "TeradataSource",
+								"query": "SELECT * FROM mydb.Custom_Time_Data;",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Teradata_dataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADLSGen2datasetsink",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Teradata_dataset')]",
+				"[concat(variables('factoryId'), '/datasets/ADLSGen2datasetsink')]"
 			]
 		},
 		{
@@ -1609,6 +1735,35 @@
 					}
 				},
 				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ADLS_Dataset_sink_dataflow')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "file1.csv",
+						"folderPath": "sinkfolder1",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
@@ -1826,6 +1981,122 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_SA_param_source')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "EMPLOYEE.csv",
+						"folderPath": "sourcefolder",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_Sink_ADLS4')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "file4.csv",
+						"folderPath": "sinkfolder4",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_adls_dataflow_sink3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "file3.csv",
+						"folderPath": "sinkfolder3",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_sink_dataflow2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "file2.csv",
+						"folderPath": "sinkfolder2",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Jsonsink')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2034,6 +2305,42 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/DS_ASQLDB_PIPELINE_PARAMETER')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Teradata_dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Teradata",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "TeradataTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Teradata')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Teradata_dataset_user')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Teradata_user",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "TeradataTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Teradata_user')]"
 			]
 		},
 		{
@@ -2919,6 +3226,60 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Teradata')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Teradata",
+				"version": "2.0",
+				"typeProperties": {
+					"server": "[parameters('Teradata_properties_typeProperties_server')]",
+					"authenticationType": "Basic",
+					"username": "[parameters('Teradata_properties_typeProperties_username')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Teradata_password')]"
+					},
+					"sslMode": "Prefer"
+				},
+				"connectVia": {
+					"referenceName": "SHIR-1",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Teradata_user')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Teradata",
+				"version": "2.0",
+				"typeProperties": {
+					"server": "[parameters('Teradata_user_properties_typeProperties_server')]",
+					"authenticationType": "Basic",
+					"username": "[parameters('Teradata_user_properties_typeProperties_username')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Teradata_user_password')]"
+					},
+					"sslMode": "Prefer"
+				},
+				"connectVia": {
+					"referenceName": "SHIR-1",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/destinationimmuls')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -3421,6 +3782,130 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_test')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Dataset_SA_param_source",
+								"type": "DatasetReference"
+							},
+							"name": "source"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_SA_param_source",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_SA_param_source",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_SA_param_source",
+								"type": "DatasetReference"
+							},
+							"name": "source4"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ADLS_Dataset_sink_dataflow",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_sink_dataflow2",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_adls_dataflow_sink3",
+								"type": "DatasetReference"
+							},
+							"name": "sink3"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS4",
+								"type": "DatasetReference"
+							},
+							"name": "sink4"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source",
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source2",
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source3",
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source4",
+						"source sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     saveOrder: 4) ~> sink1",
+						"source2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     saveOrder: 3) ~> sink2",
+						"source3 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     saveOrder: 1) ~> sink3",
+						"source4 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     saveOrder: 2) ~> sink4"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Dataset_SA_param_source')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_sink_dataflow')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_sink_dataflow2')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_adls_dataflow_sink3')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS4')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/dataflowpostgressql')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -3664,499 +4149,31 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/default/PrivateLinkService')]",
-			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"privateLinkResourceId": "[parameters('PrivateLinkService_properties_privateLinkResourceId')]",
-				"groupId": "[parameters('PrivateLinkService_properties_groupId')]",
-				"fqdns": "[parameters('PrivateLinkService_properties_fqdns')]"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Teradata')]",
+			"name": "[concat(parameters('factoryName'), '/SqlServer1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"type": "Teradata",
-				"version": "2.0",
+				"type": "SqlServer",
 				"typeProperties": {
-					"server": "[parameters('Teradata_properties_typeProperties_server')]",
-					"authenticationType": "Basic",
-					"username": "[parameters('Teradata_properties_typeProperties_username')]",
+					"server": "[parameters('SqlServer1_properties_typeProperties_server')]",
+					"database": "[parameters('SqlServer1_properties_typeProperties_database')]",
+					"encrypt": "optional",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('SqlServer1_properties_typeProperties_userName')]",
 					"password": {
 						"type": "SecureString",
-						"value": "[parameters('Teradata_password')]"
-					},
-					"sslMode": "Prefer"
+						"value": "[parameters('SqlServer1_password')]"
+					}
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "vnetintegrationRuntime",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Teradata_dataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Teradata",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "TeradataTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Teradata')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Teradata_user')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Teradata",
-				"version": "2.0",
-				"typeProperties": {
-					"server": "[parameters('Teradata_user_properties_typeProperties_server')]",
-					"authenticationType": "Basic",
-					"username": "[parameters('Teradata_user_properties_typeProperties_username')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('Teradata_user_password')]"
-					},
-					"sslMode": "Prefer"
-				},
-				"connectVia": {
-					"referenceName": "SHIR-1",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Teradata_dataset_user')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Teradata_user",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "TeradataTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Teradata_user')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/teradata_pipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "TeradataSource",
-								"query": "SELECT * FROM mydb.Custom_Time_Data;",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Teradata_dataset",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ADLSGen2datasetsink",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Teradata_dataset')]",
-				"[concat(variables('factoryId'), '/datasets/ADLSGen2datasetsink')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow_test')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Dataset_SA_param_source",
-								"type": "DatasetReference"
-							},
-							"name": "source"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_SA_param_source",
-								"type": "DatasetReference"
-							},
-							"name": "source2"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_SA_param_source",
-								"type": "DatasetReference"
-							},
-							"name": "source3"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_SA_param_source",
-								"type": "DatasetReference"
-							},
-							"name": "source4"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ADLS_Dataset_sink_dataflow",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_sink_dataflow2",
-								"type": "DatasetReference"
-							},
-							"name": "sink2"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_adls_dataflow_sink3",
-								"type": "DatasetReference"
-							},
-							"name": "sink3"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_Sink_ADLS4",
-								"type": "DatasetReference"
-							},
-							"name": "sink4"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source",
-						"source(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source2",
-						"source(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source3",
-						"source(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source4",
-						"source sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     saveOrder: 1) ~> sink1",
-						"source2 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     saveOrder: 1) ~> sink2",
-						"source3 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     saveOrder: 1) ~> sink3",
-						"source4 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink4"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Dataset_SA_param_source')]",
-				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_sink_dataflow')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_sink_dataflow2')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_adls_dataflow_sink3')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS4')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Dataset_SA_param_source')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "EMPLOYEE.csv",
-						"folderPath": "sourcefolder",
-						"fileSystem": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ADLS_Dataset_sink_dataflow')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "file1.csv",
-						"folderPath": "sinkfolder1",
-						"fileSystem": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Dataset_sink_dataflow2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "file2.csv",
-						"folderPath": "sinkfolder2",
-						"fileSystem": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Dataset_adls_dataflow_sink3')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "file3.csv",
-						"folderPath": "sinkfolder3",
-						"fileSystem": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow_parallel')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow_test",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source": {},
-									"source2": {},
-									"source3": {},
-									"source4": {},
-									"sink1": {},
-									"sink2": {},
-									"sink3": {},
-									"sink4": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine",
-							"runConcurrently": true
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
-				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Dataset_Sink_ADLS4')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "file4.csv",
-						"folderPath": "sinkfolder4",
-						"fileSystem": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/vnetintegrationRuntime')]"
 			]
 		}
 	]
