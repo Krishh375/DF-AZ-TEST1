@@ -4,7 +4,7 @@
 	"properties": {
 		"annotations": [],
 		"type": "Teradata",
-		"version": "2.0",
+		"version": "1.0",
 		"typeProperties": {
 			"server": "192.168.1.9",
 			"authenticationType": "Basic",
