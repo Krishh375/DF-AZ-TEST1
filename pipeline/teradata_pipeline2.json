@@ -1,5 +1,5 @@
 {
-	"name": "teradata_pipeline",
+	"name": "teradata_pipeline2",
 	"properties": {
 		"activities": [
 			{
@@ -43,7 +43,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "Teradata_dataset",
+						"referenceName": "Teradata_dataset_user",
 						"type": "DatasetReference"
 					}
 				],

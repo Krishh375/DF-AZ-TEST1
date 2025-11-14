@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "json_contract.json",
+				"fileName": "test.txt",
 				"folderPath": "sinkfolder",
 				"fileSystem": "democontainer"
 			},
