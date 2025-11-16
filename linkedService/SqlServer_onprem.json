@@ -9,7 +9,7 @@
 			},
 			"databasename": {
 				"type": "string",
-				"defaultValue": "krishh"
+				"defaultValue": "AdventureWorksDW2019"
 			},
 			"username": {
 				"type": "string",
@@ -21,21 +21,14 @@
 		"typeProperties": {
 			"server": "@{linkedService().servername}",
 			"database": "@{linkedService().databasename}",
-			"encrypt": "mandatory",
+			"encrypt": "optional",
 			"trustServerCertificate": true,
 			"authenticationType": "SQL",
 			"userName": "@{linkedService().username}",
-			"password": {
-				"type": "AzureKeyVaultSecret",
-				"store": {
-					"referenceName": "AzureKeyVaultsqlserver",
-					"type": "LinkedServiceReference"
-				},
-				"secretName": "sqlserverpassword"
-			}
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1ZTFmMGE0ZC1mMjExLTQyZGUtYTViZS1iMjcyZWY1ZjE2MWEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "SHIR-1",
+			"referenceName": "SHIR-Onprem",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
