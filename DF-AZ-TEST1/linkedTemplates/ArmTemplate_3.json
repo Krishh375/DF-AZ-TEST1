@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
+		"AzureSqlDatabase2_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase2'"
+		},
 		"Snowflake_ls_privateKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'privateKey' of 'Snowflake_ls'"
@@ -34,6 +38,18 @@
 		"AzurePostgreSql_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "testdemodatabase"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "krishh123.database.windows.net"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "krishhdb"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "krishh"
 		},
 		"Snowflake_ls_properties_typeProperties_database": {
 			"type": "string",
@@ -68,276 +84,6 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDataset_Students')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabase2",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [
-					{
-						"name": "id",
-						"type": "int",
-						"precision": 10
-					},
-					{
-						"name": "name",
-						"type": "varchar"
-					},
-					{
-						"name": "class",
-						"type": "varchar"
-					},
-					{
-						"name": "dept",
-						"type": "varchar"
-					}
-				],
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset1')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Breast_Cancer_dataset",
-						"folderPath": "sample datasets ",
-						"fileSystem": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "id",
-						"type": "String"
-					},
-					{
-						"name": "diagnosis",
-						"type": "String"
-					},
-					{
-						"name": "radius_mean",
-						"type": "String"
-					},
-					{
-						"name": "texture_mean",
-						"type": "String"
-					},
-					{
-						"name": "perimeter_mean",
-						"type": "String"
-					},
-					{
-						"name": "area_mean",
-						"type": "String"
-					},
-					{
-						"name": "smoothness_mean",
-						"type": "String"
-					},
-					{
-						"name": "compactness_mean",
-						"type": "String"
-					},
-					{
-						"name": "concavity_mean",
-						"type": "String"
-					},
-					{
-						"name": "concave points_mean",
-						"type": "String"
-					},
-					{
-						"name": "symmetry_mean",
-						"type": "String"
-					},
-					{
-						"name": "fractal_dimension_mean",
-						"type": "String"
-					},
-					{
-						"name": "radius_se",
-						"type": "String"
-					},
-					{
-						"name": "texture_se",
-						"type": "String"
-					},
-					{
-						"name": "perimeter_se",
-						"type": "String"
-					},
-					{
-						"name": "area_se",
-						"type": "String"
-					},
-					{
-						"name": "smoothness_se",
-						"type": "String"
-					},
-					{
-						"name": "compactness_se",
-						"type": "String"
-					},
-					{
-						"name": "concavity_se",
-						"type": "String"
-					},
-					{
-						"name": "concave points_se",
-						"type": "String"
-					},
-					{
-						"name": "symmetry_se",
-						"type": "String"
-					},
-					{
-						"name": "fractal_dimension_se",
-						"type": "String"
-					},
-					{
-						"name": "radius_worst",
-						"type": "String"
-					},
-					{
-						"name": "texture_worst",
-						"type": "String"
-					},
-					{
-						"name": "perimeter_worst",
-						"type": "String"
-					},
-					{
-						"name": "area_worst",
-						"type": "String"
-					},
-					{
-						"name": "smoothness_worst",
-						"type": "String"
-					},
-					{
-						"name": "compactness_worst",
-						"type": "String"
-					},
-					{
-						"name": "concavity_worst",
-						"type": "String"
-					},
-					{
-						"name": "concave points_worst",
-						"type": "String"
-					},
-					{
-						"name": "symmetry_worst",
-						"type": "String"
-					},
-					{
-						"name": "fractal_dimension_worst",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Wine_quality_dataset",
-						"folderPath": "sample datasets ",
-						"fileSystem": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "type",
-						"type": "String"
-					},
-					{
-						"name": "fixed acidity",
-						"type": "String"
-					},
-					{
-						"name": "volatile acidity",
-						"type": "String"
-					},
-					{
-						"name": "citric acid",
-						"type": "String"
-					},
-					{
-						"name": "residual sugar",
-						"type": "String"
-					},
-					{
-						"name": "chlorides",
-						"type": "String"
-					},
-					{
-						"name": "free sulfur dioxide",
-						"type": "String"
-					},
-					{
-						"name": "total sulfur dioxide",
-						"type": "String"
-					},
-					{
-						"name": "density",
-						"type": "String"
-					},
-					{
-						"name": "pH",
-						"type": "String"
-					},
-					{
-						"name": "sulphates",
-						"type": "String"
-					},
-					{
-						"name": "alcohol",
-						"type": "String"
-					},
-					{
-						"name": "quality",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset3')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -714,6 +460,32 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('AzureSqlDatabase2_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSqlDatabase2_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('AzureSqlDatabase2_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "vnetintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Snowflake_ls')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -881,6 +653,105 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Teradata_dataset')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/teradata_pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "TeradataSource",
+								"query": "select  to_char(EFF_DATE, 'YYYY-MM-DD'), EFF_TIME, CAST(CAST(((EFF_TIME ) (FORMAT '99:99:99')) AS CHAR(8)) AS TIME(0)) as old_eff_time\nFROM tktestdb.testtb150;",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Teradata_dataset_user",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADLSGen2datasetsink",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Teradata_dataset_user')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ADLSdatasetsource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureBlobStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "EMPLOYEE.csv",
+						"folderPath": "sourcefolder",
+						"container": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		}
 	]

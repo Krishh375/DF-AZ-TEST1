@@ -545,9 +545,6 @@
 					"AzureDatabricks_LS_AT_accessToken": {
 						"value": "[parameters('AzureDatabricks_LS_AT_accessToken')]"
 					},
-					"AzureSqlDatabase2_password": {
-						"value": "[parameters('AzureSqlDatabase2_password')]"
-					},
 					"DS_ASQLDB_PIPELINE_PARAMETER_password": {
 						"value": "[parameters('DS_ASQLDB_PIPELINE_PARAMETER_password')]"
 					},
@@ -556,6 +553,9 @@
 					},
 					"Oracle_LS_connectionString": {
 						"value": "[parameters('Oracle_LS_connectionString')]"
+					},
+					"Oracle_ls_V2_password": {
+						"value": "[parameters('Oracle_ls_V2_password')]"
 					},
 					"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 						"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]"
@@ -572,15 +572,6 @@
 					"AzureDatabricks_LS_AT_properties_typeProperties_existingClusterId": {
 						"value": "[parameters('AzureDatabricks_LS_AT_properties_typeProperties_existingClusterId')]"
 					},
-					"AzureSqlDatabase2_properties_typeProperties_server": {
-						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_server')]"
-					},
-					"AzureSqlDatabase2_properties_typeProperties_database": {
-						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_database')]"
-					},
-					"AzureSqlDatabase2_properties_typeProperties_userName": {
-						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]"
-					},
 					"DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_server": {
 						"value": "[parameters('DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_server')]"
 					},
@@ -592,6 +583,12 @@
 					},
 					"LS_ADLS2_properties_typeProperties_serviceEndpoint": {
 						"value": "[parameters('LS_ADLS2_properties_typeProperties_serviceEndpoint')]"
+					},
+					"Oracle_ls_V2_properties_typeProperties_server": {
+						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_server')]"
+					},
+					"Oracle_ls_V2_properties_typeProperties_username": {
+						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_username')]"
 					}
 				}
 			},
@@ -613,9 +610,6 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"Oracle_ls_V2_password": {
-						"value": "[parameters('Oracle_ls_V2_password')]"
-					},
 					"SqlServer1_password": {
 						"value": "[parameters('SqlServer1_password')]"
 					},
@@ -627,12 +621,6 @@
 					},
 					"Teradata_user_password": {
 						"value": "[parameters('Teradata_user_password')]"
-					},
-					"Oracle_ls_V2_properties_typeProperties_server": {
-						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_server')]"
-					},
-					"Oracle_ls_V2_properties_typeProperties_username": {
-						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_username')]"
 					},
 					"SqlServer1_properties_typeProperties_server": {
 						"value": "[parameters('SqlServer1_properties_typeProperties_server')]"
@@ -744,6 +732,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureSqlDatabase2_password": {
+						"value": "[parameters('AzureSqlDatabase2_password')]"
+					},
 					"Snowflake_ls_privateKey": {
 						"value": "[parameters('Snowflake_ls_privateKey')]"
 					},
@@ -764,6 +755,15 @@
 					},
 					"AzurePostgreSql_properties_typeProperties_database": {
 						"value": "[parameters('AzurePostgreSql_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase2_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabase2_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase2_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]"
 					},
 					"Snowflake_ls_properties_typeProperties_database": {
 						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
