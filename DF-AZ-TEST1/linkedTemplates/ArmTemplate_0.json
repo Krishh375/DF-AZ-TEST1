@@ -123,9 +123,16 @@
 			"type": "string",
 			"defaultValue": "@{linkedService().Database_name}"
 		},
-		"SSIS-IR-SAMI_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
+		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 			"type": "string",
 			"defaultValue": "krishh123.database.windows.net"
+		},
+		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
+			"type": "string",
+			"defaultValue": "krishh"
+		},
+		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
+			"type": "secureString"
 		}
 	},
 	"variables": {
@@ -489,22 +496,26 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SSIS-IR-SAMI')]",
+			"name": "[concat(parameters('factoryName'), '/SSIS-IR')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"type": "Managed",
-				"description": "Try with SAMI",
 				"typeProperties": {
 					"computeProperties": {
 						"location": "East US",
 						"nodeSize": "Standard_D8_v3",
 						"numberOfNodes": 2,
-						"maxParallelExecutionsPerNode": 8
+						"maxParallelExecutionsPerNode": 4
 					},
 					"ssisProperties": {
 						"catalogInfo": {
-							"catalogServerEndpoint": "[parameters('SSIS-IR-SAMI_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]",
+							"catalogServerEndpoint": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]",
+							"catalogAdminUserName": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]",
+							"catalogAdminPassword": {
+								"type": "SecureString",
+								"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
+							},
 							"catalogPricingTier": "S1"
 						},
 						"edition": "Standard",

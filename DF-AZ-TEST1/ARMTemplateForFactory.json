@@ -67,6 +67,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'privateKeyPassphrase' of 'Snowflake_ls'"
 		},
+		"SqlServer1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServer1'"
+		},
+		"SqlServer2_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServer2'"
+		},
 		"SqlServer_VNET_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_VNET'"
@@ -86,10 +94,6 @@
 		"immutablecopyls_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'immutablecopyls'"
-		},
-		"SqlServer1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServer1'"
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
 			"type": "string",
@@ -219,6 +223,30 @@
 			"type": "string",
 			"defaultValue": "MY_DATABASE"
 		},
+		"SqlServer1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "tk-testVM"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "master"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "tknew"
+		},
+		"SqlServer2_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sqlserver.privatelink.westus.cloudapp.azure.net"
+		},
+		"SqlServer2_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "master"
+		},
+		"SqlServer2_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "tknew"
+		},
 		"SqlServer_VNET_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
@@ -253,11 +281,11 @@
 		},
 		"Teradata_user_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "192.168.1.9"
+			"defaultValue": "10.72.224.54"
 		},
 		"Teradata_user_properties_typeProperties_username": {
 			"type": "string",
-			"defaultValue": "krishh"
+			"defaultValue": "dbc"
 		},
 		"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -274,10 +302,6 @@
 		"triggereventstorage_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"SSIS-IR-SAMI_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-			"type": "string",
-			"defaultValue": "krishh123.database.windows.net"
 		},
 		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 			"type": "string",
@@ -368,17 +392,19 @@
 				"krishh-cosmos-db.documents.azure.com"
 			]
 		},
-		"SqlServer1_properties_typeProperties_server": {
+		"PrivateLinkService461_properties_privateLinkResourceId": {
 			"type": "string",
-			"defaultValue": "tk-testVM"
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
 		},
-		"SqlServer1_properties_typeProperties_database": {
+		"PrivateLinkService461_properties_groupId": {
 			"type": "string",
-			"defaultValue": "master"
+			"defaultValue": ""
 		},
-		"SqlServer1_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "tknew"
+		"PrivateLinkService461_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"sqlserver.privatelink.westus.cloudapp.azure.net"
+			]
 		}
 	},
 	"variables": {
@@ -721,7 +747,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]"
+				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
 			]
 		},
 		{
@@ -1603,7 +1630,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "TeradataSource",
-								"query": "SELECT * FROM mydb.Custom_Time_Data;",
+								"query": "select  to_char(EFF_DATE, 'YYYY-MM-DD'), EFF_TIME, CAST(CAST(((EFF_TIME ) (FORMAT '99:99:99')) AS CHAR(8)) AS TIME(0)) as old_eff_time\nFROM tktestdb.testtb150;",
 								"partitionOption": "None"
 							},
 							"sink": {
@@ -1654,6 +1681,77 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/teradata_pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "TeradataSource",
+								"query": "select  to_char(EFF_DATE, 'YYYY-MM-DD'), EFF_TIME, CAST(CAST(((EFF_TIME ) (FORMAT '99:99:99')) AS CHAR(8)) AS TIME(0)) as old_eff_time\nFROM tktestdb.testtb150;",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Teradata_dataset_user",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADLSGen2datasetsink",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Teradata_dataset_user')]",
+				"[concat(variables('factoryId'), '/datasets/ADLSGen2datasetsink')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/webactvity_pipeline1')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1700,7 +1798,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "json_contract.json",
+						"fileName": "test.txt",
 						"folderPath": "sinkfolder",
 						"fileSystem": "democontainer"
 					},
@@ -1981,7 +2079,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Dataset_SA_param_source')]",
+			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -1994,8 +2092,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "EMPLOYEE.csv",
-						"folderPath": "sourcefolder",
+						"fileName": "Breast_Cancer_dataset",
+						"folderPath": "sample datasets ",
 						"fileSystem": "democontainer"
 					},
 					"columnDelimiter": ",",
@@ -3151,6 +3249,62 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('SqlServer1_properties_typeProperties_server')]",
+					"database": "[parameters('SqlServer1_properties_typeProperties_database')]",
+					"encrypt": "optional",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('SqlServer1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('SqlServer1_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "SHIR-1",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('SqlServer2_properties_typeProperties_server')]",
+					"database": "[parameters('SqlServer2_properties_typeProperties_database')]",
+					"encrypt": "optional",
+					"trustServerCertificate": false,
+					"authenticationType": "SQL",
+					"userName": "[parameters('SqlServer2_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('SqlServer2_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "vnetintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/vnetintegrationRuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SqlServer_VNET')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -3259,7 +3413,6 @@
 			"properties": {
 				"annotations": [],
 				"type": "Teradata",
-				"version": "2.0",
 				"typeProperties": {
 					"server": "[parameters('Teradata_user_properties_typeProperties_server')]",
 					"authenticationType": "Basic",
@@ -3267,8 +3420,7 @@
 					"password": {
 						"type": "SecureString",
 						"value": "[parameters('Teradata_user_password')]"
-					},
-					"sslMode": "Prefer"
+					}
 				},
 				"connectVia": {
 					"referenceName": "SHIR-1",
@@ -3396,32 +3548,6 @@
 			"properties": {
 				"type": "SelfHosted",
 				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SSIS-IR-SAMI')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"description": "Try with SAMI",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "East US",
-						"nodeSize": "Standard_D8_v3",
-						"numberOfNodes": 2,
-						"maxParallelExecutionsPerNode": 8
-					},
-					"ssisProperties": {
-						"catalogInfo": {
-							"catalogServerEndpoint": "[parameters('SSIS-IR-SAMI_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]",
-							"catalogPricingTier": "S1"
-						},
-						"edition": "Standard",
-						"licenseType": "LicenseIncluded"
-					}
-				}
 			},
 			"dependsOn": []
 		},
@@ -3791,28 +3917,28 @@
 					"sources": [
 						{
 							"dataset": {
-								"referenceName": "Dataset_SA_param_source",
+								"referenceName": "Dataflow_source_dataset1",
 								"type": "DatasetReference"
 							},
 							"name": "source"
 						},
 						{
 							"dataset": {
-								"referenceName": "Dataset_SA_param_source",
+								"referenceName": "Dataflow_source_dataset2",
 								"type": "DatasetReference"
 							},
 							"name": "source2"
 						},
 						{
 							"dataset": {
-								"referenceName": "Dataset_SA_param_source",
+								"referenceName": "Dataflow_source_dataset3",
 								"type": "DatasetReference"
 							},
 							"name": "source3"
 						},
 						{
 							"dataset": {
-								"referenceName": "Dataset_SA_param_source",
+								"referenceName": "Dataflow_source_dataset4",
 								"type": "DatasetReference"
 							},
 							"name": "source4"
@@ -3853,13 +3979,58 @@
 						"source(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> source",
-						"source(allowSchemaDrift: true,",
+						"source(output(",
+						"          type as string,",
+						"          {fixed acidity} as string,",
+						"          {volatile acidity} as string,",
+						"          {citric acid} as string,",
+						"          {residual sugar} as string,",
+						"          chlorides as string,",
+						"          {free sulfur dioxide} as string,",
+						"          {total sulfur dioxide} as string,",
+						"          density as string,",
+						"          pH as string,",
+						"          sulphates as string,",
+						"          alcohol as string,",
+						"          quality as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> source2",
-						"source(allowSchemaDrift: true,",
+						"source(output(",
+						"          age as string,",
+						"          sex as string,",
+						"          cp as string,",
+						"          trestbps as string,",
+						"          chol as string,",
+						"          fbs as string,",
+						"          restecg as string,",
+						"          thalach as string,",
+						"          exang as string,",
+						"          oldpeak as string,",
+						"          slope as string,",
+						"          ca as string,",
+						"          thal as string,",
+						"          target as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> source3",
-						"source(allowSchemaDrift: true,",
+						"source(output(",
+						"          {Formatted Date} as string,",
+						"          Summary as string,",
+						"          {Precip Type} as string,",
+						"          {Temperature (C)} as string,",
+						"          {Apparent Temperature (C)} as string,",
+						"          Humidity as string,",
+						"          {Wind Speed (km/h)} as string,",
+						"          {Wind Bearing (degrees)} as string,",
+						"          {Visibility (km)} as string,",
+						"          {Loud Cover} as string,",
+						"          {Pressure (millibars)} as string,",
+						"          {Daily Summary} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> source4",
 						"source sink(allowSchemaDrift: true,",
@@ -3868,37 +4039,36 @@
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     saveOrder: 4) ~> sink1",
+						"     skipDuplicateMapOutputs: true) ~> sink1",
 						"source2 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     saveOrder: 3) ~> sink2",
+						"     skipDuplicateMapOutputs: true) ~> sink2",
 						"source3 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     saveOrder: 1) ~> sink3",
+						"     skipDuplicateMapOutputs: true) ~> sink3",
 						"source4 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     umask: 0022,",
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     saveOrder: 2) ~> sink4"
+						"     skipDuplicateMapOutputs: true) ~> sink4"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Dataset_SA_param_source')]",
+				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset1')]",
+				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset2')]",
+				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset3')]",
+				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset4')]",
 				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_sink_dataflow')]",
 				"[concat(variables('factoryId'), '/datasets/Dataset_sink_dataflow2')]",
 				"[concat(variables('factoryId'), '/datasets/Dataset_adls_dataflow_sink3')]",
@@ -4149,31 +4319,272 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/default/PrivateLinkService461')]",
+			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('SqlServer1_properties_typeProperties_server')]",
-					"database": "[parameters('SqlServer1_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": true,
-					"authenticationType": "SQL",
-					"userName": "[parameters('SqlServer1_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SqlServer1_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "vnetintegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
+				"privateLinkResourceId": "[parameters('PrivateLinkService461_properties_privateLinkResourceId')]",
+				"groupId": "[parameters('PrivateLinkService461_properties_groupId')]",
+				"fqdns": "[parameters('PrivateLinkService461_properties_fqdns')]"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/vnetintegrationRuntime')]"
+				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SHIR-Onprem')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Wine_quality_dataset",
+						"folderPath": "sample datasets ",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "type",
+						"type": "String"
+					},
+					{
+						"name": "fixed acidity",
+						"type": "String"
+					},
+					{
+						"name": "volatile acidity",
+						"type": "String"
+					},
+					{
+						"name": "citric acid",
+						"type": "String"
+					},
+					{
+						"name": "residual sugar",
+						"type": "String"
+					},
+					{
+						"name": "chlorides",
+						"type": "String"
+					},
+					{
+						"name": "free sulfur dioxide",
+						"type": "String"
+					},
+					{
+						"name": "total sulfur dioxide",
+						"type": "String"
+					},
+					{
+						"name": "density",
+						"type": "String"
+					},
+					{
+						"name": "pH",
+						"type": "String"
+					},
+					{
+						"name": "sulphates",
+						"type": "String"
+					},
+					{
+						"name": "alcohol",
+						"type": "String"
+					},
+					{
+						"name": "quality",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset3')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "heart_disease",
+						"folderPath": "sample datasets ",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "age",
+						"type": "String"
+					},
+					{
+						"name": "sex",
+						"type": "String"
+					},
+					{
+						"name": "cp",
+						"type": "String"
+					},
+					{
+						"name": "trestbps",
+						"type": "String"
+					},
+					{
+						"name": "chol",
+						"type": "String"
+					},
+					{
+						"name": "fbs",
+						"type": "String"
+					},
+					{
+						"name": "restecg",
+						"type": "String"
+					},
+					{
+						"name": "thalach",
+						"type": "String"
+					},
+					{
+						"name": "exang",
+						"type": "String"
+					},
+					{
+						"name": "oldpeak",
+						"type": "String"
+					},
+					{
+						"name": "slope",
+						"type": "String"
+					},
+					{
+						"name": "ca",
+						"type": "String"
+					},
+					{
+						"name": "thal",
+						"type": "String"
+					},
+					{
+						"name": "target",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset4')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "weatherHistory-(1).csv",
+						"folderPath": "sample datasets ",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "Formatted Date",
+						"type": "String"
+					},
+					{
+						"name": "Summary",
+						"type": "String"
+					},
+					{
+						"name": "Precip Type",
+						"type": "String"
+					},
+					{
+						"name": "Temperature (C)",
+						"type": "String"
+					},
+					{
+						"name": "Apparent Temperature (C)",
+						"type": "String"
+					},
+					{
+						"name": "Humidity",
+						"type": "String"
+					},
+					{
+						"name": "Wind Speed (km/h)",
+						"type": "String"
+					},
+					{
+						"name": "Wind Bearing (degrees)",
+						"type": "String"
+					},
+					{
+						"name": "Visibility (km)",
+						"type": "String"
+					},
+					{
+						"name": "Loud Cover",
+						"type": "String"
+					},
+					{
+						"name": "Pressure (millibars)",
+						"type": "String"
+					},
+					{
+						"name": "Daily Summary",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
 			]
 		}
 	]

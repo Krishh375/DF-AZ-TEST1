@@ -50,6 +50,12 @@
 		"Snowflake_ls_privateKeyPassphrase": {
 			"value": ""
 		},
+		"SqlServer1_password": {
+			"value": ""
+		},
+		"SqlServer2_password": {
+			"value": ""
+		},
 		"SqlServer_VNET_password": {
 			"value": ""
 		},
@@ -63,9 +69,6 @@
 			"value": ""
 		},
 		"immutablecopyls_connectionString": {
-			"value": ""
-		},
-		"SqlServer1_password": {
 			"value": ""
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
@@ -164,6 +167,24 @@
 		"Snowflake_ls_properties_typeProperties_database": {
 			"value": "MY_DATABASE"
 		},
+		"SqlServer1_properties_typeProperties_server": {
+			"value": "tk-testVM"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"value": "master"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "tknew"
+		},
+		"SqlServer2_properties_typeProperties_server": {
+			"value": "sqlserver.privatelink.westus.cloudapp.azure.net"
+		},
+		"SqlServer2_properties_typeProperties_database": {
+			"value": "master"
+		},
+		"SqlServer2_properties_typeProperties_userName": {
+			"value": "tknew"
+		},
 		"SqlServer_VNET_properties_typeProperties_server": {
 			"value": "KRISHHNAPC\\SQLEXPRESS"
 		},
@@ -189,10 +210,10 @@
 			"value": "dbc"
 		},
 		"Teradata_user_properties_typeProperties_server": {
-			"value": "192.168.1.9"
+			"value": "10.72.224.54"
 		},
 		"Teradata_user_properties_typeProperties_username": {
-			"value": "krishh"
+			"value": "dbc"
 		},
 		"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
 			"value": "https://kv-devqa-datafactory-bi.vault.azure.net/"
@@ -205,9 +226,6 @@
 		},
 		"triggereventstorage_properties_typeProperties_scope": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"SSIS-IR-SAMI_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-			"value": "krishh123.database.windows.net"
 		},
 		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 			"value": "krishh123.database.windows.net"
@@ -279,14 +297,16 @@
 				"krishh-cosmos-db.documents.azure.com"
 			]
 		},
-		"SqlServer1_properties_typeProperties_server": {
-			"value": "tk-testVM"
+		"PrivateLinkService461_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
 		},
-		"SqlServer1_properties_typeProperties_database": {
-			"value": "master"
+		"PrivateLinkService461_properties_groupId": {
+			"value": ""
 		},
-		"SqlServer1_properties_typeProperties_userName": {
-			"value": "tknew"
+		"PrivateLinkService461_properties_fqdns": {
+			"value": [
+				"sqlserver.privatelink.westus.cloudapp.azure.net"
+			]
 		},
 		"containerUri": {
 			"value": ""
