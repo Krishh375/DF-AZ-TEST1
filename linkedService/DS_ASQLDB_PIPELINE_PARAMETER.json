@@ -7,14 +7,14 @@
 		"typeProperties": {
 			"server": "KRISHHNAPC\\SQLEXPRESS",
 			"database": "ADF_DB",
-			"encrypt": "false",
+			"encrypt": "optional",
 			"trustServerCertificate": true,
 			"authenticationType": "SQL",
 			"userName": "sa",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxNzQzODY5Mi0xMmI1LTRiNTQtOTk0Ni0wMTY2ZDAzMTk4YWEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJiYjNmM2VlMS1jNTMxLTQyZGItOTdjOC00NWMzM2FmYjY4MjYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "SHIR-1",
+			"referenceName": "SHIR-Onprem",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
