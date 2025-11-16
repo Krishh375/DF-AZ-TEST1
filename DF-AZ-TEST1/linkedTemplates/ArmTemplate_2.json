@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer1'"
 		},
+		"SqlServer_onprem_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServer_onprem'"
+		},
 		"Teradata_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Teradata'"
@@ -45,15 +49,15 @@
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "@{linkedService().servername}"
+			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
 		},
 		"SqlServer_onprem_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": "@{linkedService().databasename}"
+			"defaultValue": "AdventureWorksDW2019"
 		},
 		"SqlServer_onprem_properties_typeProperties_userName": {
 			"type": "string",
-			"defaultValue": "@{linkedService().username}"
+			"defaultValue": "sa"
 		},
 		"Teradata_properties_typeProperties_server": {
 			"type": "string",
@@ -228,40 +232,22 @@
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"parameters": {
-					"servername": {
-						"type": "string",
-						"defaultValue": "KRISHHPC\\SQLEXPRESS"
-					},
-					"databasename": {
-						"type": "string",
-						"defaultValue": "krishh"
-					},
-					"username": {
-						"type": "string",
-						"defaultValue": "sa"
-					}
-				},
 				"annotations": [],
 				"type": "SqlServer",
 				"typeProperties": {
 					"server": "[parameters('SqlServer_onprem_properties_typeProperties_server')]",
 					"database": "[parameters('SqlServer_onprem_properties_typeProperties_database')]",
-					"encrypt": "mandatory",
+					"encrypt": "optional",
 					"trustServerCertificate": true,
 					"authenticationType": "SQL",
 					"userName": "[parameters('SqlServer_onprem_properties_typeProperties_userName')]",
 					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AzureKeyVaultsqlserver",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "sqlserverpassword"
+						"type": "SecureString",
+						"value": "[parameters('SqlServer_onprem_password')]"
 					}
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "SHIR-Onprem",
 					"type": "IntegrationRuntimeReference"
 				}
 			},

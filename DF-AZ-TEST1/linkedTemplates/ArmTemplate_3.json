@@ -125,7 +125,136 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "diagnosis",
+						"type": "String"
+					},
+					{
+						"name": "radius_mean",
+						"type": "String"
+					},
+					{
+						"name": "texture_mean",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_mean",
+						"type": "String"
+					},
+					{
+						"name": "area_mean",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_mean",
+						"type": "String"
+					},
+					{
+						"name": "compactness_mean",
+						"type": "String"
+					},
+					{
+						"name": "concavity_mean",
+						"type": "String"
+					},
+					{
+						"name": "concave points_mean",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_mean",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_mean",
+						"type": "String"
+					},
+					{
+						"name": "radius_se",
+						"type": "String"
+					},
+					{
+						"name": "texture_se",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_se",
+						"type": "String"
+					},
+					{
+						"name": "area_se",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_se",
+						"type": "String"
+					},
+					{
+						"name": "compactness_se",
+						"type": "String"
+					},
+					{
+						"name": "concavity_se",
+						"type": "String"
+					},
+					{
+						"name": "concave points_se",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_se",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_se",
+						"type": "String"
+					},
+					{
+						"name": "radius_worst",
+						"type": "String"
+					},
+					{
+						"name": "texture_worst",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_worst",
+						"type": "String"
+					},
+					{
+						"name": "area_worst",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_worst",
+						"type": "String"
+					},
+					{
+						"name": "compactness_worst",
+						"type": "String"
+					},
+					{
+						"name": "concavity_worst",
+						"type": "String"
+					},
+					{
+						"name": "concave points_worst",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_worst",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_worst",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": []
 		},
@@ -666,6 +795,25 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer_Onprem')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_onprem",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DimCurrency"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/teradata_pipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -733,76 +881,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Teradata_dataset')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/teradata_pipeline2')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "TeradataSource",
-								"query": "select  to_char(EFF_DATE, 'YYYY-MM-DD'), EFF_TIME, CAST(CAST(((EFF_TIME ) (FORMAT '99:99:99')) AS CHAR(8)) AS TIME(0)) as old_eff_time\nFROM tktestdb.testtb150;",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "Teradata_dataset_user",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ADLSGen2datasetsink",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Teradata_dataset_user')]"
 			]
 		}
 	]

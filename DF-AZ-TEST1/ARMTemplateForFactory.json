@@ -79,6 +79,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_VNET'"
 		},
+		"SqlServer_onprem_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServer_onprem'"
+		},
 		"Teradata_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Teradata'"
@@ -261,15 +265,15 @@
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "@{linkedService().servername}"
+			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
 		},
 		"SqlServer_onprem_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": "@{linkedService().databasename}"
+			"defaultValue": "AdventureWorksDW2019"
 		},
 		"SqlServer_onprem_properties_typeProperties_userName": {
 			"type": "string",
-			"defaultValue": "@{linkedService().username}"
+			"defaultValue": "sa"
 		},
 		"Teradata_properties_typeProperties_server": {
 			"type": "string",
@@ -2101,7 +2105,136 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "diagnosis",
+						"type": "String"
+					},
+					{
+						"name": "radius_mean",
+						"type": "String"
+					},
+					{
+						"name": "texture_mean",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_mean",
+						"type": "String"
+					},
+					{
+						"name": "area_mean",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_mean",
+						"type": "String"
+					},
+					{
+						"name": "compactness_mean",
+						"type": "String"
+					},
+					{
+						"name": "concavity_mean",
+						"type": "String"
+					},
+					{
+						"name": "concave points_mean",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_mean",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_mean",
+						"type": "String"
+					},
+					{
+						"name": "radius_se",
+						"type": "String"
+					},
+					{
+						"name": "texture_se",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_se",
+						"type": "String"
+					},
+					{
+						"name": "area_se",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_se",
+						"type": "String"
+					},
+					{
+						"name": "compactness_se",
+						"type": "String"
+					},
+					{
+						"name": "concavity_se",
+						"type": "String"
+					},
+					{
+						"name": "concave points_se",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_se",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_se",
+						"type": "String"
+					},
+					{
+						"name": "radius_worst",
+						"type": "String"
+					},
+					{
+						"name": "texture_worst",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_worst",
+						"type": "String"
+					},
+					{
+						"name": "area_worst",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_worst",
+						"type": "String"
+					},
+					{
+						"name": "compactness_worst",
+						"type": "String"
+					},
+					{
+						"name": "concavity_worst",
+						"type": "String"
+					},
+					{
+						"name": "concave points_worst",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_worst",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_worst",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
@@ -3263,7 +3396,7 @@
 				"typeProperties": {
 					"server": "[parameters('DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_server')]",
 					"database": "[parameters('DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_database')]",
-					"encrypt": "false",
+					"encrypt": "optional",
 					"trustServerCertificate": true,
 					"authenticationType": "SQL",
 					"userName": "[parameters('DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_userName')]",
@@ -3273,12 +3406,12 @@
 					}
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "SHIR-Onprem",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-Onprem')]"
 			]
 		},
 		{
@@ -3583,46 +3716,27 @@
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"parameters": {
-					"servername": {
-						"type": "string",
-						"defaultValue": "KRISHHPC\\SQLEXPRESS"
-					},
-					"databasename": {
-						"type": "string",
-						"defaultValue": "krishh"
-					},
-					"username": {
-						"type": "string",
-						"defaultValue": "sa"
-					}
-				},
 				"annotations": [],
 				"type": "SqlServer",
 				"typeProperties": {
 					"server": "[parameters('SqlServer_onprem_properties_typeProperties_server')]",
 					"database": "[parameters('SqlServer_onprem_properties_typeProperties_database')]",
-					"encrypt": "mandatory",
+					"encrypt": "optional",
 					"trustServerCertificate": true,
 					"authenticationType": "SQL",
 					"userName": "[parameters('SqlServer_onprem_properties_typeProperties_userName')]",
 					"password": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "AzureKeyVaultsqlserver",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "sqlserverpassword"
+						"type": "SecureString",
+						"value": "[parameters('SqlServer_onprem_password')]"
 					}
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "SHIR-Onprem",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]",
-				"[concat(variables('factoryId'), '/linkedServices/AzureKeyVaultsqlserver')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-Onprem')]"
 			]
 		},
 		{
@@ -4232,7 +4346,41 @@
 					],
 					"transformations": [],
 					"scriptLines": [
-						"source(allowSchemaDrift: true,",
+						"source(output(",
+						"          id as string,",
+						"          diagnosis as string,",
+						"          radius_mean as string,",
+						"          texture_mean as string,",
+						"          perimeter_mean as string,",
+						"          area_mean as string,",
+						"          smoothness_mean as string,",
+						"          compactness_mean as string,",
+						"          concavity_mean as string,",
+						"          {concave points_mean} as string,",
+						"          symmetry_mean as string,",
+						"          fractal_dimension_mean as string,",
+						"          radius_se as string,",
+						"          texture_se as string,",
+						"          perimeter_se as string,",
+						"          area_se as string,",
+						"          smoothness_se as string,",
+						"          compactness_se as string,",
+						"          concavity_se as string,",
+						"          {concave points_se} as string,",
+						"          symmetry_se as string,",
+						"          fractal_dimension_se as string,",
+						"          radius_worst as string,",
+						"          texture_worst as string,",
+						"          perimeter_worst as string,",
+						"          area_worst as string,",
+						"          smoothness_worst as string,",
+						"          compactness_worst as string,",
+						"          concavity_worst as string,",
+						"          {concave points_worst} as string,",
+						"          symmetry_worst as string,",
+						"          fractal_dimension_worst as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> source",
 						"source(output(",
@@ -4585,6 +4733,27 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer_Onprem')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_onprem",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DimCurrency"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_onprem')]"
 			]
 		}
 	]

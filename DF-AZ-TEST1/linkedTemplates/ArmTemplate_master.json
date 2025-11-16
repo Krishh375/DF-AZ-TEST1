@@ -79,6 +79,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_VNET'"
 		},
+		"SqlServer_onprem_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServer_onprem'"
+		},
 		"Teradata_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Teradata'"
@@ -261,15 +265,15 @@
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "@{linkedService().servername}"
+			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
 		},
 		"SqlServer_onprem_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": "@{linkedService().databasename}"
+			"defaultValue": "AdventureWorksDW2019"
 		},
 		"SqlServer_onprem_properties_typeProperties_userName": {
 			"type": "string",
-			"defaultValue": "@{linkedService().username}"
+			"defaultValue": "sa"
 		},
 		"Teradata_properties_typeProperties_server": {
 			"type": "string",
@@ -614,6 +618,9 @@
 					},
 					"SqlServer1_password": {
 						"value": "[parameters('SqlServer1_password')]"
+					},
+					"SqlServer_onprem_password": {
+						"value": "[parameters('SqlServer_onprem_password')]"
 					},
 					"Teradata_password": {
 						"value": "[parameters('Teradata_password')]"

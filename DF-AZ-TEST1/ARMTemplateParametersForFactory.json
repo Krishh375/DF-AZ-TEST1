@@ -59,6 +59,9 @@
 		"SqlServer_VNET_password": {
 			"value": ""
 		},
+		"SqlServer_onprem_password": {
+			"value": ""
+		},
 		"Teradata_password": {
 			"value": ""
 		},
@@ -195,13 +198,13 @@
 			"value": "sa"
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
-			"value": "@{linkedService().servername}"
+			"value": "KRISHHNAPC\\SQLEXPRESS"
 		},
 		"SqlServer_onprem_properties_typeProperties_database": {
-			"value": "@{linkedService().databasename}"
+			"value": "AdventureWorksDW2019"
 		},
 		"SqlServer_onprem_properties_typeProperties_userName": {
-			"value": "@{linkedService().username}"
+			"value": "sa"
 		},
 		"Teradata_properties_typeProperties_server": {
 			"value": "10.72.224.54"

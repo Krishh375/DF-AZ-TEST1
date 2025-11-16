@@ -506,7 +506,7 @@
 				"typeProperties": {
 					"server": "[parameters('DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_server')]",
 					"database": "[parameters('DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_database')]",
-					"encrypt": "false",
+					"encrypt": "optional",
 					"trustServerCertificate": true,
 					"authenticationType": "SQL",
 					"userName": "[parameters('DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_userName')]",
@@ -516,7 +516,7 @@
 					}
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "SHIR-Onprem",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
