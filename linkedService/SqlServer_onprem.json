@@ -2,30 +2,16 @@
 	"name": "SqlServer_onprem",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
-		"parameters": {
-			"servername": {
-				"type": "string",
-				"defaultValue": "KRISHHPC\\SQLEXPRESS"
-			},
-			"databasename": {
-				"type": "string",
-				"defaultValue": "AdventureWorksDW2019"
-			},
-			"username": {
-				"type": "string",
-				"defaultValue": "sa"
-			}
-		},
 		"annotations": [],
 		"type": "SqlServer",
 		"typeProperties": {
-			"server": "@{linkedService().servername}",
-			"database": "@{linkedService().databasename}",
+			"server": "KRISHHNAPC\\SQLEXPRESS",
+			"database": "master",
 			"encrypt": "optional",
 			"trustServerCertificate": true,
 			"authenticationType": "SQL",
-			"userName": "@{linkedService().username}",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1ZTFmMGE0ZC1mMjExLTQyZGUtYTViZS1iMjcyZWY1ZjE2MWEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"userName": "sa",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI0MTM5MDVjOS02OTMxLTQ5NWQtYTViOC1hYjNmM2Q5MDY3ZTQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "SHIR-Onprem",
