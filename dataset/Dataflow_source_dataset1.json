@@ -1,19 +1,9 @@
 {
-	"name": "Dataset_SA_param_source",
+	"name": "Dataflow_source_dataset1",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "AzureDataLakeStorageLS",
-			"type": "LinkedServiceReference"
-		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
-			"location": {
-				"type": "AzureBlobFSLocation",
-				"fileName": "EMPLOYEE.csv",
-				"folderPath": "sourcefolder",
-				"fileSystem": "democontainer"
-			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,

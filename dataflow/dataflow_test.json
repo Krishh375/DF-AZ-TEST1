@@ -6,28 +6,28 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Dataset_SA_param_source",
+						"referenceName": "Dataflow_source_dataset1",
 						"type": "DatasetReference"
 					},
 					"name": "source"
 				},
 				{
 					"dataset": {
-						"referenceName": "Dataset_SA_param_source",
+						"referenceName": "Dataflow_source_dataset2",
 						"type": "DatasetReference"
 					},
 					"name": "source2"
 				},
 				{
 					"dataset": {
-						"referenceName": "Dataset_SA_param_source",
+						"referenceName": "Dataflow_source_dataset3",
 						"type": "DatasetReference"
 					},
 					"name": "source3"
 				},
 				{
 					"dataset": {
-						"referenceName": "Dataset_SA_param_source",
+						"referenceName": "Dataflow_source_dataset4",
 						"type": "DatasetReference"
 					},
 					"name": "source4"
@@ -68,13 +68,58 @@
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          type as string,",
+				"          {fixed acidity} as string,",
+				"          {volatile acidity} as string,",
+				"          {citric acid} as string,",
+				"          {residual sugar} as string,",
+				"          chlorides as string,",
+				"          {free sulfur dioxide} as string,",
+				"          {total sulfur dioxide} as string,",
+				"          density as string,",
+				"          pH as string,",
+				"          sulphates as string,",
+				"          alcohol as string,",
+				"          quality as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source2",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          age as string,",
+				"          sex as string,",
+				"          cp as string,",
+				"          trestbps as string,",
+				"          chol as string,",
+				"          fbs as string,",
+				"          restecg as string,",
+				"          thalach as string,",
+				"          exang as string,",
+				"          oldpeak as string,",
+				"          slope as string,",
+				"          ca as string,",
+				"          thal as string,",
+				"          target as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source3",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          {Formatted Date} as string,",
+				"          Summary as string,",
+				"          {Precip Type} as string,",
+				"          {Temperature (C)} as string,",
+				"          {Apparent Temperature (C)} as string,",
+				"          Humidity as string,",
+				"          {Wind Speed (km/h)} as string,",
+				"          {Wind Bearing (degrees)} as string,",
+				"          {Visibility (km)} as string,",
+				"          {Loud Cover} as string,",
+				"          {Pressure (millibars)} as string,",
+				"          {Daily Summary} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source4",
 				"source sink(allowSchemaDrift: true,",
