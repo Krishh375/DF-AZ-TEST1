@@ -25,6 +25,10 @@
 				"name": "dept",
 				"type": "varchar"
 			}
-		]
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "product"
+		}
 	}
 }
