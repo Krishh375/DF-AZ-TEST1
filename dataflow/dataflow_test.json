@@ -38,6 +38,20 @@
 						"type": "DatasetReference"
 					},
 					"name": "source5"
+				},
+				{
+					"dataset": {
+						"referenceName": "Dataflow_source_dataset6",
+						"type": "DatasetReference"
+					},
+					"name": "source6"
+				},
+				{
+					"dataset": {
+						"referenceName": "Dataflow_source_dataset7",
+						"type": "DatasetReference"
+					},
+					"name": "source7"
 				}
 			],
 			"sinks": [
@@ -75,6 +89,20 @@
 						"type": "DatasetReference"
 					},
 					"name": "sink5"
+				},
+				{
+					"dataset": {
+						"referenceName": "Dataset_Sink_ADLS6",
+						"type": "DatasetReference"
+					},
+					"name": "sink6"
+				},
+				{
+					"dataset": {
+						"referenceName": "Dataset_Sink_ADLS7",
+						"type": "DatasetReference"
+					},
+					"name": "sink7"
 				}
 			],
 			"transformations": [],
@@ -173,6 +201,69 @@
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source5",
+				"source(output(",
+				"          color as string,",
+				"          director_name as string,",
+				"          num_critic_for_reviews as string,",
+				"          duration as string,",
+				"          director_facebook_likes as string,",
+				"          actor_3_facebook_likes as string,",
+				"          actor_2_name as string,",
+				"          actor_1_facebook_likes as string,",
+				"          gross as string,",
+				"          genres as string,",
+				"          actor_1_name as string,",
+				"          movie_title as string,",
+				"          num_voted_users as string,",
+				"          cast_total_facebook_likes as string,",
+				"          actor_3_name as string,",
+				"          facenumber_in_poster as string,",
+				"          plot_keywords as string,",
+				"          movie_imdb_link as string,",
+				"          num_user_for_reviews as string,",
+				"          language as string,",
+				"          country as string,",
+				"          content_rating as string,",
+				"          budget as string,",
+				"          title_year as string,",
+				"          actor_2_facebook_likes as string,",
+				"          imdb_score as string,",
+				"          aspect_ratio as string,",
+				"          movie_facebook_likes as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source6",
+				"source(output(",
+				"          movie_title as string,",
+				"          director_name as string,",
+				"          title_year as string,",
+				"          imdb_score as string,",
+				"          rating_category as string,",
+				"          budget as string,",
+				"          gross as string,",
+				"          profit as string,",
+				"          roi as string,",
+				"          budget_category as string,",
+				"          is_profitable as string,",
+				"          duration as string,",
+				"          content_rating as string,",
+				"          primary_genre as string,",
+				"          language as string,",
+				"          country as string,",
+				"          num_voted_users as string,",
+				"          num_critic_for_reviews as string,",
+				"          num_user_for_reviews as string,",
+				"          movie_facebook_likes as string,",
+				"          budget_outlier as string,",
+				"          gross_outlier as string,",
+				"          profit_outlier as string,",
+				"          roi_outlier as string,",
+				"          imdb_score_outlier as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source7",
 				"source sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     umask: 0022,",
@@ -207,7 +298,21 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink5"
+				"     skipDuplicateMapOutputs: true) ~> sink5",
+				"source6 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink6",
+				"source7 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink7"
 			]
 		}
 	}
