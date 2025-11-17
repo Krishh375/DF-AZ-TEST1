@@ -757,7 +757,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]"
+				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
 			]
 		},
 		{
