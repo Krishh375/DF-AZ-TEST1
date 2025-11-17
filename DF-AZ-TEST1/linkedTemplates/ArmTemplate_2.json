@@ -49,7 +49,7 @@
 		},
 		"Teradata_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "10.72.224.54"
+			"defaultValue": "10.18.133.88"
 		},
 		"Teradata_properties_typeProperties_username": {
 			"type": "string",
@@ -231,7 +231,7 @@
 					"sslMode": "Prefer"
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "SHIR-Onprem",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
@@ -533,7 +533,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "test.txt",
+						"fileName": "test43.txt",
 						"folderPath": "sinkfolder",
 						"fileSystem": "democontainer"
 					},

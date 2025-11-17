@@ -277,7 +277,7 @@
 		},
 		"Teradata_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "10.72.224.54"
+			"defaultValue": "10.18.133.88"
 		},
 		"Teradata_properties_typeProperties_username": {
 			"type": "string",
@@ -735,18 +735,6 @@
 					"AzureSqlDatabase2_password": {
 						"value": "[parameters('AzureSqlDatabase2_password')]"
 					},
-					"Snowflake_ls_privateKey": {
-						"value": "[parameters('Snowflake_ls_privateKey')]"
-					},
-					"Snowflake_ls_privateKeyPassphrase": {
-						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
-					},
-					"SqlServer2_password": {
-						"value": "[parameters('SqlServer2_password')]"
-					},
-					"SqlServer_VNET_password": {
-						"value": "[parameters('SqlServer_VNET_password')]"
-					},
 					"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
 						"value": "[parameters('AzureBlobStorage1_properties_typeProperties_serviceEndpoint')]"
 					},
@@ -764,6 +752,38 @@
 					},
 					"AzureSqlDatabase2_properties_typeProperties_userName": {
 						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "DF-AZ-TEST1_ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"Snowflake_ls_privateKey": {
+						"value": "[parameters('Snowflake_ls_privateKey')]"
+					},
+					"Snowflake_ls_privateKeyPassphrase": {
+						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
+					},
+					"SqlServer2_password": {
+						"value": "[parameters('SqlServer2_password')]"
+					},
+					"SqlServer_VNET_password": {
+						"value": "[parameters('SqlServer_VNET_password')]"
 					},
 					"Snowflake_ls_properties_typeProperties_database": {
 						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
@@ -785,26 +805,6 @@
 					},
 					"SqlServer_VNET_properties_typeProperties_userName": {
 						"value": "[parameters('SqlServer_VNET_properties_typeProperties_userName')]"
-					}
-				}
-			},
-			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_2')]"
-			]
-		},
-		{
-			"name": "DF-AZ-TEST1_ArmTemplate_4",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2024-03-01",
-			"properties": {
-				"mode": "incremental",
-				"templateLink": {
-					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
-					"contentVersion": "1.0.0.0"
-				},
-				"parameters": {
-					"factoryName": {
-						"value": "[parameters('factoryName')]"
 					}
 				}
 			},

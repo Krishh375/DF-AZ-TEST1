@@ -277,7 +277,7 @@
 		},
 		"Teradata_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "10.72.224.54"
+			"defaultValue": "10.18.133.88"
 		},
 		"Teradata_properties_typeProperties_username": {
 			"type": "string",
@@ -729,10 +729,16 @@
 									"source2": {},
 									"source3": {},
 									"source4": {},
+									"source5": {},
+									"source6": {},
+									"source7": {},
 									"sink1": {},
 									"sink2": {},
 									"sink3": {},
-									"sink4": {}
+									"sink4": {},
+									"sink5": {},
+									"sink6": {},
+									"sink7": {}
 								}
 							},
 							"staging": {},
@@ -751,8 +757,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]",
-				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]"
 			]
 		},
 		{
@@ -953,6 +958,109 @@
 				"annotations": []
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipelineOnpremtoAzuresql')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "CurrencyKey",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "ProductID",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "CurrencyAlternateKey",
+											"type": "String",
+											"physicalType": "nchar"
+										},
+										"sink": {
+											"name": "ProductName",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "CurrencyName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Category",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SqlServer_Onprem",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "AzureSqlDataset_Students",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SqlServer_Onprem')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlDataset_Students')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipelinecopy')]",
@@ -1802,7 +1910,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "test.txt",
+						"fileName": "test43.txt",
 						"folderPath": "sinkfolder",
 						"fileSystem": "democontainer"
 					},
@@ -2005,7 +2113,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "Products"
+					"table": "product"
 				}
 			},
 			"dependsOn": [
@@ -2490,6 +2598,307 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "twitter_training.csv",
+						"folderPath": "sample datasets ",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "imdb_raw.csv",
+						"folderPath": "sample datasets ",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "color",
+						"type": "String"
+					},
+					{
+						"name": "director_name",
+						"type": "String"
+					},
+					{
+						"name": "num_critic_for_reviews",
+						"type": "String"
+					},
+					{
+						"name": "duration",
+						"type": "String"
+					},
+					{
+						"name": "director_facebook_likes",
+						"type": "String"
+					},
+					{
+						"name": "actor_3_facebook_likes",
+						"type": "String"
+					},
+					{
+						"name": "actor_2_name",
+						"type": "String"
+					},
+					{
+						"name": "actor_1_facebook_likes",
+						"type": "String"
+					},
+					{
+						"name": "gross",
+						"type": "String"
+					},
+					{
+						"name": "genres",
+						"type": "String"
+					},
+					{
+						"name": "actor_1_name",
+						"type": "String"
+					},
+					{
+						"name": "movie_title",
+						"type": "String"
+					},
+					{
+						"name": "num_voted_users",
+						"type": "String"
+					},
+					{
+						"name": "cast_total_facebook_likes",
+						"type": "String"
+					},
+					{
+						"name": "actor_3_name",
+						"type": "String"
+					},
+					{
+						"name": "facenumber_in_poster",
+						"type": "String"
+					},
+					{
+						"name": "plot_keywords",
+						"type": "String"
+					},
+					{
+						"name": "movie_imdb_link",
+						"type": "String"
+					},
+					{
+						"name": "num_user_for_reviews",
+						"type": "String"
+					},
+					{
+						"name": "language",
+						"type": "String"
+					},
+					{
+						"name": "country",
+						"type": "String"
+					},
+					{
+						"name": "content_rating",
+						"type": "String"
+					},
+					{
+						"name": "budget",
+						"type": "String"
+					},
+					{
+						"name": "title_year",
+						"type": "String"
+					},
+					{
+						"name": "actor_2_facebook_likes",
+						"type": "String"
+					},
+					{
+						"name": "imdb_score",
+						"type": "String"
+					},
+					{
+						"name": "aspect_ratio",
+						"type": "String"
+					},
+					{
+						"name": "movie_facebook_likes",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset7')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "imdb_cleaned_20251005_143111.csv",
+						"folderPath": "sample datasets ",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "movie_title",
+						"type": "String"
+					},
+					{
+						"name": "director_name",
+						"type": "String"
+					},
+					{
+						"name": "title_year",
+						"type": "String"
+					},
+					{
+						"name": "imdb_score",
+						"type": "String"
+					},
+					{
+						"name": "rating_category",
+						"type": "String"
+					},
+					{
+						"name": "budget",
+						"type": "String"
+					},
+					{
+						"name": "gross",
+						"type": "String"
+					},
+					{
+						"name": "profit",
+						"type": "String"
+					},
+					{
+						"name": "roi",
+						"type": "String"
+					},
+					{
+						"name": "budget_category",
+						"type": "String"
+					},
+					{
+						"name": "is_profitable",
+						"type": "String"
+					},
+					{
+						"name": "duration",
+						"type": "String"
+					},
+					{
+						"name": "content_rating",
+						"type": "String"
+					},
+					{
+						"name": "primary_genre",
+						"type": "String"
+					},
+					{
+						"name": "language",
+						"type": "String"
+					},
+					{
+						"name": "country",
+						"type": "String"
+					},
+					{
+						"name": "num_voted_users",
+						"type": "String"
+					},
+					{
+						"name": "num_critic_for_reviews",
+						"type": "String"
+					},
+					{
+						"name": "num_user_for_reviews",
+						"type": "String"
+					},
+					{
+						"name": "movie_facebook_likes",
+						"type": "String"
+					},
+					{
+						"name": "budget_outlier",
+						"type": "String"
+					},
+					{
+						"name": "gross_outlier",
+						"type": "String"
+					},
+					{
+						"name": "profit_outlier",
+						"type": "String"
+					},
+					{
+						"name": "roi_outlier",
+						"type": "String"
+					},
+					{
+						"name": "imdb_score_outlier",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Dataset_Sink_ADLS4')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2505,6 +2914,93 @@
 						"type": "AzureBlobFSLocation",
 						"fileName": "file4.csv",
 						"folderPath": "sinkfolder4",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_Sink_ADLS5')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "file5.csv",
+						"folderPath": "sinkfolder5",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_Sink_ADLS6')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "file6.csv",
+						"folderPath": "sinkfolder6",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_Sink_ADLS7')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "file7.csv",
+						"folderPath": "sinkfolder7",
 						"fileSystem": "democontainer"
 					},
 					"columnDelimiter": ",",
@@ -2785,6 +3281,41 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/DS_ASQLDB_PIPELINE_PARAMETER')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServer_Onprem')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer_onprem",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "CurrencyKey",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CurrencyAlternateKey",
+						"type": "nchar"
+					},
+					{
+						"name": "CurrencyName",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "DimCurrency"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer_onprem')]"
 			]
 		},
 		{
@@ -3761,12 +4292,12 @@
 					"sslMode": "Prefer"
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "SHIR-Onprem",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-Onprem')]"
 			]
 		},
 		{
@@ -4315,6 +4846,27 @@
 								"type": "DatasetReference"
 							},
 							"name": "source4"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset5",
+								"type": "DatasetReference"
+							},
+							"name": "source5"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset6",
+								"type": "DatasetReference"
+							},
+							"name": "source6"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset7",
+								"type": "DatasetReference"
+							},
+							"name": "source7"
 						}
 					],
 					"sinks": [
@@ -4345,6 +4897,27 @@
 								"type": "DatasetReference"
 							},
 							"name": "sink4"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS5",
+								"type": "DatasetReference"
+							},
+							"name": "sink5"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS6",
+								"type": "DatasetReference"
+							},
+							"name": "sink6"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS7",
+								"type": "DatasetReference"
+							},
+							"name": "sink7"
 						}
 					],
 					"transformations": [],
@@ -4440,6 +5013,72 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> source4",
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source5",
+						"source(output(",
+						"          color as string,",
+						"          director_name as string,",
+						"          num_critic_for_reviews as string,",
+						"          duration as string,",
+						"          director_facebook_likes as string,",
+						"          actor_3_facebook_likes as string,",
+						"          actor_2_name as string,",
+						"          actor_1_facebook_likes as string,",
+						"          gross as string,",
+						"          genres as string,",
+						"          actor_1_name as string,",
+						"          movie_title as string,",
+						"          num_voted_users as string,",
+						"          cast_total_facebook_likes as string,",
+						"          actor_3_name as string,",
+						"          facenumber_in_poster as string,",
+						"          plot_keywords as string,",
+						"          movie_imdb_link as string,",
+						"          num_user_for_reviews as string,",
+						"          language as string,",
+						"          country as string,",
+						"          content_rating as string,",
+						"          budget as string,",
+						"          title_year as string,",
+						"          actor_2_facebook_likes as string,",
+						"          imdb_score as string,",
+						"          aspect_ratio as string,",
+						"          movie_facebook_likes as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source6",
+						"source(output(",
+						"          movie_title as string,",
+						"          director_name as string,",
+						"          title_year as string,",
+						"          imdb_score as string,",
+						"          rating_category as string,",
+						"          budget as string,",
+						"          gross as string,",
+						"          profit as string,",
+						"          roi as string,",
+						"          budget_category as string,",
+						"          is_profitable as string,",
+						"          duration as string,",
+						"          content_rating as string,",
+						"          primary_genre as string,",
+						"          language as string,",
+						"          country as string,",
+						"          num_voted_users as string,",
+						"          num_critic_for_reviews as string,",
+						"          num_user_for_reviews as string,",
+						"          movie_facebook_likes as string,",
+						"          budget_outlier as string,",
+						"          gross_outlier as string,",
+						"          profit_outlier as string,",
+						"          roi_outlier as string,",
+						"          imdb_score_outlier as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source7",
 						"source sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     umask: 0022,",
@@ -4467,7 +5106,28 @@
 						"     preCommands: [],",
 						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink4"
+						"     skipDuplicateMapOutputs: true) ~> sink4",
+						"source5 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink5",
+						"source6 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink6",
+						"source7 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink7"
 					]
 				}
 			},
@@ -4476,10 +5136,16 @@
 				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset2')]",
 				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset3')]",
 				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset4')]",
+				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset5')]",
+				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset6')]",
+				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset7')]",
 				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_sink_dataflow')]",
 				"[concat(variables('factoryId'), '/datasets/Dataset_sink_dataflow2')]",
 				"[concat(variables('factoryId'), '/datasets/Dataset_adls_dataflow_sink3')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS4')]"
+				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS4')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS5')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS6')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS7')]"
 			]
 		},
 		{
@@ -4736,92 +5402,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer_Onprem')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "SqlServer_onprem",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "DimCurrency"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/SqlServer_onprem')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipelineOnpremtoAzuresql')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SqlServer_Onprem",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzureSqlDataset_Students",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SqlServer_Onprem')]",
-				"[concat(variables('factoryId'), '/datasets/AzureSqlDataset_Students')]"
 			]
 		}
 	]

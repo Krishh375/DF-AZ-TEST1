@@ -207,7 +207,7 @@
 			"value": "sa"
 		},
 		"Teradata_properties_typeProperties_server": {
-			"value": "10.72.224.54"
+			"value": "10.18.133.88"
 		},
 		"Teradata_properties_typeProperties_username": {
 			"value": "dbc"
