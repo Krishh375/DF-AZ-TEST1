@@ -757,8 +757,7 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]",
-				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]"
 			]
 		},
 		{
@@ -4457,6 +4456,16 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/SHIR-on-sqlVM')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SSIS-IR')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
@@ -4960,7 +4969,7 @@
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false,",
-						"     partitionBy('roundRobin', 2)) ~> source",
+						"     partitionBy('hash', 1)) ~> source",
 						"source(output(",
 						"          type as string,",
 						"          {fixed acidity} as string,",
@@ -4978,7 +4987,8 @@
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source2",
+						"     ignoreNoFilesFound: false,",
+						"     partitionBy('hash', 1)) ~> source2",
 						"source(output(",
 						"          age as string,",
 						"          sex as string,",
@@ -4997,7 +5007,8 @@
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source3",
+						"     ignoreNoFilesFound: false,",
+						"     partitionBy('hash', 1)) ~> source3",
 						"source(output(",
 						"          {Formatted Date} as string,",
 						"          Summary as string,",
@@ -5014,10 +5025,12 @@
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source4",
+						"     ignoreNoFilesFound: false,",
+						"     partitionBy('hash', 1)) ~> source4",
 						"source(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source5",
+						"     ignoreNoFilesFound: false,",
+						"     partitionBy('hash', 1)) ~> source5",
 						"source(output(",
 						"          color as string,",
 						"          director_name as string,",
@@ -5411,6 +5424,197 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_newbranch_parallel')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset1",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ADLS_Dataset_sink_dataflow",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS5",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS4",
+								"type": "DatasetReference"
+							},
+							"name": "sink3"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_adls_dataflow_sink3",
+								"type": "DatasetReference"
+							},
+							"name": "sink4"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_sink_dataflow2",
+								"type": "DatasetReference"
+							},
+							"name": "sink5"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id as string,",
+						"          diagnosis as string,",
+						"          radius_mean as string,",
+						"          texture_mean as string,",
+						"          perimeter_mean as string,",
+						"          area_mean as string,",
+						"          smoothness_mean as string,",
+						"          compactness_mean as string,",
+						"          concavity_mean as string,",
+						"          {concave points_mean} as string,",
+						"          symmetry_mean as string,",
+						"          fractal_dimension_mean as string,",
+						"          radius_se as string,",
+						"          texture_se as string,",
+						"          perimeter_se as string,",
+						"          area_se as string,",
+						"          smoothness_se as string,",
+						"          compactness_se as string,",
+						"          concavity_se as string,",
+						"          {concave points_se} as string,",
+						"          symmetry_se as string,",
+						"          fractal_dimension_se as string,",
+						"          radius_worst as string,",
+						"          texture_worst as string,",
+						"          perimeter_worst as string,",
+						"          area_worst as string,",
+						"          smoothness_worst as string,",
+						"          compactness_worst as string,",
+						"          concavity_worst as string,",
+						"          {concave points_worst} as string,",
+						"          symmetry_worst as string,",
+						"          fractal_dimension_worst as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink2",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink3",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink4",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink5"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset1')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_sink_dataflow')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS5')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS4')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_adls_dataflow_sink3')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_sink_dataflow2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_newbranch_parallel_pip')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow_newbranch_parallel",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {},
+									"sink2": {},
+									"sink3": {},
+									"sink4": {},
+									"sink5": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine",
+							"runConcurrently": true
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
+				"[concat(variables('factoryId'), '/dataflows/dataflow_newbranch_parallel')]"
 			]
 		}
 	]
