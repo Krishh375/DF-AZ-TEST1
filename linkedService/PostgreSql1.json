@@ -1,0 +1,22 @@
+{
+	"name": "PostgreSql1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "PostgreSqlV2",
+		"typeProperties": {
+			"server": "Krishh",
+			"port": 5432,
+			"database": "postgres",
+			"username": "postgres",
+			"sslMode": 2,
+			"authenticationType": "Basic",
+			"connectionTimeout": 10,
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxOGVjZDE2OC1mZDNhLTRhODQtYTI4Yi0wY2I4MWY1ZjE0YjciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "SHIR-1",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
