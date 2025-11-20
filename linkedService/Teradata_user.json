@@ -4,16 +4,14 @@
 	"properties": {
 		"annotations": [],
 		"type": "Teradata",
-		"version": "1.0",
 		"typeProperties": {
-			"server": "10.72.224.54",
+			"server": "192.168.1.9",
 			"authenticationType": "Basic",
 			"username": "dbc",
-			"sslMode": "Prefer",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIyMTFmYzQxNS00YTAzLTRkOTctODY1Yy04ODIzZmFhODM4MzEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxZTNjMmI2Ny03MDljLTQzOGEtYWE2Zi02Nzc0NDRlMDQ4NjQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "SHIR-1",
+			"referenceName": "SHIR-Onprem",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
