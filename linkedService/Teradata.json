@@ -6,11 +6,11 @@
 		"type": "Teradata",
 		"version": "2.0",
 		"typeProperties": {
-			"server": "10.72.224.35",
+			"server": "192.168.1.9",
 			"authenticationType": "Basic",
 			"username": "dbc",
 			"sslMode": "Prefer",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJlZjcyYWUzOC0xNDUyLTQ4NzktYTUzNS0xOGQzMmRhMTY4MzciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIzZmE1ODNhZC02MDg0LTQ3NjktYmJmNC0yMzIwYmQ1OGM3MTAiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
 			"referenceName": "SHIR-Onprem",
