@@ -1,0 +1,6 @@
+{
+	"name": "SHIR-sql-vm",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}
