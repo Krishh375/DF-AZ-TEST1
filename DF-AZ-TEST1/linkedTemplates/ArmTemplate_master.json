@@ -31,6 +31,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_ASQL'"
 		},
+		"LS_SP_SQLSERVER_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SP_SQLSERVER'"
+		},
 		"LS_SQLSERVER_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SQLSERVER'"
@@ -159,9 +163,9 @@
 			"type": "string",
 			"defaultValue": "https://httpstat.us/200?sleep=60000000"
 		},
-		"LS_ADLS2_properties_typeProperties_serviceEndpoint": {
+		"LS_ADLS2_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://adlsdemostorage21.blob.core.windows.net/"
+			"defaultValue": "https://adlsdemostorage21.dfs.core.windows.net/"
 		},
 		"LS_ASQL_properties_typeProperties_server": {
 			"type": "string",
@@ -174,6 +178,18 @@
 		"LS_ASQL_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "krishh"
+		},
+		"LS_SP_SQLSERVER_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
+		},
+		"LS_SP_SQLSERVER_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "AdventureWorksDW2019"
+		},
+		"LS_SP_SQLSERVER_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
 		},
 		"LS_SQLSERVER_properties_typeProperties_server": {
 			"type": "string",
@@ -542,6 +558,9 @@
 					"LS_ASQL_password": {
 						"value": "[parameters('LS_ASQL_password')]"
 					},
+					"LS_SP_SQLSERVER_password": {
+						"value": "[parameters('LS_SP_SQLSERVER_password')]"
+					},
 					"LS_SQLSERVER_password": {
 						"value": "[parameters('LS_SQLSERVER_password')]"
 					},
@@ -550,9 +569,6 @@
 					},
 					"Oracle_ls_V2_password": {
 						"value": "[parameters('Oracle_ls_V2_password')]"
-					},
-					"PostgreSql1_password": {
-						"value": "[parameters('PostgreSql1_password')]"
 					},
 					"AzureDataLakeStorageLS_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageLS_properties_typeProperties_url')]"
@@ -569,8 +585,8 @@
 					"DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_userName": {
 						"value": "[parameters('DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_userName')]"
 					},
-					"LS_ADLS2_properties_typeProperties_serviceEndpoint": {
-						"value": "[parameters('LS_ADLS2_properties_typeProperties_serviceEndpoint')]"
+					"LS_ADLS2_properties_typeProperties_url": {
+						"value": "[parameters('LS_ADLS2_properties_typeProperties_url')]"
 					},
 					"LS_ASQL_properties_typeProperties_server": {
 						"value": "[parameters('LS_ASQL_properties_typeProperties_server')]"
@@ -580,6 +596,15 @@
 					},
 					"LS_ASQL_properties_typeProperties_userName": {
 						"value": "[parameters('LS_ASQL_properties_typeProperties_userName')]"
+					},
+					"LS_SP_SQLSERVER_properties_typeProperties_server": {
+						"value": "[parameters('LS_SP_SQLSERVER_properties_typeProperties_server')]"
+					},
+					"LS_SP_SQLSERVER_properties_typeProperties_database": {
+						"value": "[parameters('LS_SP_SQLSERVER_properties_typeProperties_database')]"
+					},
+					"LS_SP_SQLSERVER_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SP_SQLSERVER_properties_typeProperties_userName')]"
 					},
 					"LS_SQLSERVER_properties_typeProperties_server": {
 						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]"
@@ -595,15 +620,6 @@
 					},
 					"Oracle_ls_V2_properties_typeProperties_username": {
 						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_username')]"
-					},
-					"PostgreSql1_properties_typeProperties_server": {
-						"value": "[parameters('PostgreSql1_properties_typeProperties_server')]"
-					},
-					"PostgreSql1_properties_typeProperties_database": {
-						"value": "[parameters('PostgreSql1_properties_typeProperties_database')]"
-					},
-					"PostgreSql1_properties_typeProperties_username": {
-						"value": "[parameters('PostgreSql1_properties_typeProperties_username')]"
 					}
 				}
 			},
@@ -625,6 +641,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"PostgreSql1_password": {
+						"value": "[parameters('PostgreSql1_password')]"
+					},
 					"SqlServer_onprem_password": {
 						"value": "[parameters('SqlServer_onprem_password')]"
 					},
@@ -633,6 +652,15 @@
 					},
 					"Teradata_user_password": {
 						"value": "[parameters('Teradata_user_password')]"
+					},
+					"PostgreSql1_properties_typeProperties_server": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_server')]"
+					},
+					"PostgreSql1_properties_typeProperties_database": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_database')]"
+					},
+					"PostgreSql1_properties_typeProperties_username": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_username')]"
 					},
 					"SqlServer_onprem_properties_typeProperties_server": {
 						"value": "[parameters('SqlServer_onprem_properties_typeProperties_server')]"
@@ -734,33 +762,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"AzureSqlDatabase2_password": {
-						"value": "[parameters('AzureSqlDatabase2_password')]"
-					},
-					"Snowflake_ls_privateKey": {
-						"value": "[parameters('Snowflake_ls_privateKey')]"
-					},
-					"Snowflake_ls_privateKeyPassphrase": {
-						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
-					},
-					"AzurePostgreSql_properties_typeProperties_server": {
-						"value": "[parameters('AzurePostgreSql_properties_typeProperties_server')]"
-					},
-					"AzurePostgreSql_properties_typeProperties_database": {
-						"value": "[parameters('AzurePostgreSql_properties_typeProperties_database')]"
-					},
-					"AzureSqlDatabase2_properties_typeProperties_server": {
-						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_server')]"
-					},
-					"AzureSqlDatabase2_properties_typeProperties_database": {
-						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_database')]"
-					},
-					"AzureSqlDatabase2_properties_typeProperties_userName": {
-						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]"
-					},
-					"Snowflake_ls_properties_typeProperties_database": {
-						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
 					}
 				}
 			},
@@ -782,11 +783,38 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureSqlDatabase2_password": {
+						"value": "[parameters('AzureSqlDatabase2_password')]"
+					},
+					"Snowflake_ls_privateKey": {
+						"value": "[parameters('Snowflake_ls_privateKey')]"
+					},
+					"Snowflake_ls_privateKeyPassphrase": {
+						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
+					},
 					"SqlServer2_password": {
 						"value": "[parameters('SqlServer2_password')]"
 					},
 					"SqlServer_VNET_password": {
 						"value": "[parameters('SqlServer_VNET_password')]"
+					},
+					"AzurePostgreSql_properties_typeProperties_server": {
+						"value": "[parameters('AzurePostgreSql_properties_typeProperties_server')]"
+					},
+					"AzurePostgreSql_properties_typeProperties_database": {
+						"value": "[parameters('AzurePostgreSql_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase2_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabase2_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase2_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]"
+					},
+					"Snowflake_ls_properties_typeProperties_database": {
+						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
 					},
 					"SqlServer2_properties_typeProperties_server": {
 						"value": "[parameters('SqlServer2_properties_typeProperties_server')]"

@@ -23,6 +23,9 @@
 		"LS_ASQL_password": {
 			"value": ""
 		},
+		"LS_SP_SQLSERVER_password": {
+			"value": ""
+		},
 		"LS_SQLSERVER_password": {
 			"value": ""
 		},
@@ -119,8 +122,8 @@
 		"HttpServer1_properties_typeProperties_url": {
 			"value": "https://httpstat.us/200?sleep=60000000"
 		},
-		"LS_ADLS2_properties_typeProperties_serviceEndpoint": {
-			"value": "https://adlsdemostorage21.blob.core.windows.net/"
+		"LS_ADLS2_properties_typeProperties_url": {
+			"value": "https://adlsdemostorage21.dfs.core.windows.net/"
 		},
 		"LS_ASQL_properties_typeProperties_server": {
 			"value": "krishh123.database.windows.net"
@@ -130,6 +133,15 @@
 		},
 		"LS_ASQL_properties_typeProperties_userName": {
 			"value": "krishh"
+		},
+		"LS_SP_SQLSERVER_properties_typeProperties_server": {
+			"value": "KRISHHNAPC\\SQLEXPRESS"
+		},
+		"LS_SP_SQLSERVER_properties_typeProperties_database": {
+			"value": "AdventureWorksDW2019"
+		},
+		"LS_SP_SQLSERVER_properties_typeProperties_userName": {
+			"value": "sa"
 		},
 		"LS_SQLSERVER_properties_typeProperties_server": {
 			"value": "KRISHHNAPC\\SQLEXPRESS"

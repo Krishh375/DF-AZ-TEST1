@@ -23,6 +23,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_ASQL'"
 		},
+		"LS_SP_SQLSERVER_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SP_SQLSERVER'"
+		},
 		"LS_SQLSERVER_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SQLSERVER'"
@@ -34,10 +38,6 @@
 		"Oracle_ls_V2_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Oracle_ls_V2'"
-		},
-		"PostgreSql1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'PostgreSql1'"
 		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"type": "string",
@@ -59,9 +59,9 @@
 			"type": "string",
 			"defaultValue": "sa"
 		},
-		"LS_ADLS2_properties_typeProperties_serviceEndpoint": {
+		"LS_ADLS2_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://adlsdemostorage21.blob.core.windows.net/"
+			"defaultValue": "https://adlsdemostorage21.dfs.core.windows.net/"
 		},
 		"LS_ASQL_properties_typeProperties_server": {
 			"type": "string",
@@ -74,6 +74,18 @@
 		"LS_ASQL_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "krishh"
+		},
+		"LS_SP_SQLSERVER_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
+		},
+		"LS_SP_SQLSERVER_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "AdventureWorksDW2019"
+		},
+		"LS_SP_SQLSERVER_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
 		},
 		"LS_SQLSERVER_properties_typeProperties_server": {
 			"type": "string",
@@ -94,18 +106,6 @@
 		"Oracle_ls_V2_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "C##krishh"
-		},
-		"PostgreSql1_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "Krishh"
-		},
-		"PostgreSql1_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "postgres"
-		},
-		"PostgreSql1_properties_typeProperties_username": {
-			"type": "string",
-			"defaultValue": "postgres"
 		}
 	},
 	"variables": {
@@ -485,10 +485,9 @@
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
-				"type": "AzureBlobStorage",
+				"type": "AzureBlobFS",
 				"typeProperties": {
-					"serviceEndpoint": "[parameters('LS_ADLS2_properties_typeProperties_serviceEndpoint')]",
-					"accountKind": "StorageV2",
+					"url": "[parameters('LS_ADLS2_properties_typeProperties_url')]",
 					"credential": {
 						"referenceName": "credential",
 						"type": "CredentialReference"
@@ -522,6 +521,32 @@
 				},
 				"connectVia": {
 					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_SP_SQLSERVER')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('LS_SP_SQLSERVER_properties_typeProperties_server')]",
+					"database": "[parameters('LS_SP_SQLSERVER_properties_typeProperties_database')]",
+					"encrypt": "optional",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('LS_SP_SQLSERVER_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_SP_SQLSERVER_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "SHIR-Onprem",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
@@ -591,33 +616,6 @@
 					"cryptoChecksumClient": "accepted",
 					"cryptoChecksumTypesClient": "(SHA1, SHA256, SHA384, SHA512)",
 					"supportV1DataTypes": true
-				},
-				"connectVia": {
-					"referenceName": "SHIR-1",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/PostgreSql1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "PostgreSqlV2",
-				"typeProperties": {
-					"server": "[parameters('PostgreSql1_properties_typeProperties_server')]",
-					"port": 5432,
-					"database": "[parameters('PostgreSql1_properties_typeProperties_database')]",
-					"username": "[parameters('PostgreSql1_properties_typeProperties_username')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('PostgreSql1_password')]"
-					},
-					"sslMode": 2,
-					"authenticationType": "Basic",
-					"connectionTimeout": 10
 				},
 				"connectVia": {
 					"referenceName": "SHIR-1",

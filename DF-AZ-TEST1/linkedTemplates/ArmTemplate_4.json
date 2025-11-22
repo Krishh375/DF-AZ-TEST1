@@ -7,6 +7,18 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
+		"AzureSqlDatabase2_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase2'"
+		},
+		"Snowflake_ls_privateKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'privateKey' of 'Snowflake_ls'"
+		},
+		"Snowflake_ls_privateKeyPassphrase": {
+			"type": "secureString",
+			"metadata": "Secure string for 'privateKeyPassphrase' of 'Snowflake_ls'"
+		},
 		"SqlServer2_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer2'"
@@ -14,6 +26,30 @@
 		"SqlServer_VNET_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_VNET'"
+		},
+		"AzurePostgreSql_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "az-postgres-demo.postgres.database.azure.com"
+		},
+		"AzurePostgreSql_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "testdemodatabase"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "krishh123.database.windows.net"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "krishhdb"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "krishh"
+		},
+		"Snowflake_ls_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "MY_DATABASE"
 		},
 		"SqlServer2_properties_typeProperties_server": {
 			"type": "string",
@@ -44,6 +80,115 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Teradata_dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Teradata",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "TeradataTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Teradata_dataset_user')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Teradata_user",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "TeradataTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzurePostgreSql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzurePostgreSql",
+				"version": "2.0",
+				"typeProperties": {
+					"server": "[parameters('AzurePostgreSql_properties_typeProperties_server')]",
+					"port": 5432,
+					"database": "[parameters('AzurePostgreSql_properties_typeProperties_database')]",
+					"sslMode": 3,
+					"authenticationType": "SystemAssignedManagedIdentity"
+				},
+				"connectVia": {
+					"referenceName": "vnetintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('AzureSqlDatabase2_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSqlDatabase2_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('AzureSqlDatabase2_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "vnetintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Snowflake_ls')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SnowflakeV2",
+				"typeProperties": {
+					"authenticationType": "KeyPair",
+					"accountIdentifier": "sjejrok-fm56566",
+					"user": "Krishh1996",
+					"database": "[parameters('Snowflake_ls_properties_typeProperties_database')]",
+					"warehouse": "MY_WAREHOUSE",
+					"privateKey": {
+						"type": "SecureString",
+						"value": "[parameters('Snowflake_ls_privateKey')]"
+					},
+					"privateKeyPassphrase": {
+						"type": "SecureString",
+						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "vnetintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SqlServer2')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -93,6 +238,98 @@
 					"referenceName": "vnetintegrationRuntime",
 					"type": "IntegrationRuntimeReference"
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/C_TO_SQL_LAKE')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "USE AdventureWorksDW2019\n\nSELECT QUOTENAME(table_schema) + '.' + QUOTENAME(table_name) AS Table_name,table_catalog\nFROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_TYPE = 'BASE TABLE'",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Table_name",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "Table_name",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "table_catalog",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "table_catalog",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "DS_SQLSERVER",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DS_ASQLDB_PIPELINE_PARAMETER",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "OnPremSQL_to_ADLS2"
+				},
+				"annotations": []
 			},
 			"dependsOn": []
 		},
@@ -779,7 +1016,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Teradata_dataset')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/teradata_pipeline2')]",
@@ -847,7 +1086,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Teradata_dataset_user')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzurePostgreSqlTable')]",
@@ -879,7 +1120,9 @@
 					"table": "employees"
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzurePostgreSql')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDataset_Product')]",
@@ -895,7 +1138,9 @@
 				"schema": [],
 				"typeProperties": {}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureSqlDataset_Students')]",
@@ -932,844 +1177,8 @@
 					"table": "product"
 				}
 			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Snowflakedataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Snowflake_ls",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SnowflakeV2Table",
-				"schema": [
-					{
-						"name": "ID",
-						"type": "VARCHAR"
-					},
-					{
-						"name": "RECORD_ID",
-						"type": "VARCHAR"
-					},
-					{
-						"name": "ELEMENT_ID",
-						"type": "VARCHAR"
-					},
-					{
-						"name": "TEXT",
-						"type": "VARCHAR"
-					},
-					{
-						"name": "EMBEDDINGS",
-						"type": "ARRAY"
-					},
-					{
-						"name": "TYPE",
-						"type": "VARCHAR"
-					},
-					{
-						"name": "SYSTEM",
-						"type": "VARCHAR"
-					},
-					{
-						"name": "LAYOUT_WIDTH",
-						"type": "NUMBER",
-						"precision": 38,
-						"scale": 0
-					},
-					{
-						"name": "LAYOUT_HEIGHT",
-						"type": "NUMBER",
-						"precision": 38,
-						"scale": 0
-					},
-					{
-						"name": "POINTS",
-						"type": "VARCHAR"
-					},
-					{
-						"name": "URL",
-						"type": "VARCHAR"
-					},
-					{
-						"name": "VERSION",
-						"type": "VARCHAR"
-					},
-					{
-						"name": "DATE_CREATED",
-						"type": "TIMESTAMP_TZ"
-					},
-					{
-						"name": "DATE_PROCESSED",
-						"type": "TIMESTAMP_TZ"
-					},
-					{
-						"name": "DATE_MODIFIED",
-						"type": "TIMESTAMP_TZ"
-					},
-					{
-						"name": "SENT_FROM",
-						"type": "ARRAY"
-					},
-					{
-						"name": "SENT_TO",
-						"type": "ARRAY"
-					}
-				],
-				"typeProperties": {
-					"schema": "MY_SCHEMA",
-					"table": "ELEMENTS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TransformContractSectionViewBordereau_blob')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "AzureDestinyGlobal",
-								"type": "DatasetReference"
-							},
-							"name": "AzureDestinyGlobal"
-						},
-						{
-							"dataset": {
-								"referenceName": "pb_productBuilder_container",
-								"type": "DatasetReference"
-							},
-							"name": "productBuilderContractSections"
-						},
-						{
-							"dataset": {
-								"referenceName": "pb_contractsection_container",
-								"type": "DatasetReference"
-							},
-							"name": "ContractSectionViewBordereau"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "Jsonsink",
-								"type": "DatasetReference"
-							},
-							"name": "UpdateCosmosDB"
-						},
-						{
-							"dataset": {
-								"referenceName": "pb_contractsection_container",
-								"type": "DatasetReference"
-							},
-							"name": "DeleteItemsInCosmos"
-						}
-					],
-					"transformations": [
-						{
-							"name": "LookupContractSection"
-						},
-						{
-							"name": "LookupId"
-						},
-						{
-							"name": "DerivedColumns"
-						},
-						{
-							"name": "AggregateColumns"
-						},
-						{
-							"name": "SelectAttributes"
-						},
-						{
-							"name": "InsertOrUpdate"
-						},
-						{
-							"name": "UnusedData"
-						},
-						{
-							"name": "SelectItemKeys"
-						},
-						{
-							"name": "SetToDeleteUnusedData"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          ContractSectionID as integer,",
-						"          LastUpdatedBy as string,",
-						"          IEContactID as integer,",
-						"          CanViewBordereauFlag as boolean",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     query: 'SELECT [eua].[ContractSectionID] ,[eua].[LastUpdatedBy] ,[eua].[IEContactID] ,[eub].[CanViewBordereauFlag] FROM [DestinyGlobal].[dbo].[FacExternalUserAssignment] AS [eua] INNER JOIN [DestinyGlobal].[dbo].[FacExternalUserBordereau] AS [eub] ON [eua].[FacExternalUserAssignmentID] = [eub].[FacExternalUserAssignmentID]',",
-						"     format: 'query') ~> AzureDestinyGlobal",
-						"source(output(",
-						"          typeId as string,",
-						"          cosmosContractSectionId as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     query: 'SELECT DISTINCT\\r\\n    f.typeId AS typeId,                     \\r\\n    f.contractSectionId AS cosmosContractSectionId\\r\\nFROM behaviors AS f\\r\\nWHERE f.type = \"contractSection\"\\r\\nAND f.isDeleted = false',",
-						"     format: 'documentQuery',",
-						"     systemColumns: false) ~> productBuilderContractSections",
-						"source(output(",
-						"          typeId as string,",
-						"          type as string,",
-						"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
-						"          environments as string[],",
-						"          users as (ieContactId as integer, emailNotifications as integer[])[],",
-						"          lastUpdatedBy as (email as string, userContextId as string),",
-						"          isDeleted as boolean",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     format: 'document',",
-						"     systemColumns: false) ~> ContractSectionViewBordereau",
-						"AzureDestinyGlobal, productBuilderContractSections lookup(ContractSectionID == cosmosContractSectionId,",
-						"     multiple: false,",
-						"     pickup: 'any',",
-						"     broadcast: 'auto')~> LookupContractSection",
-						"LookupContractSection, ContractSectionViewBordereau lookup(productBuilderContractSections@typeId == ContractSectionViewBordereau@typeId,",
-						"     multiple: false,",
-						"     pickup: 'any',",
-						"     broadcast: 'auto')~> LookupId",
-						"LookupId derive(typeId = \"bordereau\",",
-						"          CanViewBordereauFlag = @(ieContactId=IEContactID,",
-						"          canViewBordereau=CanViewBordereauFlag)) ~> DerivedColumns",
-						"DerivedColumns aggregate(groupBy(typeId),",
-						"     users = collect(CanViewBordereauFlag)) ~> AggregateColumns",
-						"AggregateColumns select(skipDuplicateMapInputs: false,",
-						"     skipDuplicateMapOutputs: false) ~> SelectAttributes",
-						"SelectAttributes alterRow(upsertIf(!isNull(typeId)),",
-						"     insertIf(isNull(users))) ~> InsertOrUpdate",
-						"ContractSectionViewBordereau, productBuilderContractSections exists(ContractSectionViewBordereau@typeId == productBuilderContractSections@typeId,",
-						"     negate:true,",
-						"     broadcast: 'auto')~> UnusedData",
-						"UnusedData select(mapColumn(",
-						"          typeId",
-						"     ),",
-						"     skipDuplicateMapInputs: false,",
-						"     skipDuplicateMapOutputs: false) ~> SelectItemKeys",
-						"SelectItemKeys alterRow(deleteIf(true())) ~> SetToDeleteUnusedData",
-						"InsertOrUpdate sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     saveOrder: 1,",
-						"     mapColumn(",
-						"          typeId,",
-						"          users",
-						"     ),",
-						"     format: 'document') ~> UpdateCosmosDB",
-						"SetToDeleteUnusedData sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          typeId as string,",
-						"          type as string,",
-						"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
-						"          environments as string[],",
-						"          users as (ieContactId as integer, emailNotifications as integer[])[],",
-						"          lastUpdatedBy as (email as string, userContextId as string),",
-						"          isDeleted as boolean",
-						"     ),",
-						"     deletable:true,",
-						"     insertable:false,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'document',",
-						"     partitionKey: ['/typeId'],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> DeleteItemsInCosmos"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow_newbranch_parallel')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Dataflow_source_dataset1",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ADLS_Dataset_sink_dataflow",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_Sink_ADLS5",
-								"type": "DatasetReference"
-							},
-							"name": "sink2"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_Sink_ADLS4",
-								"type": "DatasetReference"
-							},
-							"name": "sink3"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_adls_dataflow_sink3",
-								"type": "DatasetReference"
-							},
-							"name": "sink4"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_sink_dataflow2",
-								"type": "DatasetReference"
-							},
-							"name": "sink5"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          id as string,",
-						"          diagnosis as string,",
-						"          radius_mean as string,",
-						"          texture_mean as string,",
-						"          perimeter_mean as string,",
-						"          area_mean as string,",
-						"          smoothness_mean as string,",
-						"          compactness_mean as string,",
-						"          concavity_mean as string,",
-						"          {concave points_mean} as string,",
-						"          symmetry_mean as string,",
-						"          fractal_dimension_mean as string,",
-						"          radius_se as string,",
-						"          texture_se as string,",
-						"          perimeter_se as string,",
-						"          area_se as string,",
-						"          smoothness_se as string,",
-						"          compactness_se as string,",
-						"          concavity_se as string,",
-						"          {concave points_se} as string,",
-						"          symmetry_se as string,",
-						"          fractal_dimension_se as string,",
-						"          radius_worst as string,",
-						"          texture_worst as string,",
-						"          perimeter_worst as string,",
-						"          area_worst as string,",
-						"          smoothness_worst as string,",
-						"          compactness_worst as string,",
-						"          concavity_worst as string,",
-						"          {concave points_worst} as string,",
-						"          symmetry_worst as string,",
-						"          fractal_dimension_worst as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink1",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink2",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink3",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink4",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink5"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow_test')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Dataflow_source_dataset1",
-								"type": "DatasetReference"
-							},
-							"name": "source"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataflow_source_dataset2",
-								"type": "DatasetReference"
-							},
-							"name": "source2"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataflow_source_dataset3",
-								"type": "DatasetReference"
-							},
-							"name": "source3"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataflow_source_dataset4",
-								"type": "DatasetReference"
-							},
-							"name": "source4"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataflow_source_dataset5",
-								"type": "DatasetReference"
-							},
-							"name": "source5"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataflow_source_dataset6",
-								"type": "DatasetReference"
-							},
-							"name": "source6"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataflow_source_dataset7",
-								"type": "DatasetReference"
-							},
-							"name": "source7"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ADLS_Dataset_sink_dataflow",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_sink_dataflow2",
-								"type": "DatasetReference"
-							},
-							"name": "sink2"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_adls_dataflow_sink3",
-								"type": "DatasetReference"
-							},
-							"name": "sink3"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_Sink_ADLS4",
-								"type": "DatasetReference"
-							},
-							"name": "sink4"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_Sink_ADLS5",
-								"type": "DatasetReference"
-							},
-							"name": "sink5"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_Sink_ADLS6",
-								"type": "DatasetReference"
-							},
-							"name": "sink6"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_Sink_ADLS7",
-								"type": "DatasetReference"
-							},
-							"name": "sink7"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          id as string,",
-						"          diagnosis as string,",
-						"          radius_mean as string,",
-						"          texture_mean as string,",
-						"          perimeter_mean as string,",
-						"          area_mean as string,",
-						"          smoothness_mean as string,",
-						"          compactness_mean as string,",
-						"          concavity_mean as string,",
-						"          {concave points_mean} as string,",
-						"          symmetry_mean as string,",
-						"          fractal_dimension_mean as string,",
-						"          radius_se as string,",
-						"          texture_se as string,",
-						"          perimeter_se as string,",
-						"          area_se as string,",
-						"          smoothness_se as string,",
-						"          compactness_se as string,",
-						"          concavity_se as string,",
-						"          {concave points_se} as string,",
-						"          symmetry_se as string,",
-						"          fractal_dimension_se as string,",
-						"          radius_worst as string,",
-						"          texture_worst as string,",
-						"          perimeter_worst as string,",
-						"          area_worst as string,",
-						"          smoothness_worst as string,",
-						"          compactness_worst as string,",
-						"          concavity_worst as string,",
-						"          {concave points_worst} as string,",
-						"          symmetry_worst as string,",
-						"          fractal_dimension_worst as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     partitionBy('hash', 1)) ~> source",
-						"source(output(",
-						"          type as string,",
-						"          {fixed acidity} as string,",
-						"          {volatile acidity} as string,",
-						"          {citric acid} as string,",
-						"          {residual sugar} as string,",
-						"          chlorides as string,",
-						"          {free sulfur dioxide} as string,",
-						"          {total sulfur dioxide} as string,",
-						"          density as string,",
-						"          pH as string,",
-						"          sulphates as string,",
-						"          alcohol as string,",
-						"          quality as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     partitionBy('hash', 1)) ~> source2",
-						"source(output(",
-						"          age as string,",
-						"          sex as string,",
-						"          cp as string,",
-						"          trestbps as string,",
-						"          chol as string,",
-						"          fbs as string,",
-						"          restecg as string,",
-						"          thalach as string,",
-						"          exang as string,",
-						"          oldpeak as string,",
-						"          slope as string,",
-						"          ca as string,",
-						"          thal as string,",
-						"          target as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     partitionBy('hash', 1)) ~> source3",
-						"source(output(",
-						"          {Formatted Date} as string,",
-						"          Summary as string,",
-						"          {Precip Type} as string,",
-						"          {Temperature (C)} as string,",
-						"          {Apparent Temperature (C)} as string,",
-						"          Humidity as string,",
-						"          {Wind Speed (km/h)} as string,",
-						"          {Wind Bearing (degrees)} as string,",
-						"          {Visibility (km)} as string,",
-						"          {Loud Cover} as string,",
-						"          {Pressure (millibars)} as string,",
-						"          {Daily Summary} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     partitionBy('hash', 1)) ~> source4",
-						"source(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     partitionBy('hash', 1)) ~> source5",
-						"source(output(",
-						"          color as string,",
-						"          director_name as string,",
-						"          num_critic_for_reviews as string,",
-						"          duration as string,",
-						"          director_facebook_likes as string,",
-						"          actor_3_facebook_likes as string,",
-						"          actor_2_name as string,",
-						"          actor_1_facebook_likes as string,",
-						"          gross as string,",
-						"          genres as string,",
-						"          actor_1_name as string,",
-						"          movie_title as string,",
-						"          num_voted_users as string,",
-						"          cast_total_facebook_likes as string,",
-						"          actor_3_name as string,",
-						"          facenumber_in_poster as string,",
-						"          plot_keywords as string,",
-						"          movie_imdb_link as string,",
-						"          num_user_for_reviews as string,",
-						"          language as string,",
-						"          country as string,",
-						"          content_rating as string,",
-						"          budget as string,",
-						"          title_year as string,",
-						"          actor_2_facebook_likes as string,",
-						"          imdb_score as string,",
-						"          aspect_ratio as string,",
-						"          movie_facebook_likes as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source6",
-						"source(output(",
-						"          movie_title as string,",
-						"          director_name as string,",
-						"          title_year as string,",
-						"          imdb_score as string,",
-						"          rating_category as string,",
-						"          budget as string,",
-						"          gross as string,",
-						"          profit as string,",
-						"          roi as string,",
-						"          budget_category as string,",
-						"          is_profitable as string,",
-						"          duration as string,",
-						"          content_rating as string,",
-						"          primary_genre as string,",
-						"          language as string,",
-						"          country as string,",
-						"          num_voted_users as string,",
-						"          num_critic_for_reviews as string,",
-						"          num_user_for_reviews as string,",
-						"          movie_facebook_likes as string,",
-						"          budget_outlier as string,",
-						"          gross_outlier as string,",
-						"          profit_outlier as string,",
-						"          roi_outlier as string,",
-						"          imdb_score_outlier as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source7",
-						"source sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1",
-						"source2 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink2",
-						"source3 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink3",
-						"source4 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink4",
-						"source5 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink5",
-						"source6 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink6",
-						"source7 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink7"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow_newbranch_parallel_pip')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow_newbranch_parallel",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {},
-									"sink2": {},
-									"sink3": {},
-									"sink4": {},
-									"sink5": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine",
-							"runConcurrently": true
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow_newbranch_parallel')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow_parallel')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow_test",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source": {},
-									"source2": {},
-									"source3": {},
-									"source4": {},
-									"source5": {},
-									"source6": {},
-									"source7": {},
-									"sink1": {},
-									"sink2": {},
-									"sink3": {},
-									"sink4": {},
-									"sink5": {},
-									"sink6": {},
-									"sink7": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine",
-							"runConcurrently": true
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
 			]
 		}
 	]
