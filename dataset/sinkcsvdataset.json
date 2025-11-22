@@ -1,10 +1,6 @@
 {
 	"name": "sinkcsvdataset",
 	"properties": {
-		"linkedServiceName": {
-			"referenceName": "AzureBlobStorage1",
-			"type": "LinkedServiceReference"
-		},
 		"parameters": {
 			"outputfolder": {
 				"type": "string"
