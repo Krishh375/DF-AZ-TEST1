@@ -8,15 +8,6 @@
 		"AZDestinyGlobalDatabase_password": {
 			"value": ""
 		},
-		"AzureBlobPracdacdemo_connectionString": {
-			"value": ""
-		},
-		"AzureBlobStorage2_servicePrincipalCredential": {
-			"value": ""
-		},
-		"AzureDataLakeStorage1_accountKey": {
-			"value": ""
-		},
 		"AzureDatabricks_LS_AT_accessToken": {
 			"value": ""
 		},
@@ -29,10 +20,19 @@
 		"Db21_connectionString": {
 			"value": ""
 		},
+		"LS_ASQL_password": {
+			"value": ""
+		},
+		"LS_SQLSERVER_password": {
+			"value": ""
+		},
 		"Oracle_LS_connectionString": {
 			"value": ""
 		},
 		"Oracle_ls_V2_password": {
+			"value": ""
+		},
+		"PostgreSql1_password": {
 			"value": ""
 		},
 		"RestService_clientSecret": {
@@ -48,9 +48,6 @@
 			"value": ""
 		},
 		"Snowflake_ls_privateKeyPassphrase": {
-			"value": ""
-		},
-		"SqlServer1_password": {
 			"value": ""
 		},
 		"SqlServer2_password": {
@@ -85,21 +82,6 @@
 		},
 		"Azdemoappentra_properties_typeProperties_baseUrl": {
 			"value": "https://dempappentrakey.vault.azure.net/"
-		},
-		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
-			"value": "https://adlsdemostorage21.blob.core.windows.net/"
-		},
-		"AzureBlobStorage2_properties_typeProperties_serviceEndpoint": {
-			"value": "https://azdevsanewadls.blob.core.windows.net/"
-		},
-		"AzureBlobStorage2_properties_typeProperties_tenant": {
-			"value": "16b3c013-d300-468d-ac64-7eda0820b6d3"
-		},
-		"AzureBlobStorage2_properties_typeProperties_servicePrincipalId": {
-			"value": "bb00111b-668b-4ba3-b619-21fa36679640"
-		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"value": "https://azlearnsagen2.dfs.core.windows.net/"
 		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"value": "https://adlsdemostorage21.dfs.core.windows.net/"
@@ -140,11 +122,38 @@
 		"LS_ADLS2_properties_typeProperties_serviceEndpoint": {
 			"value": "https://adlsdemostorage21.blob.core.windows.net/"
 		},
+		"LS_ASQL_properties_typeProperties_server": {
+			"value": "krishh123.database.windows.net"
+		},
+		"LS_ASQL_properties_typeProperties_database": {
+			"value": "krishhdb"
+		},
+		"LS_ASQL_properties_typeProperties_userName": {
+			"value": "krishh"
+		},
+		"LS_SQLSERVER_properties_typeProperties_server": {
+			"value": "KRISHHNAPC\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER_properties_typeProperties_database": {
+			"value": "ADF_DB"
+		},
+		"LS_SQLSERVER_properties_typeProperties_userName": {
+			"value": "sa"
+		},
 		"Oracle_ls_V2_properties_typeProperties_server": {
 			"value": "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST= KrishhNaPC)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=XE)))"
 		},
 		"Oracle_ls_V2_properties_typeProperties_username": {
 			"value": "C##krishh"
+		},
+		"PostgreSql1_properties_typeProperties_server": {
+			"value": "Krishh"
+		},
+		"PostgreSql1_properties_typeProperties_database": {
+			"value": "postgres"
+		},
+		"PostgreSql1_properties_typeProperties_username": {
+			"value": "postgres"
 		},
 		"RestService_properties_typeProperties_url": {
 			"value": "@{linkedService().Baseurlendpoint}"
@@ -169,15 +178,6 @@
 		},
 		"Snowflake_ls_properties_typeProperties_database": {
 			"value": "MY_DATABASE"
-		},
-		"SqlServer1_properties_typeProperties_server": {
-			"value": "tk-testVM"
-		},
-		"SqlServer1_properties_typeProperties_database": {
-			"value": "master"
-		},
-		"SqlServer1_properties_typeProperties_userName": {
-			"value": "tknew"
 		},
 		"SqlServer2_properties_typeProperties_server": {
 			"value": "sqlserver.privatelink.westus.cloudapp.azure.net"
@@ -207,13 +207,13 @@
 			"value": "sa"
 		},
 		"Teradata_properties_typeProperties_server": {
-			"value": "10.18.133.88"
+			"value": "192.168.1.9"
 		},
 		"Teradata_properties_typeProperties_username": {
 			"value": "dbc"
 		},
 		"Teradata_user_properties_typeProperties_server": {
-			"value": "10.72.224.54"
+			"value": "192.168.1.9"
 		},
 		"Teradata_user_properties_typeProperties_username": {
 			"value": "dbc"

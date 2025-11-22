@@ -7,9 +7,17 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
-		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
-			"type": "string",
-			"defaultValue": "https://adlsdemostorage21.blob.core.windows.net/"
+		"AzureSqlDatabase2_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase2'"
+		},
+		"Snowflake_ls_privateKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'privateKey' of 'Snowflake_ls'"
+		},
+		"Snowflake_ls_privateKeyPassphrase": {
+			"type": "secureString",
+			"metadata": "Secure string for 'privateKeyPassphrase' of 'Snowflake_ls'"
 		},
 		"AzurePostgreSql_properties_typeProperties_server": {
 			"type": "string",
@@ -18,92 +26,28 @@
 		"AzurePostgreSql_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "testdemodatabase"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "krishh123.database.windows.net"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "krishhdb"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "krishh"
+		},
+		"Snowflake_ls_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "MY_DATABASE"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset2')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Wine_quality_dataset",
-						"folderPath": "sample datasets ",
-						"fileSystem": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "type",
-						"type": "String"
-					},
-					{
-						"name": "fixed acidity",
-						"type": "String"
-					},
-					{
-						"name": "volatile acidity",
-						"type": "String"
-					},
-					{
-						"name": "citric acid",
-						"type": "String"
-					},
-					{
-						"name": "residual sugar",
-						"type": "String"
-					},
-					{
-						"name": "chlorides",
-						"type": "String"
-					},
-					{
-						"name": "free sulfur dioxide",
-						"type": "String"
-					},
-					{
-						"name": "total sulfur dioxide",
-						"type": "String"
-					},
-					{
-						"name": "density",
-						"type": "String"
-					},
-					{
-						"name": "pH",
-						"type": "String"
-					},
-					{
-						"name": "sulphates",
-						"type": "String"
-					},
-					{
-						"name": "alcohol",
-						"type": "String"
-					},
-					{
-						"name": "quality",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Dataflow_source_dataset3')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -845,28 +789,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"serviceEndpoint": "[parameters('AzureBlobStorage1_properties_typeProperties_serviceEndpoint')]",
-					"accountKind": "StorageV2",
-					"credential": {
-						"referenceName": "credential",
-						"type": "CredentialReference"
-					}
-				},
-				"connectVia": {
-					"referenceName": "vnetintegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/AzurePostgreSql')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -880,6 +802,61 @@
 					"database": "[parameters('AzurePostgreSql_properties_typeProperties_database')]",
 					"sslMode": 3,
 					"authenticationType": "SystemAssignedManagedIdentity"
+				},
+				"connectVia": {
+					"referenceName": "vnetintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('AzureSqlDatabase2_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSqlDatabase2_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('AzureSqlDatabase2_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "vnetintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Snowflake_ls')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SnowflakeV2",
+				"typeProperties": {
+					"authenticationType": "KeyPair",
+					"accountIdentifier": "sjejrok-fm56566",
+					"user": "Krishh1996",
+					"database": "[parameters('Snowflake_ls_properties_typeProperties_database')]",
+					"warehouse": "MY_WAREHOUSE",
+					"privateKey": {
+						"type": "SecureString",
+						"value": "[parameters('Snowflake_ls_privateKey')]"
+					},
+					"privateKeyPassphrase": {
+						"type": "SecureString",
+						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
+					}
 				},
 				"connectVia": {
 					"referenceName": "vnetintegrationRuntime",

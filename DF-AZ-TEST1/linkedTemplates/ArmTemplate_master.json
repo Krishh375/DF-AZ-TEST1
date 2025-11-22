@@ -11,18 +11,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AZDestinyGlobalDatabase'"
 		},
-		"AzureBlobPracdacdemo_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobPracdacdemo'"
-		},
-		"AzureBlobStorage2_servicePrincipalCredential": {
-			"type": "secureString",
-			"metadata": "Secure string for 'servicePrincipalCredential' of 'AzureBlobStorage2'"
-		},
-		"AzureDataLakeStorage1_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
-		},
 		"AzureDatabricks_LS_AT_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks_LS_AT'"
@@ -39,6 +27,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Db21'"
 		},
+		"LS_ASQL_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_ASQL'"
+		},
+		"LS_SQLSERVER_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SQLSERVER'"
+		},
 		"Oracle_LS_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Oracle_LS'"
@@ -46,6 +42,10 @@
 		"Oracle_ls_V2_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Oracle_ls_V2'"
+		},
+		"PostgreSql1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'PostgreSql1'"
 		},
 		"RestService_clientSecret": {
 			"type": "secureString",
@@ -66,10 +66,6 @@
 		"Snowflake_ls_privateKeyPassphrase": {
 			"type": "secureString",
 			"metadata": "Secure string for 'privateKeyPassphrase' of 'Snowflake_ls'"
-		},
-		"SqlServer1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServer1'"
 		},
 		"SqlServer2_password": {
 			"type": "secureString",
@@ -114,26 +110,6 @@
 		"Azdemoappentra_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://dempappentrakey.vault.azure.net/"
-		},
-		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
-			"type": "string",
-			"defaultValue": "https://adlsdemostorage21.blob.core.windows.net/"
-		},
-		"AzureBlobStorage2_properties_typeProperties_serviceEndpoint": {
-			"type": "string",
-			"defaultValue": "https://azdevsanewadls.blob.core.windows.net/"
-		},
-		"AzureBlobStorage2_properties_typeProperties_tenant": {
-			"type": "string",
-			"defaultValue": "16b3c013-d300-468d-ac64-7eda0820b6d3"
-		},
-		"AzureBlobStorage2_properties_typeProperties_servicePrincipalId": {
-			"type": "string",
-			"defaultValue": "bb00111b-668b-4ba3-b619-21fa36679640"
-		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://azlearnsagen2.dfs.core.windows.net/"
 		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"type": "string",
@@ -187,6 +163,30 @@
 			"type": "string",
 			"defaultValue": "https://adlsdemostorage21.blob.core.windows.net/"
 		},
+		"LS_ASQL_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "krishh123.database.windows.net"
+		},
+		"LS_ASQL_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "krishhdb"
+		},
+		"LS_ASQL_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "krishh"
+		},
+		"LS_SQLSERVER_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "ADF_DB"
+		},
+		"LS_SQLSERVER_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
+		},
 		"Oracle_ls_V2_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST= KrishhNaPC)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=XE)))"
@@ -194,6 +194,18 @@
 		"Oracle_ls_V2_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "C##krishh"
+		},
+		"PostgreSql1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "Krishh"
+		},
+		"PostgreSql1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "postgres"
+		},
+		"PostgreSql1_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "postgres"
 		},
 		"RestService_properties_typeProperties_url": {
 			"type": "string",
@@ -226,18 +238,6 @@
 		"Snowflake_ls_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "MY_DATABASE"
-		},
-		"SqlServer1_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "tk-testVM"
-		},
-		"SqlServer1_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "master"
-		},
-		"SqlServer1_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "tknew"
 		},
 		"SqlServer2_properties_typeProperties_server": {
 			"type": "string",
@@ -277,7 +277,7 @@
 		},
 		"Teradata_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "10.18.133.88"
+			"defaultValue": "192.168.1.9"
 		},
 		"Teradata_properties_typeProperties_username": {
 			"type": "string",
@@ -285,7 +285,7 @@
 		},
 		"Teradata_user_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "10.72.224.54"
+			"defaultValue": "192.168.1.9"
 		},
 		"Teradata_user_properties_typeProperties_username": {
 			"type": "string",
@@ -440,15 +440,6 @@
 					"AZDestinyGlobalDatabase_password": {
 						"value": "[parameters('AZDestinyGlobalDatabase_password')]"
 					},
-					"AzureBlobPracdacdemo_connectionString": {
-						"value": "[parameters('AzureBlobPracdacdemo_connectionString')]"
-					},
-					"AzureBlobStorage2_servicePrincipalCredential": {
-						"value": "[parameters('AzureBlobStorage2_servicePrincipalCredential')]"
-					},
-					"AzureDataLakeStorage1_accountKey": {
-						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
-					},
 					"RestService_clientSecret": {
 						"value": "[parameters('RestService_clientSecret')]"
 					},
@@ -475,18 +466,6 @@
 					},
 					"Azdemoappentra_properties_typeProperties_baseUrl": {
 						"value": "[parameters('Azdemoappentra_properties_typeProperties_baseUrl')]"
-					},
-					"AzureBlobStorage2_properties_typeProperties_serviceEndpoint": {
-						"value": "[parameters('AzureBlobStorage2_properties_typeProperties_serviceEndpoint')]"
-					},
-					"AzureBlobStorage2_properties_typeProperties_tenant": {
-						"value": "[parameters('AzureBlobStorage2_properties_typeProperties_tenant')]"
-					},
-					"AzureBlobStorage2_properties_typeProperties_servicePrincipalId": {
-						"value": "[parameters('AzureBlobStorage2_properties_typeProperties_servicePrincipalId')]"
-					},
-					"AzureDataLakeStorage1_properties_typeProperties_url": {
-						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
 					},
 					"AzureKeyVaultsqlserver_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVaultsqlserver_properties_typeProperties_baseUrl')]"
@@ -523,6 +502,15 @@
 					},
 					"productbuilderCosmos_properties_typeProperties_database": {
 						"value": "[parameters('productbuilderCosmos_properties_typeProperties_database')]"
+					},
+					"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
+						"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]"
+					},
+					"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
+						"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]"
+					},
+					"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
+						"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
 					}
 				}
 			},
@@ -551,17 +539,20 @@
 					"Db21_connectionString": {
 						"value": "[parameters('Db21_connectionString')]"
 					},
+					"LS_ASQL_password": {
+						"value": "[parameters('LS_ASQL_password')]"
+					},
+					"LS_SQLSERVER_password": {
+						"value": "[parameters('LS_SQLSERVER_password')]"
+					},
 					"Oracle_LS_connectionString": {
 						"value": "[parameters('Oracle_LS_connectionString')]"
 					},
-					"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-						"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]"
+					"Oracle_ls_V2_password": {
+						"value": "[parameters('Oracle_ls_V2_password')]"
 					},
-					"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
-						"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]"
-					},
-					"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
-						"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
+					"PostgreSql1_password": {
+						"value": "[parameters('PostgreSql1_password')]"
 					},
 					"AzureDataLakeStorageLS_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageLS_properties_typeProperties_url')]"
@@ -580,6 +571,39 @@
 					},
 					"LS_ADLS2_properties_typeProperties_serviceEndpoint": {
 						"value": "[parameters('LS_ADLS2_properties_typeProperties_serviceEndpoint')]"
+					},
+					"LS_ASQL_properties_typeProperties_server": {
+						"value": "[parameters('LS_ASQL_properties_typeProperties_server')]"
+					},
+					"LS_ASQL_properties_typeProperties_database": {
+						"value": "[parameters('LS_ASQL_properties_typeProperties_database')]"
+					},
+					"LS_ASQL_properties_typeProperties_userName": {
+						"value": "[parameters('LS_ASQL_properties_typeProperties_userName')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_server": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_database": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]"
+					},
+					"Oracle_ls_V2_properties_typeProperties_server": {
+						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_server')]"
+					},
+					"Oracle_ls_V2_properties_typeProperties_username": {
+						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_username')]"
+					},
+					"PostgreSql1_properties_typeProperties_server": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_server')]"
+					},
+					"PostgreSql1_properties_typeProperties_database": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_database')]"
+					},
+					"PostgreSql1_properties_typeProperties_username": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_username')]"
 					}
 				}
 			},
@@ -601,12 +625,6 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"Oracle_ls_V2_password": {
-						"value": "[parameters('Oracle_ls_V2_password')]"
-					},
-					"SqlServer1_password": {
-						"value": "[parameters('SqlServer1_password')]"
-					},
 					"SqlServer_onprem_password": {
 						"value": "[parameters('SqlServer_onprem_password')]"
 					},
@@ -615,21 +633,6 @@
 					},
 					"Teradata_user_password": {
 						"value": "[parameters('Teradata_user_password')]"
-					},
-					"Oracle_ls_V2_properties_typeProperties_server": {
-						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_server')]"
-					},
-					"Oracle_ls_V2_properties_typeProperties_username": {
-						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_username')]"
-					},
-					"SqlServer1_properties_typeProperties_server": {
-						"value": "[parameters('SqlServer1_properties_typeProperties_server')]"
-					},
-					"SqlServer1_properties_typeProperties_database": {
-						"value": "[parameters('SqlServer1_properties_typeProperties_database')]"
-					},
-					"SqlServer1_properties_typeProperties_userName": {
-						"value": "[parameters('SqlServer1_properties_typeProperties_userName')]"
 					},
 					"SqlServer_onprem_properties_typeProperties_server": {
 						"value": "[parameters('SqlServer_onprem_properties_typeProperties_server')]"
@@ -732,14 +735,32 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
-						"value": "[parameters('AzureBlobStorage1_properties_typeProperties_serviceEndpoint')]"
+					"AzureSqlDatabase2_password": {
+						"value": "[parameters('AzureSqlDatabase2_password')]"
+					},
+					"Snowflake_ls_privateKey": {
+						"value": "[parameters('Snowflake_ls_privateKey')]"
+					},
+					"Snowflake_ls_privateKeyPassphrase": {
+						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
 					},
 					"AzurePostgreSql_properties_typeProperties_server": {
 						"value": "[parameters('AzurePostgreSql_properties_typeProperties_server')]"
 					},
 					"AzurePostgreSql_properties_typeProperties_database": {
 						"value": "[parameters('AzurePostgreSql_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase2_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabase2_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase2_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]"
+					},
+					"Snowflake_ls_properties_typeProperties_database": {
+						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
 					}
 				}
 			},
@@ -761,32 +782,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"AzureSqlDatabase2_password": {
-						"value": "[parameters('AzureSqlDatabase2_password')]"
-					},
-					"Snowflake_ls_privateKey": {
-						"value": "[parameters('Snowflake_ls_privateKey')]"
-					},
-					"Snowflake_ls_privateKeyPassphrase": {
-						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
-					},
 					"SqlServer2_password": {
 						"value": "[parameters('SqlServer2_password')]"
 					},
 					"SqlServer_VNET_password": {
 						"value": "[parameters('SqlServer_VNET_password')]"
-					},
-					"AzureSqlDatabase2_properties_typeProperties_server": {
-						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_server')]"
-					},
-					"AzureSqlDatabase2_properties_typeProperties_database": {
-						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_database')]"
-					},
-					"AzureSqlDatabase2_properties_typeProperties_userName": {
-						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]"
-					},
-					"Snowflake_ls_properties_typeProperties_database": {
-						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
 					},
 					"SqlServer2_properties_typeProperties_server": {
 						"value": "[parameters('SqlServer2_properties_typeProperties_server')]"

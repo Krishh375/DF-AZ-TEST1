@@ -11,18 +11,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AZDestinyGlobalDatabase'"
 		},
-		"AzureBlobPracdacdemo_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'AzureBlobPracdacdemo'"
-		},
-		"AzureBlobStorage2_servicePrincipalCredential": {
-			"type": "secureString",
-			"metadata": "Secure string for 'servicePrincipalCredential' of 'AzureBlobStorage2'"
-		},
-		"AzureDataLakeStorage1_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
-		},
 		"AzureDatabricks_LS_AT_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks_LS_AT'"
@@ -39,6 +27,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Db21'"
 		},
+		"LS_ASQL_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_ASQL'"
+		},
+		"LS_SQLSERVER_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_SQLSERVER'"
+		},
 		"Oracle_LS_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Oracle_LS'"
@@ -46,6 +42,10 @@
 		"Oracle_ls_V2_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Oracle_ls_V2'"
+		},
+		"PostgreSql1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'PostgreSql1'"
 		},
 		"RestService_clientSecret": {
 			"type": "secureString",
@@ -66,10 +66,6 @@
 		"Snowflake_ls_privateKeyPassphrase": {
 			"type": "secureString",
 			"metadata": "Secure string for 'privateKeyPassphrase' of 'Snowflake_ls'"
-		},
-		"SqlServer1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServer1'"
 		},
 		"SqlServer2_password": {
 			"type": "secureString",
@@ -114,26 +110,6 @@
 		"Azdemoappentra_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://dempappentrakey.vault.azure.net/"
-		},
-		"AzureBlobStorage1_properties_typeProperties_serviceEndpoint": {
-			"type": "string",
-			"defaultValue": "https://adlsdemostorage21.blob.core.windows.net/"
-		},
-		"AzureBlobStorage2_properties_typeProperties_serviceEndpoint": {
-			"type": "string",
-			"defaultValue": "https://azdevsanewadls.blob.core.windows.net/"
-		},
-		"AzureBlobStorage2_properties_typeProperties_tenant": {
-			"type": "string",
-			"defaultValue": "16b3c013-d300-468d-ac64-7eda0820b6d3"
-		},
-		"AzureBlobStorage2_properties_typeProperties_servicePrincipalId": {
-			"type": "string",
-			"defaultValue": "bb00111b-668b-4ba3-b619-21fa36679640"
-		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://azlearnsagen2.dfs.core.windows.net/"
 		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"type": "string",
@@ -187,6 +163,30 @@
 			"type": "string",
 			"defaultValue": "https://adlsdemostorage21.blob.core.windows.net/"
 		},
+		"LS_ASQL_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "krishh123.database.windows.net"
+		},
+		"LS_ASQL_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "krishhdb"
+		},
+		"LS_ASQL_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "krishh"
+		},
+		"LS_SQLSERVER_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
+		},
+		"LS_SQLSERVER_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "ADF_DB"
+		},
+		"LS_SQLSERVER_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
+		},
 		"Oracle_ls_V2_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST= KrishhNaPC)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=XE)))"
@@ -194,6 +194,18 @@
 		"Oracle_ls_V2_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "C##krishh"
+		},
+		"PostgreSql1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "Krishh"
+		},
+		"PostgreSql1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "postgres"
+		},
+		"PostgreSql1_properties_typeProperties_username": {
+			"type": "string",
+			"defaultValue": "postgres"
 		},
 		"RestService_properties_typeProperties_url": {
 			"type": "string",
@@ -226,18 +238,6 @@
 		"Snowflake_ls_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "MY_DATABASE"
-		},
-		"SqlServer1_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "tk-testVM"
-		},
-		"SqlServer1_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "master"
-		},
-		"SqlServer1_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "tknew"
 		},
 		"SqlServer2_properties_typeProperties_server": {
 			"type": "string",
@@ -277,7 +277,7 @@
 		},
 		"Teradata_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "10.18.133.88"
+			"defaultValue": "192.168.1.9"
 		},
 		"Teradata_properties_typeProperties_username": {
 			"type": "string",
@@ -285,7 +285,7 @@
 		},
 		"Teradata_user_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "10.72.224.54"
+			"defaultValue": "192.168.1.9"
 		},
 		"Teradata_user_properties_typeProperties_username": {
 			"type": "string",
@@ -448,20 +448,20 @@
 									"userProperties": [],
 									"typeProperties": {
 										"source": {
-											"type": "DelimitedTextSource",
+											"type": "JsonSource",
 											"storeSettings": {
-												"type": "AzureBlobStorageReadSettings",
+												"type": "AzureBlobFSReadSettings",
 												"recursive": true,
 												"enablePartitionDiscovery": false
 											},
 											"formatSettings": {
-												"type": "DelimitedTextReadSettings"
+												"type": "JsonReadSettings"
 											}
 										},
 										"sink": {
 											"type": "DelimitedTextSink",
 											"storeSettings": {
-												"type": "AzureBlobStorageWriteSettings"
+												"type": "AzureBlobFSWriteSettings"
 											},
 											"formatSettings": {
 												"type": "DelimitedTextWriteSettings",
@@ -469,30 +469,20 @@
 												"fileExtension": ".txt"
 											}
 										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
+										"enableStaging": false
 									},
 									"inputs": [
 										{
-											"referenceName": "csvdatasetsource",
+											"referenceName": "ADLS_Dataset_json2",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
 									],
 									"outputs": [
 										{
-											"referenceName": "sinkcsvdataset",
+											"referenceName": "ADLS_Dataset_sink_dataflow",
 											"type": "DatasetReference",
-											"parameters": {
-												"outputfolder": "output"
-											}
+											"parameters": {}
 										}
 									]
 								},
@@ -561,8 +551,8 @@
 				"lastPublishTime": "2025-05-08T09:03:13Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/csvdatasetsource')]",
-				"[concat(variables('factoryId'), '/datasets/sinkcsvdataset')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_json2')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_sink_dataflow')]",
 				"[concat(variables('factoryId'), '/pipelines/lookuppipeline')]"
 			]
 		},
@@ -586,35 +576,39 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "BinarySource",
+								"type": "JsonSource",
 								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
+									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
-									"deleteFilesAfterCompletion": false
+									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
-									"type": "BinaryReadSettings"
+									"type": "JsonReadSettings"
 								}
 							},
 							"sink": {
-								"type": "BinarySink",
+								"type": "DelimitedTextSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "PreserveHierarchy"
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
 								}
 							},
 							"enableStaging": false
 						},
 						"inputs": [
 							{
-								"referenceName": "Binarysourcecompress",
+								"referenceName": "ADLS_Dataset_json2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "Binarydatasetcompresssink",
+								"referenceName": "ADLS_Dataset_sink_dataflow",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -628,8 +622,8 @@
 				"lastPublishTime": "2025-05-07T19:46:35Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Binarysourcecompress')]",
-				"[concat(variables('factoryId'), '/datasets/Binarydatasetcompresssink')]"
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_json2')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_sink_dataflow')]"
 			]
 		},
 		{
@@ -652,38 +646,37 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "BinarySource",
+								"type": "JsonSource",
 								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
-									"type": "BinaryReadSettings",
-									"compressionProperties": {
-										"type": "ZipDeflateReadSettings",
-										"preserveZipFileNameAsFolder": false
-									}
+									"type": "JsonReadSettings"
 								}
 							},
 							"sink": {
-								"type": "BinarySink",
+								"type": "JsonSink",
 								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings",
-									"copyBehavior": "FlattenHierarchy"
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
 								}
 							},
 							"enableStaging": false
 						},
 						"inputs": [
 							{
-								"referenceName": "Sourcecompresszip",
+								"referenceName": "ADLS_Dataset_json2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "Binarydatasetcompresssink",
+								"referenceName": "ADLS_Dataset_json2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -697,8 +690,58 @@
 				"lastPublishTime": "2025-05-07T19:46:34Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Sourcecompresszip')]",
-				"[concat(variables('factoryId'), '/datasets/Binarydatasetcompresssink')]"
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_json2')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_newbranch_parallel_pip')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "dataflow_newbranch_parallel",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {},
+									"sink2": {},
+									"sink3": {},
+									"sink4": {},
+									"sink5": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine",
+							"runConcurrently": true
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow_newbranch_parallel')]"
 			]
 		},
 		{
@@ -937,29 +980,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline2')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Wait",
-						"type": "Wait",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"waitTimeInSeconds": 1
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/pipelineOnpremtoAzuresql')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1089,18 +1109,14 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "DelimitedTextSource",
+								"type": "JsonSource",
 								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
+									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
-									"wildcardFileName": {
-										"value": "@variables('LastName')",
-										"type": "Expression"
-									},
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
+									"type": "JsonReadSettings"
 								}
 							},
 							"sink": {
@@ -1114,19 +1130,11 @@
 									"fileExtension": ".txt"
 								}
 							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
+							"enableStaging": false
 						},
 						"inputs": [
 							{
-								"referenceName": "ADLSdatasetsource",
+								"referenceName": "ADLS_Dataset_json2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1169,7 +1177,7 @@
 				"lastPublishTime": "2025-08-08T21:33:24Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ADLSdatasetsource')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_json2')]",
 				"[concat(variables('factoryId'), '/datasets/ADLSGen2datasetsink')]"
 			]
 		},
@@ -1229,18 +1237,14 @@
 									"userProperties": [],
 									"typeProperties": {
 										"source": {
-											"type": "DelimitedTextSource",
+											"type": "JsonSource",
 											"storeSettings": {
 												"type": "AzureBlobFSReadSettings",
 												"recursive": true,
-												"wildcardFileName": {
-													"value": "@variables('LastfileName')",
-													"type": "Expression"
-												},
 												"enablePartitionDiscovery": false
 											},
 											"formatSettings": {
-												"type": "DelimitedTextReadSettings"
+												"type": "JsonReadSettings"
 											}
 										},
 										"sink": {
@@ -1254,19 +1258,11 @@
 												"fileExtension": ".txt"
 											}
 										},
-										"enableStaging": false,
-										"translator": {
-											"type": "TabularTranslator",
-											"typeConversion": true,
-											"typeConversionSettings": {
-												"allowDataTruncation": true,
-												"treatBooleanAsNumber": false
-											}
-										}
+										"enableStaging": false
 									},
 									"inputs": [
 										{
-											"referenceName": "ADLSdatasetsource",
+											"referenceName": "ADLS_Dataset_json2",
 											"type": "DatasetReference",
 											"parameters": {}
 										}
@@ -1304,7 +1300,7 @@
 				"lastPublishTime": "2025-05-28T13:42:08Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ADLSdatasetsource')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_json2')]",
 				"[concat(variables('factoryId'), '/datasets/ADLSGen2datasetsink')]"
 			]
 		},
@@ -1378,7 +1374,7 @@
 							"source": {
 								"type": "JsonSource",
 								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
+									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
@@ -1399,7 +1395,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "Jsonsource",
+								"referenceName": "ADLS_Dataset_json2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1420,7 +1416,7 @@
 				"lastPublishTime": "2025-05-11T13:23:17Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Jsonsource')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_json2')]",
 				"[concat(variables('factoryId'), '/datasets/Jsonsink')]"
 			]
 		},
@@ -1444,14 +1440,14 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "DelimitedTextSource",
+								"type": "JsonSource",
 								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
+									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
+									"type": "JsonReadSettings"
 								}
 							},
 							"sink": {
@@ -1460,19 +1456,11 @@
 								"writeBatchTimeout": "00:30:00",
 								"writeMethod": "CopyCommand"
 							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
+							"enableStaging": false
 						},
 						"inputs": [
 							{
-								"referenceName": "ADLSdatasetsource",
+								"referenceName": "ADLS_Dataset_json2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1493,7 +1481,7 @@
 				"lastPublishTime": "2025-08-08T21:33:46Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ADLSdatasetsource')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_json2')]",
 				"[concat(variables('factoryId'), '/datasets/AzurePostgreSqlTable')]"
 			]
 		},
@@ -1518,15 +1506,6 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow_sfk",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"adlssource": {},
-									"sinksnowflake": {}
-								}
-							},
 							"staging": {},
 							"integrationRuntime": {
 								"referenceName": "vnetintegrationRuntime",
@@ -1543,7 +1522,6 @@
 				"lastPublishTime": "2025-09-13T20:39:29Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflow_sfk')]",
 				"[concat(variables('factoryId'), '/integrationRuntimes/vnetintegrationRuntime')]"
 			]
 		},
@@ -1567,14 +1545,14 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "DelimitedTextSource",
+								"type": "JsonSource",
 								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
+									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
+									"type": "JsonReadSettings"
 								}
 							},
 							"sink": {
@@ -1588,19 +1566,11 @@
 									"fileExtension": ".txt"
 								}
 							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
+							"enableStaging": false
 						},
 						"inputs": [
 							{
-								"referenceName": "ADLSdatasetsource",
+								"referenceName": "ADLS_Dataset_json2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1621,7 +1591,7 @@
 				"lastPublishTime": "2025-08-12T17:40:05Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ADLSdatasetsource')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_json2')]",
 				"[concat(variables('factoryId'), '/datasets/ADLSGen2datasetsink')]"
 			]
 		},
@@ -1668,14 +1638,14 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "DelimitedTextSource",
+								"type": "JsonSource",
 								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
+									"type": "AzureBlobFSReadSettings",
 									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
+									"type": "JsonReadSettings"
 								}
 							},
 							"sink": {
@@ -1684,19 +1654,11 @@
 								"writeBatchTimeout": "00:30:00",
 								"writeMethod": "CopyCommand"
 							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
+							"enableStaging": false
 						},
 						"inputs": [
 							{
-								"referenceName": "csvdatasetsource",
+								"referenceName": "ADLS_Dataset_json2",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -1717,7 +1679,7 @@
 				"lastPublishTime": "2025-04-26T19:58:10Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/csvdatasetsource')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_json2')]",
 				"[concat(variables('factoryId'), '/datasets/AzurePostgreSqlTable')]"
 			]
 		},
@@ -1980,35 +1942,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ADLSdatasetsource')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "EMPLOYEE.csv",
-						"folderPath": "sourcefolder",
-						"container": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/AzureDestinyGlobal')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2118,56 +2051,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabase2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Binarydatasetcompresssink')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"container": "demo"
-					},
-					"compression": {
-						"type": "deflate",
-						"level": "Optimal"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Binarysourcecompress')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "textfile.txt",
-						"folderPath": "compressfiletext",
-						"container": "inputcontainer"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		},
 		{
@@ -3098,31 +2981,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Jsonsource')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "json sample.json",
-						"folderPath": "input",
-						"container": "democontainer"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/OracleTable1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3232,34 +3090,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/Snowflake_ls')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Sourcecompresszip')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "textfile 2.zip",
-						"folderPath": "compressfiletext",
-						"container": "inputcontainer"
-					},
-					"compression": {
-						"type": "ZipDeflate",
-						"level": "Optimal"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		},
 		{
@@ -3377,64 +3207,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/HttpServer1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/csvdatasetjsonfile')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "VolcanoData.json",
-						"folderPath": "input",
-						"container": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/csvdatasetsource')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "EXCELDEMO.csv",
-						"folderPath": "demo",
-						"container": "inputcontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
 			]
 		},
 		{
@@ -3581,42 +3353,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/sinkcsvdataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureBlobStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"outputfolder": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": {
-							"value": "@dataset().outputfolder",
-							"type": "Expression"
-						},
-						"container": "demo"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/sourceimmu')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3675,82 +3411,6 @@
 				"type": "AzureKeyVault",
 				"typeProperties": {
 					"baseUrl": "[parameters('Azdemoappentra_properties_typeProperties_baseUrl')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobPracdacdemo')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"connectionString": "[parameters('AzureBlobPracdacdemo_connectionString')]"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"serviceEndpoint": "[parameters('AzureBlobStorage1_properties_typeProperties_serviceEndpoint')]",
-					"accountKind": "StorageV2",
-					"credential": {
-						"referenceName": "credential",
-						"type": "CredentialReference"
-					}
-				},
-				"connectVia": {
-					"referenceName": "vnetintegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/vnetintegrationRuntime')]",
-				"[concat(variables('factoryId'), '/credentials/credential')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureBlobStorage2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobStorage",
-				"typeProperties": {
-					"serviceEndpoint": "[parameters('AzureBlobStorage2_properties_typeProperties_serviceEndpoint')]",
-					"tenant": "[parameters('AzureBlobStorage2_properties_typeProperties_tenant')]",
-					"servicePrincipalId": "[parameters('AzureBlobStorage2_properties_typeProperties_servicePrincipalId')]",
-					"servicePrincipalCredentialType": "ServicePrincipalKey",
-					"servicePrincipalCredential": {
-						"type": "SecureString",
-						"value": "[parameters('AzureBlobStorage2_servicePrincipalCredential')]"
-					},
-					"accountKind": "StorageV2"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
-				"typeProperties": {
-					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
-					}
 				}
 			},
 			"dependsOn": []
@@ -4008,6 +3668,62 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/LS_ASQL')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"server": "[parameters('LS_ASQL_properties_typeProperties_server')]",
+					"database": "[parameters('LS_ASQL_properties_typeProperties_database')]",
+					"encrypt": "optional",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('LS_ASQL_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_ASQL_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LS_SQLSERVER')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]",
+					"database": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]",
+					"encrypt": "optional",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_SQLSERVER_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "SHIR-Onprem",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-Onprem')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Oracle_LS')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -4047,6 +3763,35 @@
 					"cryptoChecksumClient": "accepted",
 					"cryptoChecksumTypesClient": "(SHA1, SHA256, SHA384, SHA512)",
 					"supportV1DataTypes": true
+				},
+				"connectVia": {
+					"referenceName": "SHIR-1",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PostgreSql1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "PostgreSqlV2",
+				"typeProperties": {
+					"server": "[parameters('PostgreSql1_properties_typeProperties_server')]",
+					"port": 5432,
+					"database": "[parameters('PostgreSql1_properties_typeProperties_database')]",
+					"username": "[parameters('PostgreSql1_properties_typeProperties_username')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('PostgreSql1_password')]"
+					},
+					"sslMode": 2,
+					"authenticationType": "Basic",
+					"connectionTimeout": 10
 				},
 				"connectVia": {
 					"referenceName": "SHIR-1",
@@ -4159,34 +3904,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/vnetintegrationRuntime')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('SqlServer1_properties_typeProperties_server')]",
-					"database": "[parameters('SqlServer1_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": true,
-					"authenticationType": "SQL",
-					"userName": "[parameters('SqlServer1_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SqlServer1_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "SHIR-1",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
 			]
 		},
 		{
@@ -4317,12 +4034,12 @@
 					}
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "SHIR-Onprem",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-Onprem')]"
 			]
 		},
 		{
@@ -4456,7 +4173,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SHIR-on-sqlVM')]",
+			"name": "[concat(parameters('factoryName'), '/SHIR-sql-vm')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -4756,7 +4473,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/dataflow_sfk')]",
+			"name": "[concat(parameters('factoryName'), '/dataflow_newbranch_parallel')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -4764,61 +4481,134 @@
 				"typeProperties": {
 					"sources": [
 						{
-							"linkedService": {
-								"referenceName": "AzureBlobStorage1",
-								"type": "LinkedServiceReference"
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset1",
+								"type": "DatasetReference"
 							},
-							"name": "adlssource"
+							"name": "source1"
 						}
 					],
 					"sinks": [
 						{
-							"linkedService": {
-								"referenceName": "Snowflake_ls",
-								"type": "LinkedServiceReference"
+							"dataset": {
+								"referenceName": "ADLS_Dataset_sink_dataflow",
+								"type": "DatasetReference"
 							},
-							"name": "sinksnowflake"
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS5",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS4",
+								"type": "DatasetReference"
+							},
+							"name": "sink3"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_adls_dataflow_sink3",
+								"type": "DatasetReference"
+							},
+							"name": "sink4"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_sink_dataflow2",
+								"type": "DatasetReference"
+							},
+							"name": "sink5"
 						}
 					],
 					"transformations": [],
 					"scriptLines": [
-						"source(useSchema: false,",
+						"source(output(",
+						"          id as string,",
+						"          diagnosis as string,",
+						"          radius_mean as string,",
+						"          texture_mean as string,",
+						"          perimeter_mean as string,",
+						"          area_mean as string,",
+						"          smoothness_mean as string,",
+						"          compactness_mean as string,",
+						"          concavity_mean as string,",
+						"          {concave points_mean} as string,",
+						"          symmetry_mean as string,",
+						"          fractal_dimension_mean as string,",
+						"          radius_se as string,",
+						"          texture_se as string,",
+						"          perimeter_se as string,",
+						"          area_se as string,",
+						"          smoothness_se as string,",
+						"          compactness_se as string,",
+						"          concavity_se as string,",
+						"          {concave points_se} as string,",
+						"          symmetry_se as string,",
+						"          fractal_dimension_se as string,",
+						"          radius_worst as string,",
+						"          texture_worst as string,",
+						"          perimeter_worst as string,",
+						"          area_worst as string,",
+						"          smoothness_worst as string,",
+						"          compactness_worst as string,",
+						"          concavity_worst as string,",
+						"          {concave points_worst} as string,",
+						"          symmetry_worst as string,",
+						"          fractal_dimension_worst as string",
+						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     format: 'delimited',",
-						"     fileSystem: 'inputcontainer',",
-						"     folderPath: 'demo',",
-						"     fileName: 'EXCELDEMO.csv',",
-						"     columnDelimiter: ',',",
-						"     escapeChar: '\\\\',",
-						"     quoteChar: '\\\"',",
-						"     columnNamesAsHeader: false,",
-						"     partitionBy('key',",
-						"          0,",
-						"          ERROR_FUNCTION('')",
-						"     )) ~> adlssource",
-						"adlssource sink(allowSchemaDrift: true,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
-						"     format: 'table',",
-						"     tableName: 'ELEMENTS',",
-						"     schemaName: 'MY_SCHEMA',",
-						"     deletable: false,",
-						"     insertable: true,",
-						"     updateable: false,",
-						"     upsertable: false,",
-						"     store: 'snowflake',",
-						"     store: 'snowflakeV2',",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
 						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     saveOrder: 1,",
-						"     stageInsert: true) ~> sinksnowflake"
+						"     skipDuplicateMapOutputs: true) ~> sink1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink2",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink3",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink4",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink5"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureBlobStorage1')]",
-				"[concat(variables('factoryId'), '/linkedServices/Snowflake_ls')]"
+				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset1')]",
+				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_sink_dataflow')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS5')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS4')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_adls_dataflow_sink3')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_sink_dataflow2')]"
 			]
 		},
 		{
@@ -5424,197 +5214,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow_newbranch_parallel')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "Dataflow_source_dataset1",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ADLS_Dataset_sink_dataflow",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_Sink_ADLS5",
-								"type": "DatasetReference"
-							},
-							"name": "sink2"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_Sink_ADLS4",
-								"type": "DatasetReference"
-							},
-							"name": "sink3"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_adls_dataflow_sink3",
-								"type": "DatasetReference"
-							},
-							"name": "sink4"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_sink_dataflow2",
-								"type": "DatasetReference"
-							},
-							"name": "sink5"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          id as string,",
-						"          diagnosis as string,",
-						"          radius_mean as string,",
-						"          texture_mean as string,",
-						"          perimeter_mean as string,",
-						"          area_mean as string,",
-						"          smoothness_mean as string,",
-						"          compactness_mean as string,",
-						"          concavity_mean as string,",
-						"          {concave points_mean} as string,",
-						"          symmetry_mean as string,",
-						"          fractal_dimension_mean as string,",
-						"          radius_se as string,",
-						"          texture_se as string,",
-						"          perimeter_se as string,",
-						"          area_se as string,",
-						"          smoothness_se as string,",
-						"          compactness_se as string,",
-						"          concavity_se as string,",
-						"          {concave points_se} as string,",
-						"          symmetry_se as string,",
-						"          fractal_dimension_se as string,",
-						"          radius_worst as string,",
-						"          texture_worst as string,",
-						"          perimeter_worst as string,",
-						"          area_worst as string,",
-						"          smoothness_worst as string,",
-						"          compactness_worst as string,",
-						"          concavity_worst as string,",
-						"          {concave points_worst} as string,",
-						"          symmetry_worst as string,",
-						"          fractal_dimension_worst as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink1",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink2",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink3",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink4",
-						"source1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink5"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset1')]",
-				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_sink_dataflow')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS5')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_Sink_ADLS4')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_adls_dataflow_sink3')]",
-				"[concat(variables('factoryId'), '/datasets/Dataset_sink_dataflow2')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow_newbranch_parallel_pip')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflow_newbranch_parallel",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {},
-									"sink2": {},
-									"sink3": {},
-									"sink4": {},
-									"sink5": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine",
-							"runConcurrently": true
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
-				"[concat(variables('factoryId'), '/dataflows/dataflow_newbranch_parallel')]"
 			]
 		}
 	]
