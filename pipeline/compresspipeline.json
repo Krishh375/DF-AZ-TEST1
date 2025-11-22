@@ -34,19 +34,7 @@
 						}
 					},
 					"enableStaging": false
-				},
-				"inputs": [
-					{
-						"referenceName": "Binarysourcecompress",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "Binarydatasetcompresssink",
-						"type": "DatasetReference"
-					}
-				]
+				}
 			}
 		],
 		"annotations": [],

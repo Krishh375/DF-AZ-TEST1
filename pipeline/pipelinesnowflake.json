@@ -17,10 +17,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataflow": {
-						"referenceName": "dataflow_sfk",
-						"type": "DataFlowReference"
-					},
 					"integrationRuntime": {
 						"referenceName": "vnetintegrationRuntime",
 						"type": "IntegrationRuntimeReference"

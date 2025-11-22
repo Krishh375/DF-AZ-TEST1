@@ -50,31 +50,8 @@
 										"fileExtension": ".txt"
 									}
 								},
-								"enableStaging": false,
-								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
-								}
-							},
-							"inputs": [
-								{
-									"referenceName": "csvdatasetsource",
-									"type": "DatasetReference"
-								}
-							],
-							"outputs": [
-								{
-									"referenceName": "sinkcsvdataset",
-									"type": "DatasetReference",
-									"parameters": {
-										"outputfolder": "output"
-									}
-								}
-							]
+								"enableStaging": false
+							}
 						},
 						{
 							"name": "Web",
