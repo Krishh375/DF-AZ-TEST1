@@ -16,25 +16,41 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "BinarySource",
+						"type": "JsonSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
+							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
-							"deleteFilesAfterCompletion": false
+							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
-							"type": "BinaryReadSettings"
+							"type": "JsonReadSettings"
 						}
 					},
 					"sink": {
-						"type": "BinarySink",
+						"type": "DelimitedTextSink",
 						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings",
-							"copyBehavior": "PreserveHierarchy"
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
 						}
 					},
 					"enableStaging": false
-				}
+				},
+				"inputs": [
+					{
+						"referenceName": "ADLS_Dataset_json2",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ADLS_Dataset_sink_dataflow",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": [],

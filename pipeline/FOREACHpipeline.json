@@ -29,20 +29,20 @@
 							"userProperties": [],
 							"typeProperties": {
 								"source": {
-									"type": "DelimitedTextSource",
+									"type": "JsonSource",
 									"storeSettings": {
-										"type": "AzureBlobStorageReadSettings",
+										"type": "AzureBlobFSReadSettings",
 										"recursive": true,
 										"enablePartitionDiscovery": false
 									},
 									"formatSettings": {
-										"type": "DelimitedTextReadSettings"
+										"type": "JsonReadSettings"
 									}
 								},
 								"sink": {
 									"type": "DelimitedTextSink",
 									"storeSettings": {
-										"type": "AzureBlobStorageWriteSettings"
+										"type": "AzureBlobFSWriteSettings"
 									},
 									"formatSettings": {
 										"type": "DelimitedTextWriteSettings",
@@ -51,7 +51,19 @@
 									}
 								},
 								"enableStaging": false
-							}
+							},
+							"inputs": [
+								{
+									"referenceName": "ADLS_Dataset_json2",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "ADLS_Dataset_sink_dataflow",
+									"type": "DatasetReference"
+								}
+							]
 						},
 						{
 							"name": "Web",

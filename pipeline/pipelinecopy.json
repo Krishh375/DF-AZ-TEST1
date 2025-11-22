@@ -23,18 +23,14 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "JsonSource",
 						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
+							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
-							"wildcardFileName": {
-								"value": "@variables('LastName')",
-								"type": "Expression"
-							},
 							"enablePartitionDiscovery": false
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "JsonReadSettings"
 						}
 					},
 					"sink": {
@@ -50,6 +46,12 @@
 					},
 					"enableStaging": false
 				},
+				"inputs": [
+					{
+						"referenceName": "ADLS_Dataset_json2",
+						"type": "DatasetReference"
+					}
+				],
 				"outputs": [
 					{
 						"referenceName": "ADLSGen2datasetsink",
