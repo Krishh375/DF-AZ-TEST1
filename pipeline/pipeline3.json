@@ -1,9 +1,0 @@
-{
-	"name": "pipeline3",
-	"properties": {
-		"folder": {
-			"name": "OnPremSQL_to_ADLS2"
-		},
-		"annotations": []
-	}
-}
