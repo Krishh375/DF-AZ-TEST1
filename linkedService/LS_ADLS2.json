@@ -1,6 +1,11 @@
 {
 	"name": "LS_ADLS2",
 	"properties": {
+		"parameters": {
+			"table_name": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "AzureBlobFS",
 		"typeProperties": {
