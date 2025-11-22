@@ -1,10 +1,10 @@
 {
-	"name": "STORED_PROCEDURE_SQLONPREM",
+	"name": "C_TO_SQL_LAKE",
 	"properties": {
 		"activities": [
 			{
-				"name": "Stored procedure",
-				"type": "SqlServerStoredProcedure",
+				"name": "Copy data",
+				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -15,12 +15,65 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"storedProcedureName": "[dbo].[myprocecdure]"
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "USE AdventureWorksDW2019\n\nSELECT QUOTENAME(table_schema) + '.' + QUOTENAME(table_name) AS Table_name,table_catalog\nFROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_TYPE = 'BASE TABLE'",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Table_name",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "Table_name",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "table_catalog",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "table_catalog",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
-				"linkedServiceName": {
-					"referenceName": "LS_SP_SQLSERVER",
-					"type": "LinkedServiceReference"
-				}
+				"inputs": [
+					{
+						"referenceName": "DS_SQLSERVER",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DS_ASQLDB_PIPELINE_PARAMETER",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"folder": {
