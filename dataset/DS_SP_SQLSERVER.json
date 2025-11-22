@@ -1,16 +1,12 @@
 {
-	"name": "DS_SQLSERVER",
+	"name": "DS_SP_SQLSERVER",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_SQLSERVER",
+			"referenceName": "LS_SP_SQLSERVER",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "SqlServerTable",
-		"schema": [],
-		"typeProperties": {
-			"schema": "dbo",
-			"table": ""
-		}
+		"schema": []
 	}
 }
