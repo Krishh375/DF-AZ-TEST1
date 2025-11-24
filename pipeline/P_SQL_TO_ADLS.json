@@ -23,7 +23,8 @@
 					"dataset": {
 						"referenceName": "DS_ASQLDB_PIPELINE_PARAMETER",
 						"type": "DatasetReference"
-					}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -101,7 +102,7 @@
 											"type": "Expression"
 										},
 										"table_name": {
-											"value": "@{item().Table_name}",
+											"value": "@{item().table_name}",
 											"type": "Expression"
 										}
 									}
