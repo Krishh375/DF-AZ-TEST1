@@ -83,34 +83,6 @@
 				"pracdemostorage.dfs.core.windows.net"
 			]
 		},
-		"AzureSqlDatabase194_properties_privateLinkResourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Sql/servers/azlearndb"
-		},
-		"AzureSqlDatabase194_properties_groupId": {
-			"type": "string",
-			"defaultValue": "sqlServer"
-		},
-		"AzureSqlDatabase194_properties_fqdns": {
-			"type": "array",
-			"defaultValue": [
-				"azlearndb.database.windows.net"
-			]
-		},
-		"AzureSqlDatabase310_properties_privateLinkResourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
-		},
-		"AzureSqlDatabase310_properties_groupId": {
-			"type": "string",
-			"defaultValue": "sqlServer"
-		},
-		"AzureSqlDatabase310_properties_fqdns": {
-			"type": "array",
-			"defaultValue": [
-				"krishh123.database.windows.net"
-			]
-		},
 		"CosmosDb_properties_privateLinkResourceId": {
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.DocumentDB/databaseAccounts/krishh-cosmos-db"
@@ -138,6 +110,14 @@
 			"defaultValue": [
 				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
+		},
+		"AzureSqlDatabase591_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
+		},
+		"AzureSqlDatabase591_properties_groupId": {
+			"type": "string",
+			"defaultValue": "sqlServer"
 		}
 	},
 	"variables": {
@@ -311,28 +291,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/default/AzureSqlDatabase194')]",
-			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"privateLinkResourceId": "[parameters('AzureSqlDatabase194_properties_privateLinkResourceId')]",
-				"groupId": "[parameters('AzureSqlDatabase194_properties_groupId')]",
-				"fqdns": "[parameters('AzureSqlDatabase194_properties_fqdns')]"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/default/AzureSqlDatabase310')]",
-			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"privateLinkResourceId": "[parameters('AzureSqlDatabase310_properties_privateLinkResourceId')]",
-				"groupId": "[parameters('AzureSqlDatabase310_properties_groupId')]",
-				"fqdns": "[parameters('AzureSqlDatabase310_properties_fqdns')]"
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/default/CosmosDb')]",
 			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
 			"apiVersion": "2018-06-01",
@@ -351,6 +309,16 @@
 				"privateLinkResourceId": "[parameters('PrivateLinkService461_properties_privateLinkResourceId')]",
 				"groupId": "[parameters('PrivateLinkService461_properties_groupId')]",
 				"fqdns": "[parameters('PrivateLinkService461_properties_fqdns')]"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/default/AzureSqlDatabase591')]",
+			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"privateLinkResourceId": "[parameters('AzureSqlDatabase591_properties_privateLinkResourceId')]",
+				"groupId": "[parameters('AzureSqlDatabase591_properties_groupId')]"
 			},
 			"dependsOn": []
 		},
@@ -663,6 +631,22 @@
 					"compressionCodec": "snappy"
 				},
 				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_SP_SQLSERVER')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SP_SQLSERVER",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
 			},
 			"dependsOn": []
 		}

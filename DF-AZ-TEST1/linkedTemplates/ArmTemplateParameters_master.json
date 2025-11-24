@@ -279,28 +279,6 @@
 				"pracdemostorage.dfs.core.windows.net"
 			]
 		},
-		"AzureSqlDatabase194_properties_privateLinkResourceId": {
-			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Sql/servers/azlearndb"
-		},
-		"AzureSqlDatabase194_properties_groupId": {
-			"value": "sqlServer"
-		},
-		"AzureSqlDatabase194_properties_fqdns": {
-			"value": [
-				"azlearndb.database.windows.net"
-			]
-		},
-		"AzureSqlDatabase310_properties_privateLinkResourceId": {
-			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
-		},
-		"AzureSqlDatabase310_properties_groupId": {
-			"value": "sqlServer"
-		},
-		"AzureSqlDatabase310_properties_fqdns": {
-			"value": [
-				"krishh123.database.windows.net"
-			]
-		},
 		"CosmosDb_properties_privateLinkResourceId": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.DocumentDB/databaseAccounts/krishh-cosmos-db"
 		},
@@ -322,6 +300,12 @@
 			"value": [
 				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
+		},
+		"AzureSqlDatabase591_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
+		},
+		"AzureSqlDatabase591_properties_groupId": {
+			"value": "sqlServer"
 		},
 		"containerUri": {
 			"value": ""

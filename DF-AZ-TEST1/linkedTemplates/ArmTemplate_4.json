@@ -252,22 +252,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_SP_SQLSERVER')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_SP_SQLSERVER",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/FOREACHpipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1139,6 +1123,100 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/LS_ASQL')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Snowflakedataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Snowflake_ls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SnowflakeV2Table",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "RECORD_ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "ELEMENT_ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TEXT",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "EMBEDDINGS",
+						"type": "ARRAY"
+					},
+					{
+						"name": "TYPE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "SYSTEM",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "LAYOUT_WIDTH",
+						"type": "NUMBER",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "LAYOUT_HEIGHT",
+						"type": "NUMBER",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "POINTS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "URL",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "VERSION",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "DATE_CREATED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "DATE_PROCESSED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "DATE_MODIFIED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "SENT_FROM",
+						"type": "ARRAY"
+					},
+					{
+						"name": "SENT_TO",
+						"type": "ARRAY"
+					}
+				],
+				"typeProperties": {
+					"schema": "MY_SCHEMA",
+					"table": "ELEMENTS"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Snowflake_ls')]"
 			]
 		}
 	]

@@ -370,34 +370,6 @@
 				"pracdemostorage.dfs.core.windows.net"
 			]
 		},
-		"AzureSqlDatabase194_properties_privateLinkResourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Sql/servers/azlearndb"
-		},
-		"AzureSqlDatabase194_properties_groupId": {
-			"type": "string",
-			"defaultValue": "sqlServer"
-		},
-		"AzureSqlDatabase194_properties_fqdns": {
-			"type": "array",
-			"defaultValue": [
-				"azlearndb.database.windows.net"
-			]
-		},
-		"AzureSqlDatabase310_properties_privateLinkResourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
-		},
-		"AzureSqlDatabase310_properties_groupId": {
-			"type": "string",
-			"defaultValue": "sqlServer"
-		},
-		"AzureSqlDatabase310_properties_fqdns": {
-			"type": "array",
-			"defaultValue": [
-				"krishh123.database.windows.net"
-			]
-		},
 		"CosmosDb_properties_privateLinkResourceId": {
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.DocumentDB/databaseAccounts/krishh-cosmos-db"
@@ -425,6 +397,14 @@
 			"defaultValue": [
 				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
+		},
+		"AzureSqlDatabase591_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
+		},
+		"AzureSqlDatabase591_properties_groupId": {
+			"type": "string",
+			"defaultValue": "sqlServer"
 		},
 		"containerUri": {
 			"type": "string",
@@ -695,24 +675,6 @@
 					"AzureDataLakeStorage299_properties_fqdns": {
 						"value": "[parameters('AzureDataLakeStorage299_properties_fqdns')]"
 					},
-					"AzureSqlDatabase194_properties_privateLinkResourceId": {
-						"value": "[parameters('AzureSqlDatabase194_properties_privateLinkResourceId')]"
-					},
-					"AzureSqlDatabase194_properties_groupId": {
-						"value": "[parameters('AzureSqlDatabase194_properties_groupId')]"
-					},
-					"AzureSqlDatabase194_properties_fqdns": {
-						"value": "[parameters('AzureSqlDatabase194_properties_fqdns')]"
-					},
-					"AzureSqlDatabase310_properties_privateLinkResourceId": {
-						"value": "[parameters('AzureSqlDatabase310_properties_privateLinkResourceId')]"
-					},
-					"AzureSqlDatabase310_properties_groupId": {
-						"value": "[parameters('AzureSqlDatabase310_properties_groupId')]"
-					},
-					"AzureSqlDatabase310_properties_fqdns": {
-						"value": "[parameters('AzureSqlDatabase310_properties_fqdns')]"
-					},
 					"CosmosDb_properties_privateLinkResourceId": {
 						"value": "[parameters('CosmosDb_properties_privateLinkResourceId')]"
 					},
@@ -730,6 +692,12 @@
 					},
 					"PrivateLinkService461_properties_fqdns": {
 						"value": "[parameters('PrivateLinkService461_properties_fqdns')]"
+					},
+					"AzureSqlDatabase591_properties_privateLinkResourceId": {
+						"value": "[parameters('AzureSqlDatabase591_properties_privateLinkResourceId')]"
+					},
+					"AzureSqlDatabase591_properties_groupId": {
+						"value": "[parameters('AzureSqlDatabase591_properties_groupId')]"
 					}
 				}
 			},
