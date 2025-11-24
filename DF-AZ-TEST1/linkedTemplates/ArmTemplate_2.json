@@ -7,10 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
-		"PostgreSql1_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'PostgreSql1'"
-		},
 		"SqlServer_onprem_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_onprem'"
@@ -22,18 +18,6 @@
 		"Teradata_user_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Teradata_user'"
-		},
-		"PostgreSql1_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "Krishh"
-		},
-		"PostgreSql1_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "postgres"
-		},
-		"PostgreSql1_properties_typeProperties_username": {
-			"type": "string",
-			"defaultValue": "postgres"
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
 			"type": "string",
@@ -160,33 +144,6 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/PostgreSql1')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "PostgreSqlV2",
-				"typeProperties": {
-					"server": "[parameters('PostgreSql1_properties_typeProperties_server')]",
-					"port": 5432,
-					"database": "[parameters('PostgreSql1_properties_typeProperties_database')]",
-					"username": "[parameters('PostgreSql1_properties_typeProperties_username')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('PostgreSql1_password')]"
-					},
-					"sslMode": 2,
-					"authenticationType": "Basic",
-					"connectionTimeout": 10
-				},
-				"connectVia": {
-					"referenceName": "SHIR-1",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SqlServer_onprem')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -666,6 +623,44 @@
 					"escapeChar": "\\",
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_ADLS2')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ADLS2",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"table_catalog": {
+						"type": "string"
+					},
+					"table_name": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@concat(\n    dataset().table_catalog, '/',\n    dataset().table_name, '/',\n    formatDateTime(utcnow(),'yyyy'), '/',\n    formatDateTime(utcnow(),'MM'), '/',\n    formatDateTime(utcnow(),'dd'), '/',\n    formatDateTime(utcnow(),'HH')\n)\n",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat('rl_sql001',dataset().table_catalog)",
+							"type": "Expression"
+						},
+						"fileSystem": "lake"
+					},
+					"compressionCodec": "snappy"
 				},
 				"schema": []
 			},

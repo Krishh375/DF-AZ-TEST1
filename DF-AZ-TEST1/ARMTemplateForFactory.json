@@ -452,7 +452,7 @@
 						"typeProperties": {
 							"source": {
 								"type": "SqlServerSource",
-								"sqlReaderQuery": "USE AdventureWorksDW2019\n\nSELECT QUOTENAME(table_schema) + '.' + QUOTENAME(table_name) AS Table_name,table_catalog\nFROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_TYPE = 'BASE TABLE'",
+								"sqlReaderQuery": "USE AdventureWorksDW2019\n\nSELECT QUOTENAME(table_schema) + '.' + QUOTENAME(table_name) AS Table_name,Table_catalog\nFROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_TYPE = 'BASE TABLE'",
 								"queryTimeout": "02:00:00",
 								"partitionOption": "None"
 							},
@@ -2246,7 +2246,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": {
-							"value": "@{dataset().table_name}/@{formatDateTime(utcNow(),'yyyy')}/@{formatDateTime(utcNow(),'MM')}/@{formatDateTime(utcNow(),'dd')}/@{dataset().table_name}@{formatDateTime(utcNow(),'HH')}",
+							"value": "@concat(\n    dataset().table_catalog, '/',\n    dataset().table_name, '/',\n    formatDateTime(utcnow(),'yyyy'), '/',\n    formatDateTime(utcnow(),'MM'), '/',\n    formatDateTime(utcnow(),'dd'), '/',\n    formatDateTime(utcnow(),'HH')\n)\n",
 							"type": "Expression"
 						},
 						"folderPath": {
@@ -3924,12 +3924,12 @@
 					}
 				},
 				"connectVia": {
-					"referenceName": "AutoResolveIntegrationRuntime",
+					"referenceName": "vnetintegrationRuntime",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/vnetintegrationRuntime')]"
 			]
 		},
 		{
@@ -5622,7 +5622,8 @@
 								"referenceName": "DS_ASQLDB_PIPELINE_PARAMETER",
 								"type": "DatasetReference",
 								"parameters": {}
-							}
+							},
+							"firstRowOnly": false
 						}
 					},
 					{
@@ -5701,7 +5702,7 @@
 													"type": "Expression"
 												},
 												"table_name": {
-													"value": "@{item().Table_name}",
+													"value": "@{item().table_name}",
 													"type": "Expression"
 												}
 											}

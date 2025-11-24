@@ -555,9 +555,6 @@
 					"Db21_connectionString": {
 						"value": "[parameters('Db21_connectionString')]"
 					},
-					"LS_ASQL_password": {
-						"value": "[parameters('LS_ASQL_password')]"
-					},
 					"LS_SP_SQLSERVER_password": {
 						"value": "[parameters('LS_SP_SQLSERVER_password')]"
 					},
@@ -569,6 +566,9 @@
 					},
 					"Oracle_ls_V2_password": {
 						"value": "[parameters('Oracle_ls_V2_password')]"
+					},
+					"PostgreSql1_password": {
+						"value": "[parameters('PostgreSql1_password')]"
 					},
 					"AzureDataLakeStorageLS_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageLS_properties_typeProperties_url')]"
@@ -587,15 +587,6 @@
 					},
 					"LS_ADLS2_properties_typeProperties_url": {
 						"value": "[parameters('LS_ADLS2_properties_typeProperties_url')]"
-					},
-					"LS_ASQL_properties_typeProperties_server": {
-						"value": "[parameters('LS_ASQL_properties_typeProperties_server')]"
-					},
-					"LS_ASQL_properties_typeProperties_database": {
-						"value": "[parameters('LS_ASQL_properties_typeProperties_database')]"
-					},
-					"LS_ASQL_properties_typeProperties_userName": {
-						"value": "[parameters('LS_ASQL_properties_typeProperties_userName')]"
 					},
 					"LS_SP_SQLSERVER_properties_typeProperties_server": {
 						"value": "[parameters('LS_SP_SQLSERVER_properties_typeProperties_server')]"
@@ -620,6 +611,15 @@
 					},
 					"Oracle_ls_V2_properties_typeProperties_username": {
 						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_username')]"
+					},
+					"PostgreSql1_properties_typeProperties_server": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_server')]"
+					},
+					"PostgreSql1_properties_typeProperties_database": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_database')]"
+					},
+					"PostgreSql1_properties_typeProperties_username": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_username')]"
 					}
 				}
 			},
@@ -641,9 +641,6 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"PostgreSql1_password": {
-						"value": "[parameters('PostgreSql1_password')]"
-					},
 					"SqlServer_onprem_password": {
 						"value": "[parameters('SqlServer_onprem_password')]"
 					},
@@ -652,15 +649,6 @@
 					},
 					"Teradata_user_password": {
 						"value": "[parameters('Teradata_user_password')]"
-					},
-					"PostgreSql1_properties_typeProperties_server": {
-						"value": "[parameters('PostgreSql1_properties_typeProperties_server')]"
-					},
-					"PostgreSql1_properties_typeProperties_database": {
-						"value": "[parameters('PostgreSql1_properties_typeProperties_database')]"
-					},
-					"PostgreSql1_properties_typeProperties_username": {
-						"value": "[parameters('PostgreSql1_properties_typeProperties_username')]"
 					},
 					"SqlServer_onprem_properties_typeProperties_server": {
 						"value": "[parameters('SqlServer_onprem_properties_typeProperties_server')]"
@@ -786,6 +774,9 @@
 					"AzureSqlDatabase2_password": {
 						"value": "[parameters('AzureSqlDatabase2_password')]"
 					},
+					"LS_ASQL_password": {
+						"value": "[parameters('LS_ASQL_password')]"
+					},
 					"Snowflake_ls_privateKey": {
 						"value": "[parameters('Snowflake_ls_privateKey')]"
 					},
@@ -812,6 +803,15 @@
 					},
 					"AzureSqlDatabase2_properties_typeProperties_userName": {
 						"value": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]"
+					},
+					"LS_ASQL_properties_typeProperties_server": {
+						"value": "[parameters('LS_ASQL_properties_typeProperties_server')]"
+					},
+					"LS_ASQL_properties_typeProperties_database": {
+						"value": "[parameters('LS_ASQL_properties_typeProperties_database')]"
+					},
+					"LS_ASQL_properties_typeProperties_userName": {
+						"value": "[parameters('LS_ASQL_properties_typeProperties_userName')]"
 					},
 					"Snowflake_ls_properties_typeProperties_database": {
 						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
