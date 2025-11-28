@@ -5,17 +5,16 @@
 		"annotations": [],
 		"type": "PostgreSqlV2",
 		"typeProperties": {
-			"server": "Krishh",
+			"server": "localhost",
 			"port": 5432,
 			"database": "postgres",
 			"username": "postgres",
 			"sslMode": 2,
 			"authenticationType": "Basic",
-			"connectionTimeout": 10,
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxOGVjZDE2OC1mZDNhLTRhODQtYTI4Yi0wY2I4MWY1ZjE0YjciLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJlMWQ5YzJmNS1jM2Q5LTQzOTMtOGNjMy04ZGEyNTViNTljNDQiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "SHIR-1",
+			"referenceName": "SHIR-Onprem",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
