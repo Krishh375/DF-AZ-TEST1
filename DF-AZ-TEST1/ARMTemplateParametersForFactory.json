@@ -92,6 +92,9 @@
 		"AzureDatabricks_LS_AT_properties_typeProperties_existingClusterId": {
 			"value": "0810-031931-uk5fa7qm"
 		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://akvapitoken.vault.azure.net/"
+		},
 		"AzureKeyVaultsqlserver_properties_typeProperties_baseUrl": {
 			"value": "https://sqlserver-cred-onprem.vault.azure.net/"
 		},
@@ -159,7 +162,7 @@
 			"value": "C##krishh"
 		},
 		"PostgreSql1_properties_typeProperties_server": {
-			"value": "Krishh"
+			"value": "localhost"
 		},
 		"PostgreSql1_properties_typeProperties_database": {
 			"value": "postgres"
@@ -219,13 +222,13 @@
 			"value": "sa"
 		},
 		"Teradata_properties_typeProperties_server": {
-			"value": "192.168.1.9"
+			"value": "10.18.133.88"
 		},
 		"Teradata_properties_typeProperties_username": {
 			"value": "dbc"
 		},
 		"Teradata_user_properties_typeProperties_server": {
-			"value": "192.168.1.9"
+			"value": "10.18.133.88"
 		},
 		"Teradata_user_properties_typeProperties_username": {
 			"value": "dbc"
@@ -279,6 +282,12 @@
 				"pracdemostorage.dfs.core.windows.net"
 			]
 		},
+		"AzureSqlDatabase591_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
+		},
+		"AzureSqlDatabase591_properties_groupId": {
+			"value": "sqlServer"
+		},
 		"CosmosDb_properties_privateLinkResourceId": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.DocumentDB/databaseAccounts/krishh-cosmos-db"
 		},
@@ -300,12 +309,6 @@
 			"value": [
 				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
-		},
-		"AzureSqlDatabase591_properties_privateLinkResourceId": {
-			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
-		},
-		"AzureSqlDatabase591_properties_groupId": {
-			"value": "sqlServer"
 		}
 	}
 }

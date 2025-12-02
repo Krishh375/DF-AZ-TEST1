@@ -17,6 +17,279 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/teradata_pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "TeradataSource",
+								"query": "select  to_char(EFF_DATE, 'YYYY-MM-DD'), EFF_TIME, CAST(CAST(((EFF_TIME ) (FORMAT '99:99:99')) AS CHAR(8)) AS TIME(0)) as old_eff_time\nFROM tktestdb.testtb150;",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Teradata_dataset_user",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADLSGen2datasetsink",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzurePostgreSqlTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzurePostgreSql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "a",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "public",
+					"table": "employees"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDataset_Product')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDataset_Students')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "name",
+						"type": "varchar"
+					},
+					{
+						"name": "class",
+						"type": "varchar"
+					},
+					{
+						"name": "dept",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "product"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_ASQLDB_PIPELINE_PARAMETER')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ASQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Table_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "table_catalog",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "pipeline_parameter3"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Snowflakedataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Snowflake_ls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SnowflakeV2Table",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "RECORD_ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "ELEMENT_ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TEXT",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "EMBEDDINGS",
+						"type": "ARRAY"
+					},
+					{
+						"name": "TYPE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "SYSTEM",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "LAYOUT_WIDTH",
+						"type": "NUMBER",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "LAYOUT_HEIGHT",
+						"type": "NUMBER",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "POINTS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "URL",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "VERSION",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "DATE_CREATED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "DATE_PROCESSED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "DATE_MODIFIED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "SENT_FROM",
+						"type": "ARRAY"
+					},
+					{
+						"name": "SENT_TO",
+						"type": "ARRAY"
+					}
+				],
+				"typeProperties": {
+					"schema": "MY_SCHEMA",
+					"table": "ELEMENTS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/TransformContractSectionViewBordereau_blob')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -742,7 +1015,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_ASQLDB_PIPELINE_PARAMETER')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/P_SQL_TO_ADLS')]",
@@ -871,7 +1146,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_ASQLDB_PIPELINE_PARAMETER')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SQLSERVER_TO_ASQL_ST_PROC')]",
@@ -963,7 +1240,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_ASQLDB_PIPELINE_PARAMETER')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dataflow_newbranch_parallel_pip')]",
@@ -1173,7 +1452,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureSqlDataset_Students')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipelinepostgrestest')]",
@@ -1235,7 +1516,9 @@
 				"annotations": [],
 				"lastPublishTime": "2025-08-08T21:33:46Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzurePostgreSqlTable')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/postgrespipeline')]",
@@ -1297,7 +1580,9 @@
 				"annotations": [],
 				"lastPublishTime": "2025-04-26T19:58:10Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzurePostgreSqlTable')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/triggereventstorage')]",
@@ -1372,7 +1657,9 @@
 					]
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzurePostgreSqlTable')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dataflowtestparallel')]",
@@ -1464,101 +1751,9 @@
 					]
 				}
 			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/executedataflow')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflowpostgressql",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"sourcepostgres": {},
-									"sinkadls": {}
-								}
-							},
-							"staging": {},
-							"integrationRuntime": {
-								"referenceName": "vnetintegrationRuntime",
-								"type": "IntegrationRuntimeReference"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2025-08-08T22:13:50Z"
-			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflowpostgressql')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipelinedataflowparallel')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflowtestparallel",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source": {},
-									"source2": {},
-									"sink": {},
-									"sink2": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflowtestparallel')]"
+				"[concat(variables('factoryId'), '/datasets/AzureSqlDataset_Students')]",
+				"[concat(variables('factoryId'), '/datasets/AzureSqlDataset_Product')]"
 			]
 		}
 	]

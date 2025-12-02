@@ -123,6 +123,10 @@
 			"type": "string",
 			"defaultValue": "0810-031931-uk5fa7qm"
 		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://akvapitoken.vault.azure.net/"
+		},
 		"AzureKeyVaultsqlserver_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://sqlserver-cred-onprem.vault.azure.net/"
@@ -213,7 +217,7 @@
 		},
 		"PostgreSql1_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "Krishh"
+			"defaultValue": "localhost"
 		},
 		"PostgreSql1_properties_typeProperties_database": {
 			"type": "string",
@@ -293,7 +297,7 @@
 		},
 		"Teradata_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "192.168.1.9"
+			"defaultValue": "10.18.133.88"
 		},
 		"Teradata_properties_typeProperties_username": {
 			"type": "string",
@@ -301,7 +305,7 @@
 		},
 		"Teradata_user_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "192.168.1.9"
+			"defaultValue": "10.18.133.88"
 		},
 		"Teradata_user_properties_typeProperties_username": {
 			"type": "string",
@@ -370,6 +374,14 @@
 				"pracdemostorage.dfs.core.windows.net"
 			]
 		},
+		"AzureSqlDatabase591_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
+		},
+		"AzureSqlDatabase591_properties_groupId": {
+			"type": "string",
+			"defaultValue": "sqlServer"
+		},
 		"CosmosDb_properties_privateLinkResourceId": {
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.DocumentDB/databaseAccounts/krishh-cosmos-db"
@@ -397,14 +409,6 @@
 			"defaultValue": [
 				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
-		},
-		"AzureSqlDatabase591_properties_privateLinkResourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
-		},
-		"AzureSqlDatabase591_properties_groupId": {
-			"type": "string",
-			"defaultValue": "sqlServer"
 		},
 		"containerUri": {
 			"type": "string",
@@ -462,6 +466,9 @@
 					},
 					"Azdemoappentra_properties_typeProperties_baseUrl": {
 						"value": "[parameters('Azdemoappentra_properties_typeProperties_baseUrl')]"
+					},
+					"AzureKeyVault1_properties_typeProperties_baseUrl": {
+						"value": "[parameters('AzureKeyVault1_properties_typeProperties_baseUrl')]"
 					},
 					"AzureKeyVaultsqlserver_properties_typeProperties_baseUrl": {
 						"value": "[parameters('AzureKeyVaultsqlserver_properties_typeProperties_baseUrl')]"
@@ -547,9 +554,6 @@
 					"Oracle_ls_V2_password": {
 						"value": "[parameters('Oracle_ls_V2_password')]"
 					},
-					"PostgreSql1_password": {
-						"value": "[parameters('PostgreSql1_password')]"
-					},
 					"AzureDataLakeStorageLS_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageLS_properties_typeProperties_url')]"
 					},
@@ -591,15 +595,6 @@
 					},
 					"Oracle_ls_V2_properties_typeProperties_username": {
 						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_username')]"
-					},
-					"PostgreSql1_properties_typeProperties_server": {
-						"value": "[parameters('PostgreSql1_properties_typeProperties_server')]"
-					},
-					"PostgreSql1_properties_typeProperties_database": {
-						"value": "[parameters('PostgreSql1_properties_typeProperties_database')]"
-					},
-					"PostgreSql1_properties_typeProperties_username": {
-						"value": "[parameters('PostgreSql1_properties_typeProperties_username')]"
 					}
 				}
 			},
@@ -621,6 +616,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"PostgreSql1_password": {
+						"value": "[parameters('PostgreSql1_password')]"
+					},
 					"SqlServer_onprem_password": {
 						"value": "[parameters('SqlServer_onprem_password')]"
 					},
@@ -629,6 +627,15 @@
 					},
 					"Teradata_user_password": {
 						"value": "[parameters('Teradata_user_password')]"
+					},
+					"PostgreSql1_properties_typeProperties_server": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_server')]"
+					},
+					"PostgreSql1_properties_typeProperties_database": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_database')]"
+					},
+					"PostgreSql1_properties_typeProperties_username": {
+						"value": "[parameters('PostgreSql1_properties_typeProperties_username')]"
 					},
 					"SqlServer_onprem_properties_typeProperties_server": {
 						"value": "[parameters('SqlServer_onprem_properties_typeProperties_server')]"
@@ -675,6 +682,12 @@
 					"AzureDataLakeStorage299_properties_fqdns": {
 						"value": "[parameters('AzureDataLakeStorage299_properties_fqdns')]"
 					},
+					"AzureSqlDatabase591_properties_privateLinkResourceId": {
+						"value": "[parameters('AzureSqlDatabase591_properties_privateLinkResourceId')]"
+					},
+					"AzureSqlDatabase591_properties_groupId": {
+						"value": "[parameters('AzureSqlDatabase591_properties_groupId')]"
+					},
 					"CosmosDb_properties_privateLinkResourceId": {
 						"value": "[parameters('CosmosDb_properties_privateLinkResourceId')]"
 					},
@@ -692,12 +705,6 @@
 					},
 					"PrivateLinkService461_properties_fqdns": {
 						"value": "[parameters('PrivateLinkService461_properties_fqdns')]"
-					},
-					"AzureSqlDatabase591_properties_privateLinkResourceId": {
-						"value": "[parameters('AzureSqlDatabase591_properties_privateLinkResourceId')]"
-					},
-					"AzureSqlDatabase591_properties_groupId": {
-						"value": "[parameters('AzureSqlDatabase591_properties_groupId')]"
 					}
 				}
 			},
@@ -829,6 +836,26 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_4')]"
+			]
+		},
+		{
+			"name": "DF-AZ-TEST1_ArmTemplate_6",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_6.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_5')]"
 			]
 		}
 	]
