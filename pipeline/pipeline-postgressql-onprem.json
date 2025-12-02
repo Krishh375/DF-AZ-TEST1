@@ -17,6 +17,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "PostgreSqlV2Source",
+						"query": "select * from public.custom_time",
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
@@ -73,6 +74,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "PostgreSqlV2Source",
+						"query": "select * from public.employee",
 						"queryTimeout": "02:00:00"
 					},
 					"sink": {
