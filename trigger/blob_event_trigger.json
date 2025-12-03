@@ -2,11 +2,11 @@
 	"name": "blob_event_trigger",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Stopped",
+		"runtimeState": "Started",
 		"pipelines": [],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
-			"blobPathBeginsWith": "/product-price-maxbuyquantity/blobs/'/product-price-maxbuyquantity/blobs/MaxOrderQuantity_CSV'",
+			"blobPathBeginsWith": "/product-price-maxbuyquantity/blobs/'/product-price-maxbuyquantity",
 			"blobPathEndsWith": ".csv",
 			"ignoreEmptyBlobs": true,
 			"scope": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21",
