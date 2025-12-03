@@ -12,7 +12,7 @@
 				"type": "AzureBlobFSLocation",
 				"fileName": "file2.parquet",
 				"folderPath": {
-					"value": "@concat('/root/parquet/copy2',utcNow('yyyy/MM/dd'))",
+					"value": "@concat('/root/parquet/copy2/',utcNow('yyyy-MM-dd'))",
 					"type": "Expression"
 				},
 				"fileSystem": "democontainer"
