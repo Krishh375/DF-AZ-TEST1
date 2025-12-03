@@ -31,10 +31,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Oracle_LS'"
 		},
-		"Oracle_ls_V2_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'Oracle_ls_V2'"
-		},
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlsdemostorage21.dfs.core.windows.net/"
@@ -82,14 +78,6 @@
 		"LS_SQLSERVER_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa"
-		},
-		"Oracle_ls_V2_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST= KrishhNaPC)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=XE)))"
-		},
-		"Oracle_ls_V2_properties_typeProperties_username": {
-			"type": "string",
-			"defaultValue": "C##krishh"
 		}
 	},
 	"variables": {
@@ -113,6 +101,32 @@
 			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks",
 			"apiVersion": "2018-06-01",
 			"properties": {},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline_wait')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Wait",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 123
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Blob_event_trigger"
+				},
+				"annotations": []
+			},
 			"dependsOn": []
 		},
 		{
@@ -563,35 +577,6 @@
 				"type": "Oracle",
 				"typeProperties": {
 					"connectionString": "[parameters('Oracle_LS_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "SHIR-1",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Oracle_ls_V2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Oracle",
-				"version": "2.0",
-				"typeProperties": {
-					"server": "[parameters('Oracle_ls_V2_properties_typeProperties_server')]",
-					"authenticationType": "Basic",
-					"username": "[parameters('Oracle_ls_V2_properties_typeProperties_username')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('Oracle_ls_V2_password')]"
-					},
-					"encryptionClient": "accepted",
-					"encryptionTypesClient": "(AES128, AES192, AES256, 3DES112, 3DES168)",
-					"cryptoChecksumClient": "accepted",
-					"cryptoChecksumTypesClient": "(SHA1, SHA256, SHA384, SHA512)",
-					"supportV1DataTypes": true
 				},
 				"connectVia": {
 					"referenceName": "SHIR-1",

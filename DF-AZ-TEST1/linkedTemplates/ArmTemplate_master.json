@@ -406,6 +406,10 @@
 				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
 		},
+		"blob_event_trigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
 		"triggereventstorage_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
@@ -551,9 +555,6 @@
 					"Oracle_LS_connectionString": {
 						"value": "[parameters('Oracle_LS_connectionString')]"
 					},
-					"Oracle_ls_V2_password": {
-						"value": "[parameters('Oracle_ls_V2_password')]"
-					},
 					"AzureDataLakeStorageLS_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageLS_properties_typeProperties_url')]"
 					},
@@ -589,12 +590,6 @@
 					},
 					"LS_SQLSERVER_properties_typeProperties_userName": {
 						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]"
-					},
-					"Oracle_ls_V2_properties_typeProperties_server": {
-						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_server')]"
-					},
-					"Oracle_ls_V2_properties_typeProperties_username": {
-						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_username')]"
 					}
 				}
 			},
@@ -616,6 +611,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"Oracle_ls_V2_password": {
+						"value": "[parameters('Oracle_ls_V2_password')]"
+					},
 					"PostgreSql1_password": {
 						"value": "[parameters('PostgreSql1_password')]"
 					},
@@ -627,6 +625,12 @@
 					},
 					"Teradata_user_password": {
 						"value": "[parameters('Teradata_user_password')]"
+					},
+					"Oracle_ls_V2_properties_typeProperties_server": {
+						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_server')]"
+					},
+					"Oracle_ls_V2_properties_typeProperties_username": {
+						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_username')]"
 					},
 					"PostgreSql1_properties_typeProperties_server": {
 						"value": "[parameters('PostgreSql1_properties_typeProperties_server')]"
@@ -705,6 +709,9 @@
 					},
 					"PrivateLinkService461_properties_fqdns": {
 						"value": "[parameters('PrivateLinkService461_properties_fqdns')]"
+					},
+					"blob_event_trigger_properties_typeProperties_scope": {
+						"value": "[parameters('blob_event_trigger_properties_typeProperties_scope')]"
 					}
 				}
 			},
@@ -828,9 +835,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"triggereventstorage_properties_typeProperties_scope": {
-						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
 					}
 				}
 			},
@@ -851,6 +855,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"triggereventstorage_properties_typeProperties_scope": {
+						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
 					}
 				}
 			},
