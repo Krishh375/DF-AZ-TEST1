@@ -1585,34 +1585,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/triggereventstorage')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "pipelinestoragedataview",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/democontainer/blobs/",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('triggereventstorage_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/dataflowpostgressql')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -1755,6 +1727,34 @@
 				"[concat(variables('factoryId'), '/datasets/AzureSqlDataset_Students')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlDataset_Product')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/triggereventstorage')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pipelinestoragedataview",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/democontainer/blobs/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('triggereventstorage_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }

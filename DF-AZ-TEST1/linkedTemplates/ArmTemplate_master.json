@@ -323,10 +323,6 @@
 			"type": "string",
 			"defaultValue": "@{linkedService().Database_name}"
 		},
-		"triggereventstorage_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
 		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 			"type": "string",
 			"defaultValue": "krishh123.database.windows.net"
@@ -409,6 +405,10 @@
 			"defaultValue": [
 				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
+		},
+		"triggereventstorage_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		},
 		"containerUri": {
 			"type": "string",

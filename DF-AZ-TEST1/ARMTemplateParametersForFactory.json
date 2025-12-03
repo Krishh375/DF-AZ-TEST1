@@ -242,9 +242,6 @@
 		"productbuilderCosmos_properties_typeProperties_database": {
 			"value": "@{linkedService().Database_name}"
 		},
-		"triggereventstorage_properties_typeProperties_scope": {
-			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
 		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 			"value": "krishh123.database.windows.net"
 		},
@@ -309,6 +306,9 @@
 			"value": [
 				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
+		},
+		"triggereventstorage_properties_typeProperties_scope": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		}
 	}
 }
