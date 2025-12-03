@@ -5951,7 +5951,7 @@
 				],
 				"type": "BlobEventsTrigger",
 				"typeProperties": {
-					"blobPathBeginsWith": "/product-price-maxbuyquantity/blobs/MaxOrderQuantity_CSV",
+					"blobPathBeginsWith": "/product-price-maxbuyquantity/blobs/blobs/MaxOrderQuantity_CSV",
 					"blobPathEndsWith": ".csv",
 					"ignoreEmptyBlobs": true,
 					"scope": "[parameters('blob_event_trigger_properties_typeProperties_scope')]",
