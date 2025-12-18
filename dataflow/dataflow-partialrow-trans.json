@@ -1,0 +1,58 @@
+{
+	"name": "dataflow-partialrow-trans",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "Dataflow_source_dataset4",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "sinkcsvdataset",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Formatted Date} as string,",
+				"          Summary as string,",
+				"          {Precip Type} as string,",
+				"          {Temperature (C)} as string,",
+				"          {Apparent Temperature (C)} as string,",
+				"          Humidity as string,",
+				"          {Wind Speed (km/h)} as string,",
+				"          {Wind Bearing (degrees)} as string,",
+				"          {Visibility (km)} as string,",
+				"          {Loud Cover} as string,",
+				"          {Pressure (millibars)} as string,",
+				"          {Daily Summary} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(Summary = left(Summary,6)) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
