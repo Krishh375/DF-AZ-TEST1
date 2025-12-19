@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "weatherHistory-(1).csv",
-				"folderPath": "sample datasets ",
+				"fileName": "title.csv",
+				"folderPath": "sourcefolder",
 				"fileSystem": "democontainer"
 			},
 			"columnDelimiter": ",",
