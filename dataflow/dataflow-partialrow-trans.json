@@ -6,52 +6,44 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "Dataflow_source_dataset4",
+						"referenceName": "dataset_title_csv",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
 				}
 			],
-			"sinks": [
-				{
-					"dataset": {
-						"referenceName": "sinkcsvdataset",
-						"type": "DatasetReference"
-					},
-					"name": "sink1"
-				}
-			],
+			"sinks": [],
 			"transformations": [
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "flatten1"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
-				"          {Formatted Date} as string,",
-				"          Summary as string,",
-				"          {Precip Type} as string,",
-				"          {Temperature (C)} as string,",
-				"          {Apparent Temperature (C)} as string,",
-				"          Humidity as string,",
-				"          {Wind Speed (km/h)} as string,",
-				"          {Wind Bearing (degrees)} as string,",
-				"          {Visibility (km)} as string,",
-				"          {Loud Cover} as string,",
-				"          {Pressure (millibars)} as string,",
-				"          {Daily Summary} as string",
+				"          TITLE_ID as integer,",
+				"          { TITLE} as string,",
+				"          { JOB_DIVISION} as string,",
+				"          { JOB_FAMILY} as string,",
+				"          { JOB_TITLE} as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 derive(Summary = left(Summary,6)) ~> derivedColumn1",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     umask: 0022,",
-				"     preCommands: [],",
-				"     postCommands: [],",
+				"source1 derive({ TITLE} = split({ TITLE}, '-'),",
+				"          TITLE_ID = TITLE_ID) ~> derivedColumn1",
+				"derivedColumn1 foldDown(unroll( TITLE),",
+				"     mapColumn(",
+				"          TITLE_ID,",
+				"          { TITLE},",
+				"          { JOB_DIVISION},",
+				"          { JOB_FAMILY},",
+				"          { JOB_TITLE}",
+				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> flatten1"
 			]
 		}
 	}
