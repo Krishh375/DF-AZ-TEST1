@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AZDestinyGlobalDatabase'"
 		},
+		"AzureDatabricks1_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
+		},
 		"AzureDatabricks_LS_AT_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks_LS_AT'"
@@ -118,6 +122,10 @@
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlsdemostorage21.dfs.core.windows.net/"
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0810-031931-uk5fa7qm"
 		},
 		"AzureDatabricks_LS_AT_properties_typeProperties_existingClusterId": {
 			"type": "string",
@@ -323,6 +331,14 @@
 			"type": "string",
 			"defaultValue": "@{linkedService().Database_name}"
 		},
+		"blob_event_trigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"triggereventstorage_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
 		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 			"type": "string",
 			"defaultValue": "krishh123.database.windows.net"
@@ -405,14 +421,6 @@
 			"defaultValue": [
 				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
-		},
-		"blob_event_trigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"triggereventstorage_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		}
 	},
 	"variables": {
@@ -1574,6 +1582,32 @@
 				"[concat(variables('factoryId'), '/datasets/SqlServer_Onprem')]",
 				"[concat(variables('factoryId'), '/datasets/AzureSqlDataset_Students')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pipeline_wait')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Wait",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 123
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Blob_event_trigger"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipelinecopy')]",
@@ -3018,8 +3052,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "weatherHistory-(1).csv",
-						"folderPath": "sample datasets ",
+						"fileName": "title.csv",
+						"folderPath": "sourcefolder",
 						"fileSystem": "democontainer"
 					},
 					"columnDelimiter": ",",
@@ -3529,6 +3563,52 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_csv_copytitle')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Copy of title.csv",
+						"folderPath": "sourcefolder",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "EMP_ID",
+						"type": "String"
+					},
+					{
+						"name": "EMPLOYEE",
+						"type": "String"
+					},
+					{
+						"name": "EMP_DEPT",
+						"type": "String"
+					},
+					{
+						"name": " JOB_TITLE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Dataset_sink_dataflow2')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3906,6 +3986,56 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/dataset_title_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "title.csv",
+						"folderPath": "sourcefolder",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "TITLE_ID",
+						"type": "String"
+					},
+					{
+						"name": " TITLE",
+						"type": "String"
+					},
+					{
+						"name": " JOB_DIVISION",
+						"type": "String"
+					},
+					{
+						"name": " JOB_FAMILY",
+						"type": "String"
+					},
+					{
+						"name": " JOB_TITLE",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/destinationimmu')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -4049,6 +4179,38 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/sinkcsvdataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "demofile.csv",
+						"folderPath": {
+							"value": "@concat('file', utcNow('yyyy-MM-DD')) ",
+							"type": "Expression"
+						},
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/sourceimmu')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -4138,14 +4300,12 @@
 				"annotations": [],
 				"type": "AzureDatabricks",
 				"typeProperties": {
-					"domain": "https://adb-2150332559871310.10.azuredatabricks.net",
-					"authentication": "MSI",
-					"workspaceResourceId": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/adf_git_test_rg/providers/Microsoft.Databricks/workspaces/test-db",
-					"newClusterNodeType": "tewdfghhj",
-					"newClusterNumOfWorker": "1",
-					"newClusterVersion": "dssaaaaaaaaaaaaa",
-					"clusterOption": "Fixed",
-					"newClusterInitScripts": []
+					"domain": "https://adb-2005876146166458.18.azuredatabricks.net",
+					"accessToken": {
+						"type": "SecureString",
+						"value": "[parameters('AzureDatabricks1_accessToken')]"
+					},
+					"existingClusterId": "[parameters('AzureDatabricks1_properties_typeProperties_existingClusterId')]"
 				},
 				"connectVia": {
 					"referenceName": "AutoResolveIntegrationRuntime",
@@ -4837,6 +4997,67 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/blob_event_trigger')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pipeline_wait",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/product-price-maxbuyquantity/blobs/MaxOrderQuantity_CSV",
+					"blobPathEndsWith": ".csv",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('blob_event_trigger_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pipeline_wait')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/triggereventstorage')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Stopped",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "pipelinestoragedataview",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "BlobEventsTrigger",
+				"typeProperties": {
+					"blobPathBeginsWith": "/democontainer/blobs/",
+					"ignoreEmptyBlobs": true,
+					"scope": "[parameters('triggereventstorage_properties_typeProperties_scope')]",
+					"events": [
+						"Microsoft.Storage.BlobCreated"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/pipelinestoragedataview')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AutoResolveIntegrationRuntime')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
@@ -5175,6 +5396,112 @@
 				"[concat(variables('factoryId'), '/datasets/pb_productBuilder_container')]",
 				"[concat(variables('factoryId'), '/datasets/pb_contractsection_container')]",
 				"[concat(variables('factoryId'), '/datasets/Jsonsink')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow-partialrow-trans')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "dataset_title_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_csv_copytitle",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Dataset_sink_title_csv",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "join1"
+						},
+						{
+							"name": "select1"
+						},
+						{
+							"name": "derivedColumn2"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          TITLE_ID as integer,",
+						"          { TITLE} as string,",
+						"          { JOB_DIVISION} as string,",
+						"          { JOB_FAMILY} as string,",
+						"          { JOB_TITLE} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source(output(",
+						"          EMP_ID as string,",
+						"          EMPLOYEE as string,",
+						"          EMP_DEPT as string,",
+						"          { JOB_TITLE} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source2",
+						"select1 derive({ TITLE} = split({ TITLE}, '-'),",
+						"          TITLE_ID = TITLE_ID) ~> derivedColumn1",
+						"source1, source2 join({ JOB_FAMILY} == EMP_DEPT,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join1",
+						"join1 select(mapColumn(",
+						"          TITLE_ID,",
+						"          { TITLE},",
+						"          { JOB_DIVISION},",
+						"          { JOB_TITLE} = source1@{ JOB_TITLE},",
+						"          EMP_ID,",
+						"          EMPLOYEE,",
+						"          EMP_DEPT",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"derivedColumn1 derive({ TITLE} = { TITLE}[1]) ~> derivedColumn2",
+						"derivedColumn2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id as string,",
+						"          name as string,",
+						"          dept as string",
+						"     ),",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/dataset_title_csv')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_csv_copytitle')]",
+				"[concat(variables('factoryId'), '/datasets/Dataset_sink_title_csv')]"
 			]
 		},
 		{
@@ -5908,90 +6235,330 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline_wait')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/DF_EXT_REPORTE_SZRPPIN_CAMPUS_CONGELADOS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "Wait",
-						"type": "Wait",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"waitTimeInSeconds": 123
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "Blob_event_trigger"
-				},
-				"annotations": []
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/blob_event_trigger')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Started",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "pipeline_wait",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "BlobEventsTrigger",
+				"type": "MappingDataFlow",
 				"typeProperties": {
-					"blobPathBeginsWith": "/product-price-maxbuyquantity/blobs/MaxOrderQuantity_CSV",
-					"blobPathEndsWith": ".csv",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('blob_event_trigger_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DF_EXT_REPORTE_SZRPPIN_CAMPUS_SOURCE_DATASET",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						},
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "sort1"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     id as integer[] ([842302,842517,84300903,844359,46])",
+						"}",
+						"source(output(",
+						"          id as integer,",
+						"          diagnosis as string,",
+						"          radius_mean as string,",
+						"          texture_mean as string,",
+						"          perimeter_mean as string,",
+						"          area_mean as string,",
+						"          smoothness_mean as string,",
+						"          compactness_mean as string,",
+						"          concavity_mean as string,",
+						"          {concave points_mean} as string,",
+						"          symmetry_mean as string,",
+						"          fractal_dimension_mean as string,",
+						"          radius_se as string,",
+						"          texture_se as string,",
+						"          perimeter_se as string,",
+						"          area_se as string,",
+						"          smoothness_se as string,",
+						"          compactness_se as string,",
+						"          concavity_se as string,",
+						"          {concave points_se} as string,",
+						"          symmetry_se as string,",
+						"          fractal_dimension_se as string,",
+						"          radius_worst as string,",
+						"          texture_worst as string,",
+						"          perimeter_worst as string,",
+						"          area_worst as string,",
+						"          smoothness_worst as string,",
+						"          compactness_worst as string,",
+						"          concavity_worst as string,",
+						"          {concave points_worst} as string,",
+						"          symmetry_worst as string,",
+						"          fractal_dimension_worst as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     fileSystem: 'datalake',",
+						"     folderPath: (concat($path, $file_name))) ~> source1",
+						"source1 select(skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 filter(in($id, id)) ~> filter1",
+						"filter1 sort(asc(radius_mean, true)) ~> sort1",
+						"sort1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
 					]
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipeline_wait')]"
+				"[concat(variables('factoryId'), '/datasets/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SOURCE_DATASET')]",
+				"[concat(variables('factoryId'), '/datasets/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/triggereventstorage')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
+			"name": "[concat(parameters('factoryName'), '/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SOURCE_DATASET')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
 				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "pipelinestoragedataview",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "BlobEventsTrigger",
+				"type": "DelimitedText",
 				"typeProperties": {
-					"blobPathBeginsWith": "/democontainer/blobs/",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('triggereventstorage_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Breast_Cancer_dataset",
+						"folderPath": "sample datasets ",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "diagnosis",
+						"type": "String"
+					},
+					{
+						"name": "radius_mean",
+						"type": "String"
+					},
+					{
+						"name": "texture_mean",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_mean",
+						"type": "String"
+					},
+					{
+						"name": "area_mean",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_mean",
+						"type": "String"
+					},
+					{
+						"name": "compactness_mean",
+						"type": "String"
+					},
+					{
+						"name": "concavity_mean",
+						"type": "String"
+					},
+					{
+						"name": "concave points_mean",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_mean",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_mean",
+						"type": "String"
+					},
+					{
+						"name": "radius_se",
+						"type": "String"
+					},
+					{
+						"name": "texture_se",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_se",
+						"type": "String"
+					},
+					{
+						"name": "area_se",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_se",
+						"type": "String"
+					},
+					{
+						"name": "compactness_se",
+						"type": "String"
+					},
+					{
+						"name": "concavity_se",
+						"type": "String"
+					},
+					{
+						"name": "concave points_se",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_se",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_se",
+						"type": "String"
+					},
+					{
+						"name": "radius_worst",
+						"type": "String"
+					},
+					{
+						"name": "texture_worst",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_worst",
+						"type": "String"
+					},
+					{
+						"name": "area_worst",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_worst",
+						"type": "String"
+					},
+					{
+						"name": "compactness_worst",
+						"type": "String"
+					},
+					{
+						"name": "concavity_worst",
+						"type": "String"
+					},
+					{
+						"name": "concave points_worst",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_worst",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_worst",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/pipelinestoragedataview')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "FILE.CSV",
+						"folderPath": "EXTRACTFILES",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_sink_title_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "title.csv",
+						"folderPath": "sinkfolder_title",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "dept",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
 			]
 		}
 	]

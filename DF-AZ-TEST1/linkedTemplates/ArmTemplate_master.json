@@ -11,6 +11,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AZDestinyGlobalDatabase'"
 		},
+		"AzureDatabricks1_accessToken": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
+		},
 		"AzureDatabricks_LS_AT_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks_LS_AT'"
@@ -118,6 +122,10 @@
 		"AzureDataLakeStorageLS_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlsdemostorage21.dfs.core.windows.net/"
+		},
+		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+			"type": "string",
+			"defaultValue": "0810-031931-uk5fa7qm"
 		},
 		"AzureDatabricks_LS_AT_properties_typeProperties_existingClusterId": {
 			"type": "string",
@@ -323,6 +331,14 @@
 			"type": "string",
 			"defaultValue": "@{linkedService().Database_name}"
 		},
+		"blob_event_trigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"triggereventstorage_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
 		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
 			"type": "string",
 			"defaultValue": "krishh123.database.windows.net"
@@ -405,14 +421,6 @@
 			"defaultValue": [
 				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
-		},
-		"blob_event_trigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"triggereventstorage_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		},
 		"containerUri": {
 			"type": "string",
@@ -537,6 +545,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureDatabricks1_accessToken": {
+						"value": "[parameters('AzureDatabricks1_accessToken')]"
+					},
 					"AzureDatabricks_LS_AT_accessToken": {
 						"value": "[parameters('AzureDatabricks_LS_AT_accessToken')]"
 					},
@@ -557,6 +568,9 @@
 					},
 					"AzureDataLakeStorageLS_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageLS_properties_typeProperties_url')]"
+					},
+					"AzureDatabricks1_properties_typeProperties_existingClusterId": {
+						"value": "[parameters('AzureDatabricks1_properties_typeProperties_existingClusterId')]"
 					},
 					"AzureDatabricks_LS_AT_properties_typeProperties_existingClusterId": {
 						"value": "[parameters('AzureDatabricks_LS_AT_properties_typeProperties_existingClusterId')]"
@@ -662,6 +676,9 @@
 					"Teradata_user_properties_typeProperties_username": {
 						"value": "[parameters('Teradata_user_properties_typeProperties_username')]"
 					},
+					"blob_event_trigger_properties_typeProperties_scope": {
+						"value": "[parameters('blob_event_trigger_properties_typeProperties_scope')]"
+					},
 					"AzureBlobStorage705_properties_privateLinkResourceId": {
 						"value": "[parameters('AzureBlobStorage705_properties_privateLinkResourceId')]"
 					},
@@ -709,9 +726,6 @@
 					},
 					"PrivateLinkService461_properties_fqdns": {
 						"value": "[parameters('PrivateLinkService461_properties_fqdns')]"
-					},
-					"blob_event_trigger_properties_typeProperties_scope": {
-						"value": "[parameters('blob_event_trigger_properties_typeProperties_scope')]"
 					}
 				}
 			},
