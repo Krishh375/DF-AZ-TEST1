@@ -14,9 +14,9 @@
 			],
 			"sinks": [
 				{
-					"linkedService": {
-						"referenceName": "AzureDataLakeStorageLS",
-						"type": "LinkedServiceReference"
+					"dataset": {
+						"referenceName": "DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET",
+						"type": "DatasetReference"
 					},
 					"name": "sink1"
 				}
@@ -27,14 +27,13 @@
 				},
 				{
 					"name": "filter1"
+				},
+				{
+					"name": "sort1"
 				}
 			],
 			"scriptLines": [
 				"parameters{",
-				"     path as string ('raw_zone/'),",
-				"     file_name as string ('REPORTE_SZRPPIN'),",
-				"     pathSink as string ('raw_zone/'),",
-				"     tableNameSink as string ('REPORTE_SZRPPIN_CAMPUS_CONGELADOS'),",
 				"     id as integer[] ([842302,842517,84300903,844359,46])",
 				"}",
 				"source(output(",
@@ -79,58 +78,14 @@
 				"source1 select(skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 filter(in($id, id)) ~> filter1",
-				"filter1 sink(allowSchemaDrift: true,",
+				"filter1 sort(asc(radius_mean, true)) ~> sort1",
+				"sort1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     format: 'delta',",
-				"     fileSystem: 'democontainer',",
-				"     folderPath: (concat($pathSink, $tableNameSink)),",
-				"     mergeSchema: false,",
-				"     autoCompact: false,",
-				"     optimizedWrite: false,",
-				"     vacuum: 0,",
-				"     deletable: false,",
-				"     insertable: true,",
-				"     updateable: false,",
-				"     upsertable: false,",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true,",
-				"     mapColumn(",
-				"          id,",
-				"          diagnosis,",
-				"          radius_mean,",
-				"          texture_mean,",
-				"          perimeter_mean,",
-				"          area_mean,",
-				"          smoothness_mean,",
-				"          compactness_mean,",
-				"          concavity_mean,",
-				"          {concave points_mean},",
-				"          symmetry_mean,",
-				"          fractal_dimension_mean,",
-				"          radius_se,",
-				"          texture_se,",
-				"          perimeter_se,",
-				"          area_se,",
-				"          smoothness_se,",
-				"          compactness_se,",
-				"          concavity_se,",
-				"          {concave points_se},",
-				"          symmetry_se,",
-				"          fractal_dimension_se,",
-				"          radius_worst,",
-				"          texture_worst,",
-				"          perimeter_worst,",
-				"          area_worst,",
-				"          smoothness_worst,",
-				"          compactness_worst,",
-				"          concavity_worst,",
-				"          {concave points_worst},",
-				"          symmetry_worst,",
-				"          fractal_dimension_worst",
-				"     )) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}
