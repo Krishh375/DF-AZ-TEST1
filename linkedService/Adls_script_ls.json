@@ -1,0 +1,19 @@
+{
+	"name": "Adls_script_ls",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"serviceEndpoint": "https://adlsdemostorage21.blob.core.windows.net/",
+			"accountKind": "StorageV2",
+			"credential": {
+				"referenceName": "credential",
+				"type": "CredentialReference"
+			}
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
