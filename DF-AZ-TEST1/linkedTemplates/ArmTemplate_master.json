@@ -95,6 +95,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'immutablecopyls'"
 		},
+		"Employee_Resign_LS_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Employee_Resign_LS'"
+		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "krishh123.database.windows.net"
@@ -380,6 +384,18 @@
 				"krishh-cosmos-db.documents.azure.com"
 			]
 		},
+		"Employee_Resign_LS_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "KRISHHNAPC"
+		},
+		"Employee_Resign_LS_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "TEST"
+		},
+		"Employee_Resign_LS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -601,6 +617,9 @@
 					"Teradata_user_password": {
 						"value": "[parameters('Teradata_user_password')]"
 					},
+					"Employee_Resign_LS_password": {
+						"value": "[parameters('Employee_Resign_LS_password')]"
+					},
 					"Oracle_ls_V2_properties_typeProperties_server": {
 						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_server')]"
 					},
@@ -678,6 +697,15 @@
 					},
 					"CosmosDb_properties_fqdns": {
 						"value": "[parameters('CosmosDb_properties_fqdns')]"
+					},
+					"Employee_Resign_LS_properties_typeProperties_server": {
+						"value": "[parameters('Employee_Resign_LS_properties_typeProperties_server')]"
+					},
+					"Employee_Resign_LS_properties_typeProperties_database": {
+						"value": "[parameters('Employee_Resign_LS_properties_typeProperties_database')]"
+					},
+					"Employee_Resign_LS_properties_typeProperties_userName": {
+						"value": "[parameters('Employee_Resign_LS_properties_typeProperties_userName')]"
 					}
 				}
 			},

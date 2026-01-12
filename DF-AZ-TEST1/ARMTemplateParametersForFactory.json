@@ -71,6 +71,9 @@
 		"immutablecopyls_connectionString": {
 			"value": ""
 		},
+		"Employee_Resign_LS_password": {
+			"value": ""
+		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
 			"value": "krishh123.database.windows.net"
 		},
@@ -286,6 +289,15 @@
 			"value": [
 				"krishh-cosmos-db.documents.azure.com"
 			]
+		},
+		"Employee_Resign_LS_properties_typeProperties_server": {
+			"value": "KRISHHNAPC"
+		},
+		"Employee_Resign_LS_properties_typeProperties_database": {
+			"value": "TEST"
+		},
+		"Employee_Resign_LS_properties_typeProperties_userName": {
+			"value": "sa"
 		}
 	}
 }
