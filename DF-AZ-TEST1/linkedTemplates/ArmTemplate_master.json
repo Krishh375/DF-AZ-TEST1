@@ -75,14 +75,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'privateKeyPassphrase' of 'Snowflake_ls'"
 		},
-		"SqlServer2_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServer2'"
-		},
-		"SqlServer_VNET_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServer_VNET'"
-		},
 		"SqlServer_onprem_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_onprem'"
@@ -114,6 +106,10 @@
 		"AZDestinyGlobalDatabase_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "krishh"
+		},
+		"Adls_script_ls_properties_typeProperties_serviceEndpoint": {
+			"type": "string",
+			"defaultValue": "https://adlsdemostorage21.blob.core.windows.net/"
 		},
 		"Azdemoappentra_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -205,11 +201,11 @@
 		},
 		"LS_SQLSERVER_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
+			"defaultValue": "KRISHHNAPC"
 		},
 		"LS_SQLSERVER_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": "ADF_DB"
+			"defaultValue": "TEST"
 		},
 		"LS_SQLSERVER_properties_typeProperties_userName": {
 			"type": "string",
@@ -266,30 +262,6 @@
 		"Snowflake_ls_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "MY_DATABASE"
-		},
-		"SqlServer2_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "sqlserver.privatelink.westus.cloudapp.azure.net"
-		},
-		"SqlServer2_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "master"
-		},
-		"SqlServer2_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "tknew"
-		},
-		"SqlServer_VNET_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
-		},
-		"SqlServer_VNET_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "[[ADF_DB]"
-		},
-		"SqlServer_VNET_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "sa"
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
 			"type": "string",
@@ -406,20 +378,6 @@
 			"type": "array",
 			"defaultValue": [
 				"krishh-cosmos-db.documents.azure.com"
-			]
-		},
-		"PrivateLinkService461_properties_privateLinkResourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
-		},
-		"PrivateLinkService461_properties_groupId": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"PrivateLinkService461_properties_fqdns": {
-			"type": "array",
-			"defaultValue": [
-				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
 		},
 		"containerUri": {
@@ -563,8 +521,8 @@
 					"LS_SQLSERVER_password": {
 						"value": "[parameters('LS_SQLSERVER_password')]"
 					},
-					"Oracle_LS_connectionString": {
-						"value": "[parameters('Oracle_LS_connectionString')]"
+					"Adls_script_ls_properties_typeProperties_serviceEndpoint": {
+						"value": "[parameters('Adls_script_ls_properties_typeProperties_serviceEndpoint')]"
 					},
 					"AzureDataLakeStorageLS_properties_typeProperties_url": {
 						"value": "[parameters('AzureDataLakeStorageLS_properties_typeProperties_url')]"
@@ -624,6 +582,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"Oracle_LS_connectionString": {
+						"value": "[parameters('Oracle_LS_connectionString')]"
 					},
 					"Oracle_ls_V2_password": {
 						"value": "[parameters('Oracle_ls_V2_password')]"
@@ -717,15 +678,6 @@
 					},
 					"CosmosDb_properties_fqdns": {
 						"value": "[parameters('CosmosDb_properties_fqdns')]"
-					},
-					"PrivateLinkService461_properties_privateLinkResourceId": {
-						"value": "[parameters('PrivateLinkService461_properties_privateLinkResourceId')]"
-					},
-					"PrivateLinkService461_properties_groupId": {
-						"value": "[parameters('PrivateLinkService461_properties_groupId')]"
-					},
-					"PrivateLinkService461_properties_fqdns": {
-						"value": "[parameters('PrivateLinkService461_properties_fqdns')]"
 					}
 				}
 			},
@@ -779,12 +731,6 @@
 					"Snowflake_ls_privateKeyPassphrase": {
 						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
 					},
-					"SqlServer2_password": {
-						"value": "[parameters('SqlServer2_password')]"
-					},
-					"SqlServer_VNET_password": {
-						"value": "[parameters('SqlServer_VNET_password')]"
-					},
 					"AzurePostgreSql_properties_typeProperties_server": {
 						"value": "[parameters('AzurePostgreSql_properties_typeProperties_server')]"
 					},
@@ -811,24 +757,6 @@
 					},
 					"Snowflake_ls_properties_typeProperties_database": {
 						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
-					},
-					"SqlServer2_properties_typeProperties_server": {
-						"value": "[parameters('SqlServer2_properties_typeProperties_server')]"
-					},
-					"SqlServer2_properties_typeProperties_database": {
-						"value": "[parameters('SqlServer2_properties_typeProperties_database')]"
-					},
-					"SqlServer2_properties_typeProperties_userName": {
-						"value": "[parameters('SqlServer2_properties_typeProperties_userName')]"
-					},
-					"SqlServer_VNET_properties_typeProperties_server": {
-						"value": "[parameters('SqlServer_VNET_properties_typeProperties_server')]"
-					},
-					"SqlServer_VNET_properties_typeProperties_database": {
-						"value": "[parameters('SqlServer_VNET_properties_typeProperties_database')]"
-					},
-					"SqlServer_VNET_properties_typeProperties_userName": {
-						"value": "[parameters('SqlServer_VNET_properties_typeProperties_userName')]"
 					}
 				}
 			},

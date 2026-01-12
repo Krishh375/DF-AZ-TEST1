@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
+		"Oracle_LS_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'Oracle_LS'"
+		},
 		"Oracle_ls_V2_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Oracle_ls_V2'"
@@ -136,26 +140,29 @@
 			"defaultValue": [
 				"krishh-cosmos-db.documents.azure.com"
 			]
-		},
-		"PrivateLinkService461_properties_privateLinkResourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
-		},
-		"PrivateLinkService461_properties_groupId": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"PrivateLinkService461_properties_fqdns": {
-			"type": "array",
-			"defaultValue": [
-				"sqlserver.privatelink.westus.cloudapp.azure.net"
-			]
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Oracle_LS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Oracle",
+				"typeProperties": {
+					"connectionString": "[parameters('Oracle_LS_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "SHIR-1",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/Oracle_ls_V2')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
@@ -424,17 +431,6 @@
 				"privateLinkResourceId": "[parameters('CosmosDb_properties_privateLinkResourceId')]",
 				"groupId": "[parameters('CosmosDb_properties_groupId')]",
 				"fqdns": "[parameters('CosmosDb_properties_fqdns')]"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/default/PrivateLinkService461')]",
-			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"privateLinkResourceId": "[parameters('PrivateLinkService461_properties_privateLinkResourceId')]",
-				"groupId": "[parameters('PrivateLinkService461_properties_groupId')]",
-				"fqdns": "[parameters('PrivateLinkService461_properties_fqdns')]"
 			},
 			"dependsOn": []
 		},

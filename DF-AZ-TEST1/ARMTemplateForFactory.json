@@ -75,14 +75,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'privateKeyPassphrase' of 'Snowflake_ls'"
 		},
-		"SqlServer2_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServer2'"
-		},
-		"SqlServer_VNET_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServer_VNET'"
-		},
 		"SqlServer_onprem_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_onprem'"
@@ -114,6 +106,10 @@
 		"AZDestinyGlobalDatabase_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "krishh"
+		},
+		"Adls_script_ls_properties_typeProperties_serviceEndpoint": {
+			"type": "string",
+			"defaultValue": "https://adlsdemostorage21.blob.core.windows.net/"
 		},
 		"Azdemoappentra_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -205,11 +201,11 @@
 		},
 		"LS_SQLSERVER_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
+			"defaultValue": "KRISHHNAPC"
 		},
 		"LS_SQLSERVER_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": "ADF_DB"
+			"defaultValue": "TEST"
 		},
 		"LS_SQLSERVER_properties_typeProperties_userName": {
 			"type": "string",
@@ -266,30 +262,6 @@
 		"Snowflake_ls_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "MY_DATABASE"
-		},
-		"SqlServer2_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "sqlserver.privatelink.westus.cloudapp.azure.net"
-		},
-		"SqlServer2_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "master"
-		},
-		"SqlServer2_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "tknew"
-		},
-		"SqlServer_VNET_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
-		},
-		"SqlServer_VNET_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "[[ADF_DB]"
-		},
-		"SqlServer_VNET_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "sa"
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
 			"type": "string",
@@ -406,20 +378,6 @@
 			"type": "array",
 			"defaultValue": [
 				"krishh-cosmos-db.documents.azure.com"
-			]
-		},
-		"PrivateLinkService461_properties_privateLinkResourceId": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
-		},
-		"PrivateLinkService461_properties_groupId": {
-			"type": "string",
-			"defaultValue": ""
-		},
-		"PrivateLinkService461_properties_fqdns": {
-			"type": "array",
-			"defaultValue": [
-				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
 		}
 	},
@@ -2604,6 +2562,193 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "FILE.CSV",
+						"folderPath": "EXTRACTFILES",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SOURCE_DATASET')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "Breast_Cancer_dataset",
+						"folderPath": "sample datasets ",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "diagnosis",
+						"type": "String"
+					},
+					{
+						"name": "radius_mean",
+						"type": "String"
+					},
+					{
+						"name": "texture_mean",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_mean",
+						"type": "String"
+					},
+					{
+						"name": "area_mean",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_mean",
+						"type": "String"
+					},
+					{
+						"name": "compactness_mean",
+						"type": "String"
+					},
+					{
+						"name": "concavity_mean",
+						"type": "String"
+					},
+					{
+						"name": "concave points_mean",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_mean",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_mean",
+						"type": "String"
+					},
+					{
+						"name": "radius_se",
+						"type": "String"
+					},
+					{
+						"name": "texture_se",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_se",
+						"type": "String"
+					},
+					{
+						"name": "area_se",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_se",
+						"type": "String"
+					},
+					{
+						"name": "compactness_se",
+						"type": "String"
+					},
+					{
+						"name": "concavity_se",
+						"type": "String"
+					},
+					{
+						"name": "concave points_se",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_se",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_se",
+						"type": "String"
+					},
+					{
+						"name": "radius_worst",
+						"type": "String"
+					},
+					{
+						"name": "texture_worst",
+						"type": "String"
+					},
+					{
+						"name": "perimeter_worst",
+						"type": "String"
+					},
+					{
+						"name": "area_worst",
+						"type": "String"
+					},
+					{
+						"name": "smoothness_worst",
+						"type": "String"
+					},
+					{
+						"name": "compactness_worst",
+						"type": "String"
+					},
+					{
+						"name": "concavity_worst",
+						"type": "String"
+					},
+					{
+						"name": "concave points_worst",
+						"type": "String"
+					},
+					{
+						"name": "symmetry_worst",
+						"type": "String"
+					},
+					{
+						"name": "fractal_dimension_worst",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DS_ADLS2')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -3638,6 +3783,48 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Dataset_sink_title_csv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "title.csv",
+						"folderPath": "sinkfolder_title",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "name",
+						"type": "String"
+					},
+					{
+						"name": "dept",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Jsonsink')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -4261,6 +4448,31 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Adls_script_ls')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"serviceEndpoint": "[parameters('Adls_script_ls_properties_typeProperties_serviceEndpoint')]",
+					"accountKind": "StorageV2",
+					"credential": {
+						"referenceName": "credential",
+						"type": "CredentialReference"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
+				"[concat(variables('factoryId'), '/credentials/credential')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Azdemoappentra')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -4802,62 +5014,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer2')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('SqlServer2_properties_typeProperties_server')]",
-					"database": "[parameters('SqlServer2_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": false,
-					"authenticationType": "SQL",
-					"userName": "[parameters('SqlServer2_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SqlServer2_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "vnetintegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/vnetintegrationRuntime')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServer_VNET')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('SqlServer_VNET_properties_typeProperties_server')]",
-					"database": "[parameters('SqlServer_VNET_properties_typeProperties_database')]",
-					"encrypt": "mandatory",
-					"trustServerCertificate": true,
-					"authenticationType": "SQL",
-					"userName": "[parameters('SqlServer_VNET_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SqlServer_VNET_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "vnetintegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/vnetintegrationRuntime')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/SqlServer_onprem')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -5221,6 +5377,104 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_EXT_REPORTE_SZRPPIN_CAMPUS_CONGELADOS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DF_EXT_REPORTE_SZRPPIN_CAMPUS_SOURCE_DATASET",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						},
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "sort1"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     id as integer[] ([842302,842517,84300903,844359,46])",
+						"}",
+						"source(output(",
+						"          id as integer,",
+						"          diagnosis as string,",
+						"          radius_mean as string,",
+						"          texture_mean as string,",
+						"          perimeter_mean as string,",
+						"          area_mean as string,",
+						"          smoothness_mean as string,",
+						"          compactness_mean as string,",
+						"          concavity_mean as string,",
+						"          {concave points_mean} as string,",
+						"          symmetry_mean as string,",
+						"          fractal_dimension_mean as string,",
+						"          radius_se as string,",
+						"          texture_se as string,",
+						"          perimeter_se as string,",
+						"          area_se as string,",
+						"          smoothness_se as string,",
+						"          compactness_se as string,",
+						"          concavity_se as string,",
+						"          {concave points_se} as string,",
+						"          symmetry_se as string,",
+						"          fractal_dimension_se as string,",
+						"          radius_worst as string,",
+						"          texture_worst as string,",
+						"          perimeter_worst as string,",
+						"          area_worst as string,",
+						"          smoothness_worst as string,",
+						"          compactness_worst as string,",
+						"          concavity_worst as string,",
+						"          {concave points_worst} as string,",
+						"          symmetry_worst as string,",
+						"          fractal_dimension_worst as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     fileSystem: 'datalake',",
+						"     folderPath: (concat($path, $file_name))) ~> source1",
+						"source1 select(skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 filter(in($id, id)) ~> filter1",
+						"filter1 sort(asc(radius_mean, true)) ~> sort1",
+						"sort1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SOURCE_DATASET')]",
+				"[concat(variables('factoryId'), '/datasets/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET')]"
 			]
 		},
 		{
@@ -6219,346 +6473,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/default/PrivateLinkService461')]",
-			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"privateLinkResourceId": "[parameters('PrivateLinkService461_properties_privateLinkResourceId')]",
-				"groupId": "[parameters('PrivateLinkService461_properties_groupId')]",
-				"fqdns": "[parameters('PrivateLinkService461_properties_fqdns')]"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DF_EXT_REPORTE_SZRPPIN_CAMPUS_CONGELADOS')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DF_EXT_REPORTE_SZRPPIN_CAMPUS_SOURCE_DATASET",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "select1"
-						},
-						{
-							"name": "filter1"
-						},
-						{
-							"name": "sort1"
-						}
-					],
-					"scriptLines": [
-						"parameters{",
-						"     id as integer[] ([842302,842517,84300903,844359,46])",
-						"}",
-						"source(output(",
-						"          id as integer,",
-						"          diagnosis as string,",
-						"          radius_mean as string,",
-						"          texture_mean as string,",
-						"          perimeter_mean as string,",
-						"          area_mean as string,",
-						"          smoothness_mean as string,",
-						"          compactness_mean as string,",
-						"          concavity_mean as string,",
-						"          {concave points_mean} as string,",
-						"          symmetry_mean as string,",
-						"          fractal_dimension_mean as string,",
-						"          radius_se as string,",
-						"          texture_se as string,",
-						"          perimeter_se as string,",
-						"          area_se as string,",
-						"          smoothness_se as string,",
-						"          compactness_se as string,",
-						"          concavity_se as string,",
-						"          {concave points_se} as string,",
-						"          symmetry_se as string,",
-						"          fractal_dimension_se as string,",
-						"          radius_worst as string,",
-						"          texture_worst as string,",
-						"          perimeter_worst as string,",
-						"          area_worst as string,",
-						"          smoothness_worst as string,",
-						"          compactness_worst as string,",
-						"          concavity_worst as string,",
-						"          {concave points_worst} as string,",
-						"          symmetry_worst as string,",
-						"          fractal_dimension_worst as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     fileSystem: 'datalake',",
-						"     folderPath: (concat($path, $file_name))) ~> source1",
-						"source1 select(skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"select1 filter(in($id, id)) ~> filter1",
-						"filter1 sort(asc(radius_mean, true)) ~> sort1",
-						"sort1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SOURCE_DATASET')]",
-				"[concat(variables('factoryId'), '/datasets/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SOURCE_DATASET')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "Breast_Cancer_dataset",
-						"folderPath": "sample datasets ",
-						"fileSystem": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "id",
-						"type": "String"
-					},
-					{
-						"name": "diagnosis",
-						"type": "String"
-					},
-					{
-						"name": "radius_mean",
-						"type": "String"
-					},
-					{
-						"name": "texture_mean",
-						"type": "String"
-					},
-					{
-						"name": "perimeter_mean",
-						"type": "String"
-					},
-					{
-						"name": "area_mean",
-						"type": "String"
-					},
-					{
-						"name": "smoothness_mean",
-						"type": "String"
-					},
-					{
-						"name": "compactness_mean",
-						"type": "String"
-					},
-					{
-						"name": "concavity_mean",
-						"type": "String"
-					},
-					{
-						"name": "concave points_mean",
-						"type": "String"
-					},
-					{
-						"name": "symmetry_mean",
-						"type": "String"
-					},
-					{
-						"name": "fractal_dimension_mean",
-						"type": "String"
-					},
-					{
-						"name": "radius_se",
-						"type": "String"
-					},
-					{
-						"name": "texture_se",
-						"type": "String"
-					},
-					{
-						"name": "perimeter_se",
-						"type": "String"
-					},
-					{
-						"name": "area_se",
-						"type": "String"
-					},
-					{
-						"name": "smoothness_se",
-						"type": "String"
-					},
-					{
-						"name": "compactness_se",
-						"type": "String"
-					},
-					{
-						"name": "concavity_se",
-						"type": "String"
-					},
-					{
-						"name": "concave points_se",
-						"type": "String"
-					},
-					{
-						"name": "symmetry_se",
-						"type": "String"
-					},
-					{
-						"name": "fractal_dimension_se",
-						"type": "String"
-					},
-					{
-						"name": "radius_worst",
-						"type": "String"
-					},
-					{
-						"name": "texture_worst",
-						"type": "String"
-					},
-					{
-						"name": "perimeter_worst",
-						"type": "String"
-					},
-					{
-						"name": "area_worst",
-						"type": "String"
-					},
-					{
-						"name": "smoothness_worst",
-						"type": "String"
-					},
-					{
-						"name": "compactness_worst",
-						"type": "String"
-					},
-					{
-						"name": "concavity_worst",
-						"type": "String"
-					},
-					{
-						"name": "concave points_worst",
-						"type": "String"
-					},
-					{
-						"name": "symmetry_worst",
-						"type": "String"
-					},
-					{
-						"name": "fractal_dimension_worst",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "FILE.CSV",
-						"folderPath": "EXTRACTFILES",
-						"fileSystem": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Dataset_sink_title_csv')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorageLS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "title.csv",
-						"folderPath": "sinkfolder_title",
-						"fileSystem": "democontainer"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "id",
-						"type": "String"
-					},
-					{
-						"name": "name",
-						"type": "String"
-					},
-					{
-						"name": "dept",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
 			]
 		}
 	]

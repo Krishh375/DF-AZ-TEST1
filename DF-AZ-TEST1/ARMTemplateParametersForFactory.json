@@ -56,12 +56,6 @@
 		"Snowflake_ls_privateKeyPassphrase": {
 			"value": ""
 		},
-		"SqlServer2_password": {
-			"value": ""
-		},
-		"SqlServer_VNET_password": {
-			"value": ""
-		},
 		"SqlServer_onprem_password": {
 			"value": ""
 		},
@@ -85,6 +79,9 @@
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_userName": {
 			"value": "krishh"
+		},
+		"Adls_script_ls_properties_typeProperties_serviceEndpoint": {
+			"value": "https://adlsdemostorage21.blob.core.windows.net/"
 		},
 		"Azdemoappentra_properties_typeProperties_baseUrl": {
 			"value": "https://dempappentrakey.vault.azure.net/"
@@ -153,10 +150,10 @@
 			"value": "sa"
 		},
 		"LS_SQLSERVER_properties_typeProperties_server": {
-			"value": "KRISHHNAPC\\SQLEXPRESS"
+			"value": "KRISHHNAPC"
 		},
 		"LS_SQLSERVER_properties_typeProperties_database": {
-			"value": "ADF_DB"
+			"value": "TEST"
 		},
 		"LS_SQLSERVER_properties_typeProperties_userName": {
 			"value": "sa"
@@ -199,24 +196,6 @@
 		},
 		"Snowflake_ls_properties_typeProperties_database": {
 			"value": "MY_DATABASE"
-		},
-		"SqlServer2_properties_typeProperties_server": {
-			"value": "sqlserver.privatelink.westus.cloudapp.azure.net"
-		},
-		"SqlServer2_properties_typeProperties_database": {
-			"value": "master"
-		},
-		"SqlServer2_properties_typeProperties_userName": {
-			"value": "tknew"
-		},
-		"SqlServer_VNET_properties_typeProperties_server": {
-			"value": "KRISHHNAPC\\SQLEXPRESS"
-		},
-		"SqlServer_VNET_properties_typeProperties_database": {
-			"value": "[[ADF_DB]"
-		},
-		"SqlServer_VNET_properties_typeProperties_userName": {
-			"value": "sa"
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
 			"value": "KRISHHNAPC\\SQLEXPRESS"
@@ -306,17 +285,6 @@
 		"CosmosDb_properties_fqdns": {
 			"value": [
 				"krishh-cosmos-db.documents.azure.com"
-			]
-		},
-		"PrivateLinkService461_properties_privateLinkResourceId": {
-			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-PROD/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
-		},
-		"PrivateLinkService461_properties_groupId": {
-			"value": ""
-		},
-		"PrivateLinkService461_properties_fqdns": {
-			"value": [
-				"sqlserver.privatelink.westus.cloudapp.azure.net"
 			]
 		}
 	}
