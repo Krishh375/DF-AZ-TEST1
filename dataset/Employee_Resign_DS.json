@@ -1,8 +1,8 @@
 {
-	"name": "DS_SQLSERVER",
+	"name": "Employee_Resign_DS",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LS_SQLSERVER",
+			"referenceName": "Employee_Resign_LS",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
