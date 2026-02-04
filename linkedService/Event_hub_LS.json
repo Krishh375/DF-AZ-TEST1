@@ -6,7 +6,12 @@
 		"typeProperties": {
 			"url": "https://testeventhub109.servicebus.windows.net",
 			"enableServerCertificateValidation": true,
-			"authenticationType": "Anonymous"
+			"authenticationType": "ManagedServiceIdentity",
+			"aadResourceId": "https://eventhubs.azure.net/",
+			"credential": {
+				"referenceName": "credential",
+				"type": "CredentialReference"
+			}
 		},
 		"connectVia": {
 			"referenceName": "AutoResolveIntegrationRuntime",
