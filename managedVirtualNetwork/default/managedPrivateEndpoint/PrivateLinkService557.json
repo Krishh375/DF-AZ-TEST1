@@ -4,7 +4,7 @@
 		"privateLinkResourceId": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/onpremsqlvnet/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService",
 		"groupId": "",
 		"fqdns": [
-			"sqlvmonprem.westus2.cloudapp.azure.com"
+			"sql-new-on-vm.internal.cloudapp.net"
 		]
 	}
 }
