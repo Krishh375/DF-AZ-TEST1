@@ -11,10 +11,10 @@
 			"trustServerCertificate": true,
 			"authenticationType": "SQL",
 			"userName": "sa",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmMTBjNjE3ZS01MWYzLTRiOTgtYTc3ZS05ZTNhOWM1NWNmYWIiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "ew0KICAiVmVyc2lvbiI6ICIyMDE3LTExLTMwIiwNCiAgIlByb3RlY3Rpb25Nb2RlIjogIktleSIsDQogICJTZWNyZXRDb250ZW50VHlwZSI6ICJQbGFpbnRleHQiLA0KICAiQ3JlZGVudGlhbElkIjogIkRBVEFGQUNUT1JZQENGQkM1RDMwLUQ0OTgtNEVFMy1CMzkxLTQ2QTExRTdCMDAxNF80N2ZmNzFhMy0zM2RkLTQ1NzItODA5Yi02Nzg2YTY1NzAyZTMiDQp9"
 		},
 		"connectVia": {
-			"referenceName": "SHIR-sql-vm",
+			"referenceName": "vnetintegrationRuntime",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
