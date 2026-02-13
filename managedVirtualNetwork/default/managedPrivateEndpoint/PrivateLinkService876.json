@@ -5,7 +5,8 @@
 		"groupId": "",
 		"fqdns": [
 			"myprivatelinkservice.4a254d12-bd20-477b-9eba-49c3a92f20a4.westus2.azure.privatelinkservice",
-			"sql-new-on-vm.privatelink.cloudapp.net"
+			"sql-new-on-vm.privatelink.cloudapp.net",
+			"sql-new-on-vm.internal.privatelink.cloudapp.net"
 		]
 	}
 }
