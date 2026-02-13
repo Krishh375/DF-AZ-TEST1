@@ -5,7 +5,8 @@
 		"groupId": "",
 		"fqdns": [
 			"sql-new-on-vm.privatelink.cloudapp.net",
-			"sqlvmonprem.privatelink.net"
+			"sqlvmonprem.privatelink.net",
+			"sql-new-on-vm.internal.cloudapp.net"
 		]
 	}
 }
