@@ -68,6 +68,8 @@
 						{
 							"name": "Web",
 							"type": "WebActivity",
+							"state": "Inactive",
+							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Copy data",
@@ -86,7 +88,11 @@
 							"userProperties": [],
 							"typeProperties": {
 								"method": "GET",
-								"url": "Https://httpstat.us/200?sleep=60000"
+								"url": "Https://httpstat.us/200?sleep=60000",
+								"connectVia": {
+									"referenceName": "AutoResolveIntegrationRuntime",
+									"type": "IntegrationRuntimeReference"
+								}
 							}
 						},
 						{
