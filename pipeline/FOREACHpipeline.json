@@ -68,8 +68,6 @@
 						{
 							"name": "Web",
 							"type": "WebActivity",
-							"state": "Inactive",
-							"onInactiveMarkAs": "Succeeded",
 							"dependsOn": [
 								{
 									"activity": "Copy data",
