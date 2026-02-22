@@ -6,10 +6,10 @@
 		"type": "Oracle",
 		"typeProperties": {
 			"connectionString": "host=KrishhNaPC;port=1521;sid=XE;user id=C##krishh",
-			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiJmNTZmYjZjYy0wYTU5LTQwNDItYmNmNy05MjA1OGY1YTBjMjMiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI2OTRkYjA1Yi0yNzRhLTRlYmMtOGNmOS0wMzVjOTE2NjQ3MmEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
 		},
 		"connectVia": {
-			"referenceName": "SHIR-1",
+			"referenceName": "SHIR-Onprem",
 			"type": "IntegrationRuntimeReference"
 		}
 	}
