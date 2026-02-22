@@ -12,10 +12,6 @@
 				"referenceName": "credential",
 				"type": "CredentialReference"
 			}
-		},
-		"connectVia": {
-			"referenceName": "integrationRuntime2",
-			"type": "IntegrationRuntimeReference"
 		}
 	}
 }
