@@ -1,5 +1,5 @@
 {
-	"name": "pipeline2",
+	"name": "switch_in_forEach",
 	"properties": {
 		"activities": [
 			{
