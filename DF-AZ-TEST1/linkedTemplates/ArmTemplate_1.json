@@ -23,13 +23,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Db21'"
 		},
+		"Employee_Resign_LS_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Employee_Resign_LS'"
+		},
+		"Github_Atkn_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Github_Atkn'"
+		},
 		"LS_SP_SQLSERVER_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SP_SQLSERVER'"
-		},
-		"LS_SQLSERVER_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'LS_SQLSERVER'"
 		},
 		"Adls_script_ls_properties_typeProperties_serviceEndpoint": {
 			"type": "string",
@@ -59,6 +63,34 @@
 			"type": "string",
 			"defaultValue": "sa"
 		},
+		"Employee_Resign_LS_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "KRISHHNAPC"
+		},
+		"Employee_Resign_LS_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "TEST"
+		},
+		"Employee_Resign_LS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
+		},
+		"Event_hub_LS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://testeventhub109.servicebus.windows.net"
+		},
+		"Event_hub_LS_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://eventhubs.azure.net/"
+		},
+		"Github_Atkn_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/"
+		},
+		"Github_Atkn_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Krishh375"
+		},
 		"LS_ADLS2_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://adlsdemostorage21.dfs.core.windows.net/"
@@ -74,57 +106,12 @@
 		"LS_SP_SQLSERVER_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa"
-		},
-		"LS_SQLSERVER_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "KRISHHNAPC"
-		},
-		"LS_SQLSERVER_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "TEST"
-		},
-		"LS_SQLSERVER_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "sa"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/integrationRuntime1')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "AutoResolve",
-						"dataFlowProperties": {
-							"computeType": "General",
-							"coreCount": 8,
-							"timeToLive": 10,
-							"cleanup": false,
-							"customProperties": []
-						}
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/credential')]",
-			"type": "Microsoft.DataFactory/factories/credentials",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "ManagedIdentity",
-				"typeProperties": {
-					"resourceId": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/MI-RG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/MI-SCUS"
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/default')]",
 			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks",
@@ -378,9 +365,7 @@
 					"type": "IntegrationRuntimeReference"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/credentials/credential')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorageLS')]",
@@ -397,9 +382,7 @@
 					}
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/credentials/credential')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/AzureDatabricks1')]",
@@ -471,9 +454,7 @@
 					"type": "IntegrationRuntimeReference"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/credentials/credential')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DS_ASQLDB_PIPELINE_PARAMETER')]",
@@ -512,7 +493,77 @@
 					"connectionString": "[parameters('Db21_connectionString')]"
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "SHIR-Onprem",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Employee_Resign_LS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('Employee_Resign_LS_properties_typeProperties_server')]",
+					"database": "[parameters('Employee_Resign_LS_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('Employee_Resign_LS_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Employee_Resign_LS_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "SHIR-Onprem",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Event_hub_LS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('Event_hub_LS_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('Event_hub_LS_properties_typeProperties_aadResourceId')]",
+					"credential": {
+						"referenceName": "credential",
+						"type": "CredentialReference"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Github_Atkn')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('Github_Atkn_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('Github_Atkn_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Github_Atkn_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
@@ -537,9 +588,7 @@
 					"type": "IntegrationRuntimeReference"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/credentials/credential')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/LS_SP_SQLSERVER')]",
@@ -558,32 +607,6 @@
 					"password": {
 						"type": "SecureString",
 						"value": "[parameters('LS_SP_SQLSERVER_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "SHIR-Onprem",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_SQLSERVER')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]",
-					"database": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": true,
-					"authenticationType": "SQL",
-					"userName": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('LS_SQLSERVER_password')]"
 					}
 				},
 				"connectVia": {

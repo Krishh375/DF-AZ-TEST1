@@ -6,10 +6,6 @@
 			"type": "string",
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
-		},
-		"triggereventstorage_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		}
 	},
 	"variables": {
@@ -17,14 +13,14 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/lookupactvity2')]",
+			"name": "[concat(parameters('factoryName'), '/teradata_pipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Lookup",
-						"type": "Lookup",
+						"name": "Copy data",
+						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -36,24 +32,1248 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "SqlServerSource",
-								"sqlReaderQuery": "declare @sql nvarchar(1000)\nset @sql = 'create schema GERIDOFOI'\nexec sp_executesql @sql\nselect * from employee;",
-								"queryTimeout": "02:00:00",
+								"type": "TeradataSource",
+								"query": "select  to_char(EFF_DATE, 'YYYY-MM-DD'), EFF_TIME, CAST(CAST(((EFF_TIME ) (FORMAT '99:99:99')) AS CHAR(8)) AS TIME(0)) as old_eff_time\nFROM tktestdb.testtb150;",
 								"partitionOption": "None"
 							},
-							"dataset": {
-								"referenceName": "DS_SQLSERVER",
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Teradata_dataset",
 								"type": "DatasetReference",
 								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADLSGen2datasetsink",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
 				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/teradata_pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "TeradataSource",
+								"query": "select  to_char(EFF_DATE, 'YYYY-MM-DD'), EFF_TIME, CAST(CAST(((EFF_TIME ) (FORMAT '99:99:99')) AS CHAR(8)) AS TIME(0)) as old_eff_time\nFROM tktestdb.testtb150;",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "Teradata_dataset_user",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADLSGen2datasetsink",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzurePostgreSqlTable')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzurePostgreSql",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzurePostgreSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "integer",
+						"precision": 0,
+						"scale": 0
+					},
+					{
+						"name": "a",
+						"type": "text",
+						"precision": 0,
+						"scale": 0
+					}
+				],
+				"typeProperties": {
+					"schema": "public",
+					"table": "employees"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDataset_Product')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDataset_Students')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabase2",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "name",
+						"type": "varchar"
+					},
+					{
+						"name": "class",
+						"type": "varchar"
+					},
+					{
+						"name": "dept",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "product"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_ASQLDB_PIPELINE_PARAMETER')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ASQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Table_name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "table_catalog",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "pipeline_parameter3"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Snowflakedataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Snowflake_ls",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SnowflakeV2Table",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "RECORD_ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "ELEMENT_ID",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "TEXT",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "EMBEDDINGS",
+						"type": "ARRAY"
+					},
+					{
+						"name": "TYPE",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "SYSTEM",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "LAYOUT_WIDTH",
+						"type": "NUMBER",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "LAYOUT_HEIGHT",
+						"type": "NUMBER",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "POINTS",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "URL",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "VERSION",
+						"type": "VARCHAR"
+					},
+					{
+						"name": "DATE_CREATED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "DATE_PROCESSED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "DATE_MODIFIED",
+						"type": "TIMESTAMP_TZ"
+					},
+					{
+						"name": "SENT_FROM",
+						"type": "ARRAY"
+					},
+					{
+						"name": "SENT_TO",
+						"type": "ARRAY"
+					}
+				],
+				"typeProperties": {
+					"schema": "MY_SCHEMA",
+					"table": "ELEMENTS"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DF_EXT_REPORTE_SZRPPIN_CAMPUS_CONGELADOS')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "DF_EXT_REPORTE_SZRPPIN_CAMPUS_SOURCE_DATASET",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						},
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "sort1"
+						}
+					],
+					"scriptLines": [
+						"parameters{",
+						"     id as integer[] ([842302,842517,84300903,844359,46])",
+						"}",
+						"source(output(",
+						"          id as integer,",
+						"          diagnosis as string,",
+						"          radius_mean as string,",
+						"          texture_mean as string,",
+						"          perimeter_mean as string,",
+						"          area_mean as string,",
+						"          smoothness_mean as string,",
+						"          compactness_mean as string,",
+						"          concavity_mean as string,",
+						"          {concave points_mean} as string,",
+						"          symmetry_mean as string,",
+						"          fractal_dimension_mean as string,",
+						"          radius_se as string,",
+						"          texture_se as string,",
+						"          perimeter_se as string,",
+						"          area_se as string,",
+						"          smoothness_se as string,",
+						"          compactness_se as string,",
+						"          concavity_se as string,",
+						"          {concave points_se} as string,",
+						"          symmetry_se as string,",
+						"          fractal_dimension_se as string,",
+						"          radius_worst as string,",
+						"          texture_worst as string,",
+						"          perimeter_worst as string,",
+						"          area_worst as string,",
+						"          smoothness_worst as string,",
+						"          compactness_worst as string,",
+						"          concavity_worst as string,",
+						"          {concave points_worst} as string,",
+						"          symmetry_worst as string,",
+						"          fractal_dimension_worst as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     fileSystem: 'datalake',",
+						"     folderPath: (concat($path, $file_name))) ~> source1",
+						"source1 select(skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 filter(in($id, id)) ~> filter1",
+						"filter1 sort(asc(radius_mean, true)) ~> sort1",
+						"sort1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/TransformContractSectionViewBordereau_blob')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "AzureDestinyGlobal",
+								"type": "DatasetReference"
+							},
+							"name": "AzureDestinyGlobal"
+						},
+						{
+							"dataset": {
+								"referenceName": "pb_productBuilder_container",
+								"type": "DatasetReference"
+							},
+							"name": "productBuilderContractSections"
+						},
+						{
+							"dataset": {
+								"referenceName": "pb_contractsection_container",
+								"type": "DatasetReference"
+							},
+							"name": "ContractSectionViewBordereau"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Jsonsink",
+								"type": "DatasetReference"
+							},
+							"name": "UpdateCosmosDB"
+						},
+						{
+							"dataset": {
+								"referenceName": "pb_contractsection_container",
+								"type": "DatasetReference"
+							},
+							"name": "DeleteItemsInCosmos"
+						}
+					],
+					"transformations": [
+						{
+							"name": "LookupContractSection"
+						},
+						{
+							"name": "LookupId"
+						},
+						{
+							"name": "DerivedColumns"
+						},
+						{
+							"name": "AggregateColumns"
+						},
+						{
+							"name": "SelectAttributes"
+						},
+						{
+							"name": "InsertOrUpdate"
+						},
+						{
+							"name": "UnusedData"
+						},
+						{
+							"name": "SelectItemKeys"
+						},
+						{
+							"name": "SetToDeleteUnusedData"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          ContractSectionID as integer,",
+						"          LastUpdatedBy as string,",
+						"          IEContactID as integer,",
+						"          CanViewBordereauFlag as boolean",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     isolationLevel: 'READ_UNCOMMITTED',",
+						"     query: 'SELECT [eua].[ContractSectionID] ,[eua].[LastUpdatedBy] ,[eua].[IEContactID] ,[eub].[CanViewBordereauFlag] FROM [DestinyGlobal].[dbo].[FacExternalUserAssignment] AS [eua] INNER JOIN [DestinyGlobal].[dbo].[FacExternalUserBordereau] AS [eub] ON [eua].[FacExternalUserAssignmentID] = [eub].[FacExternalUserAssignmentID]',",
+						"     format: 'query') ~> AzureDestinyGlobal",
+						"source(output(",
+						"          typeId as string,",
+						"          cosmosContractSectionId as integer",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     query: 'SELECT DISTINCT\\r\\n    f.typeId AS typeId,                     \\r\\n    f.contractSectionId AS cosmosContractSectionId\\r\\nFROM behaviors AS f\\r\\nWHERE f.type = \"contractSection\"\\r\\nAND f.isDeleted = false',",
+						"     format: 'documentQuery',",
+						"     systemColumns: false) ~> productBuilderContractSections",
+						"source(output(",
+						"          typeId as string,",
+						"          type as string,",
+						"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
+						"          environments as string[],",
+						"          users as (ieContactId as integer, emailNotifications as integer[])[],",
+						"          lastUpdatedBy as (email as string, userContextId as string),",
+						"          isDeleted as boolean",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     format: 'document',",
+						"     systemColumns: false) ~> ContractSectionViewBordereau",
+						"AzureDestinyGlobal, productBuilderContractSections lookup(ContractSectionID == cosmosContractSectionId,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupContractSection",
+						"LookupContractSection, ContractSectionViewBordereau lookup(productBuilderContractSections@typeId == ContractSectionViewBordereau@typeId,",
+						"     multiple: false,",
+						"     pickup: 'any',",
+						"     broadcast: 'auto')~> LookupId",
+						"LookupId derive(typeId = \"bordereau\",",
+						"          CanViewBordereauFlag = @(ieContactId=IEContactID,",
+						"          canViewBordereau=CanViewBordereauFlag)) ~> DerivedColumns",
+						"DerivedColumns aggregate(groupBy(typeId),",
+						"     users = collect(CanViewBordereauFlag)) ~> AggregateColumns",
+						"AggregateColumns select(skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> SelectAttributes",
+						"SelectAttributes alterRow(upsertIf(!isNull(typeId)),",
+						"     insertIf(isNull(users))) ~> InsertOrUpdate",
+						"ContractSectionViewBordereau, productBuilderContractSections exists(ContractSectionViewBordereau@typeId == productBuilderContractSections@typeId,",
+						"     negate:true,",
+						"     broadcast: 'auto')~> UnusedData",
+						"UnusedData select(mapColumn(",
+						"          typeId",
+						"     ),",
+						"     skipDuplicateMapInputs: false,",
+						"     skipDuplicateMapOutputs: false) ~> SelectItemKeys",
+						"SelectItemKeys alterRow(deleteIf(true())) ~> SetToDeleteUnusedData",
+						"InsertOrUpdate sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     saveOrder: 1,",
+						"     mapColumn(",
+						"          typeId,",
+						"          users",
+						"     ),",
+						"     format: 'document') ~> UpdateCosmosDB",
+						"SetToDeleteUnusedData sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          typeId as string,",
+						"          type as string,",
+						"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
+						"          environments as string[],",
+						"          users as (ieContactId as integer, emailNotifications as integer[])[],",
+						"          lastUpdatedBy as (email as string, userContextId as string),",
+						"          isDeleted as boolean",
+						"     ),",
+						"     deletable:true,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:false,",
+						"     format: 'document',",
+						"     partitionKey: ['/typeId'],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> DeleteItemsInCosmos"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ansh_dataflow')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "dataflow_reporting_csv_source",
+								"type": "DatasetReference"
+							},
+							"name": "source"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "dataflow_csv_ansh_sink",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						},
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "split1"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "aggregate1"
+						},
+						{
+							"name": "alterRow1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          transaction_id as short,",
+						"          transactional_date as timestamp,",
+						"          product_id as string,",
+						"          customer_id as short,",
+						"          payment as string,",
+						"          credit_card as long,",
+						"          loyalty_card as boolean,",
+						"          cost as double,",
+						"          quantity as short,",
+						"          price as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source",
+						"source select(mapColumn(",
+						"          transaction_id,",
+						"          transactional_date,",
+						"          product_id,",
+						"          customer_id,",
+						"          payment,",
+						"          quantity",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 filter(customer_id != 10) ~> filter1",
+						"filter1 split(payment == 'visa',",
+						"     payment == 'mastercard',",
+						"     disjoint: false) ~> split1@(visa, mastercard, americanexp)",
+						"split1@americanexp derive(payment = coalesce(payment, 'N/A')) ~> derivedColumn1",
+						"split1@visa aggregate(groupBy(customer_id),",
+						"     product_id = max(product_id)) ~> aggregate1",
+						"aggregate1 alterRow(insertIf(1==1)) ~> alterRow1",
+						"alterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow-partialrow-trans')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "dataset_title_csv",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_csv_copytitle",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "Dataset_sink_title_csv",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "join1"
+						},
+						{
+							"name": "select1"
+						},
+						{
+							"name": "derivedColumn2"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          TITLE_ID as integer,",
+						"          { TITLE} as string,",
+						"          { JOB_DIVISION} as string,",
+						"          { JOB_FAMILY} as string,",
+						"          { JOB_TITLE} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source(output(",
+						"          EMP_ID as string,",
+						"          EMPLOYEE as string,",
+						"          EMP_DEPT as string,",
+						"          { JOB_TITLE} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source2",
+						"select1 derive({ TITLE} = split({ TITLE}, '-'),",
+						"          TITLE_ID = TITLE_ID) ~> derivedColumn1",
+						"source1, source2 join({ JOB_FAMILY} == EMP_DEPT,",
+						"     joinType:'inner',",
+						"     matchType:'exact',",
+						"     ignoreSpaces: false,",
+						"     broadcast: 'auto')~> join1",
+						"join1 select(mapColumn(",
+						"          TITLE_ID,",
+						"          { TITLE},",
+						"          { JOB_DIVISION},",
+						"          { JOB_TITLE} = source1@{ JOB_TITLE},",
+						"          EMP_ID,",
+						"          EMPLOYEE,",
+						"          EMP_DEPT",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"derivedColumn1 derive({ TITLE} = { TITLE}[1]) ~> derivedColumn2",
+						"derivedColumn2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          id as string,",
+						"          name as string,",
+						"          dept as string",
+						"     ),",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_newbranch_parallel')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset1",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ADLS_Dataset_sink_dataflow",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS5",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS4",
+								"type": "DatasetReference"
+							},
+							"name": "sink3"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_adls_dataflow_sink3",
+								"type": "DatasetReference"
+							},
+							"name": "sink4"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_sink_dataflow2",
+								"type": "DatasetReference"
+							},
+							"name": "sink5"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id as string,",
+						"          diagnosis as string,",
+						"          radius_mean as string,",
+						"          texture_mean as string,",
+						"          perimeter_mean as string,",
+						"          area_mean as string,",
+						"          smoothness_mean as string,",
+						"          compactness_mean as string,",
+						"          concavity_mean as string,",
+						"          {concave points_mean} as string,",
+						"          symmetry_mean as string,",
+						"          fractal_dimension_mean as string,",
+						"          radius_se as string,",
+						"          texture_se as string,",
+						"          perimeter_se as string,",
+						"          area_se as string,",
+						"          smoothness_se as string,",
+						"          compactness_se as string,",
+						"          concavity_se as string,",
+						"          {concave points_se} as string,",
+						"          symmetry_se as string,",
+						"          fractal_dimension_se as string,",
+						"          radius_worst as string,",
+						"          texture_worst as string,",
+						"          perimeter_worst as string,",
+						"          area_worst as string,",
+						"          smoothness_worst as string,",
+						"          compactness_worst as string,",
+						"          concavity_worst as string,",
+						"          {concave points_worst} as string,",
+						"          symmetry_worst as string,",
+						"          fractal_dimension_worst as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink2",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink3",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink4",
+						"source1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink5"
+					]
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_test')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset1",
+								"type": "DatasetReference"
+							},
+							"name": "source"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset2",
+								"type": "DatasetReference"
+							},
+							"name": "source2"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset3",
+								"type": "DatasetReference"
+							},
+							"name": "source3"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset4",
+								"type": "DatasetReference"
+							},
+							"name": "source4"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset5",
+								"type": "DatasetReference"
+							},
+							"name": "source5"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset6",
+								"type": "DatasetReference"
+							},
+							"name": "source6"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataflow_source_dataset7",
+								"type": "DatasetReference"
+							},
+							"name": "source7"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "ADLS_Dataset_sink_dataflow",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_sink_dataflow2",
+								"type": "DatasetReference"
+							},
+							"name": "sink2"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_adls_dataflow_sink3",
+								"type": "DatasetReference"
+							},
+							"name": "sink3"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS4",
+								"type": "DatasetReference"
+							},
+							"name": "sink4"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS5",
+								"type": "DatasetReference"
+							},
+							"name": "sink5"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS6",
+								"type": "DatasetReference"
+							},
+							"name": "sink6"
+						},
+						{
+							"dataset": {
+								"referenceName": "Dataset_Sink_ADLS7",
+								"type": "DatasetReference"
+							},
+							"name": "sink7"
+						}
+					],
+					"transformations": [],
+					"scriptLines": [
+						"source(output(",
+						"          id as string,",
+						"          diagnosis as string,",
+						"          radius_mean as string,",
+						"          texture_mean as string,",
+						"          perimeter_mean as string,",
+						"          area_mean as string,",
+						"          smoothness_mean as string,",
+						"          compactness_mean as string,",
+						"          concavity_mean as string,",
+						"          {concave points_mean} as string,",
+						"          symmetry_mean as string,",
+						"          fractal_dimension_mean as string,",
+						"          radius_se as string,",
+						"          texture_se as string,",
+						"          perimeter_se as string,",
+						"          area_se as string,",
+						"          smoothness_se as string,",
+						"          compactness_se as string,",
+						"          concavity_se as string,",
+						"          {concave points_se} as string,",
+						"          symmetry_se as string,",
+						"          fractal_dimension_se as string,",
+						"          radius_worst as string,",
+						"          texture_worst as string,",
+						"          perimeter_worst as string,",
+						"          area_worst as string,",
+						"          smoothness_worst as string,",
+						"          compactness_worst as string,",
+						"          concavity_worst as string,",
+						"          {concave points_worst} as string,",
+						"          symmetry_worst as string,",
+						"          fractal_dimension_worst as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     partitionBy('hash', 1)) ~> source",
+						"source(output(",
+						"          type as string,",
+						"          {fixed acidity} as string,",
+						"          {volatile acidity} as string,",
+						"          {citric acid} as string,",
+						"          {residual sugar} as string,",
+						"          chlorides as string,",
+						"          {free sulfur dioxide} as string,",
+						"          {total sulfur dioxide} as string,",
+						"          density as string,",
+						"          pH as string,",
+						"          sulphates as string,",
+						"          alcohol as string,",
+						"          quality as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     partitionBy('hash', 1)) ~> source2",
+						"source(output(",
+						"          age as string,",
+						"          sex as string,",
+						"          cp as string,",
+						"          trestbps as string,",
+						"          chol as string,",
+						"          fbs as string,",
+						"          restecg as string,",
+						"          thalach as string,",
+						"          exang as string,",
+						"          oldpeak as string,",
+						"          slope as string,",
+						"          ca as string,",
+						"          thal as string,",
+						"          target as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     partitionBy('hash', 1)) ~> source3",
+						"source(output(",
+						"          {Formatted Date} as string,",
+						"          Summary as string,",
+						"          {Precip Type} as string,",
+						"          {Temperature (C)} as string,",
+						"          {Apparent Temperature (C)} as string,",
+						"          Humidity as string,",
+						"          {Wind Speed (km/h)} as string,",
+						"          {Wind Bearing (degrees)} as string,",
+						"          {Visibility (km)} as string,",
+						"          {Loud Cover} as string,",
+						"          {Pressure (millibars)} as string,",
+						"          {Daily Summary} as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     partitionBy('hash', 1)) ~> source4",
+						"source(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false,",
+						"     partitionBy('hash', 1)) ~> source5",
+						"source(output(",
+						"          color as string,",
+						"          director_name as string,",
+						"          num_critic_for_reviews as string,",
+						"          duration as string,",
+						"          director_facebook_likes as string,",
+						"          actor_3_facebook_likes as string,",
+						"          actor_2_name as string,",
+						"          actor_1_facebook_likes as string,",
+						"          gross as string,",
+						"          genres as string,",
+						"          actor_1_name as string,",
+						"          movie_title as string,",
+						"          num_voted_users as string,",
+						"          cast_total_facebook_likes as string,",
+						"          actor_3_name as string,",
+						"          facenumber_in_poster as string,",
+						"          plot_keywords as string,",
+						"          movie_imdb_link as string,",
+						"          num_user_for_reviews as string,",
+						"          language as string,",
+						"          country as string,",
+						"          content_rating as string,",
+						"          budget as string,",
+						"          title_year as string,",
+						"          actor_2_facebook_likes as string,",
+						"          imdb_score as string,",
+						"          aspect_ratio as string,",
+						"          movie_facebook_likes as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source6",
+						"source(output(",
+						"          movie_title as string,",
+						"          director_name as string,",
+						"          title_year as string,",
+						"          imdb_score as string,",
+						"          rating_category as string,",
+						"          budget as string,",
+						"          gross as string,",
+						"          profit as string,",
+						"          roi as string,",
+						"          budget_category as string,",
+						"          is_profitable as string,",
+						"          duration as string,",
+						"          content_rating as string,",
+						"          primary_genre as string,",
+						"          language as string,",
+						"          country as string,",
+						"          num_voted_users as string,",
+						"          num_critic_for_reviews as string,",
+						"          num_user_for_reviews as string,",
+						"          movie_facebook_likes as string,",
+						"          budget_outlier as string,",
+						"          gross_outlier as string,",
+						"          profit_outlier as string,",
+						"          roi_outlier as string,",
+						"          imdb_score_outlier as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source7",
+						"source sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink1",
+						"source2 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink2",
+						"source3 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink3",
+						"source4 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink4",
+						"source5 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink5",
+						"source6 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink6",
+						"source7 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     partitionBy('hash', 1)) ~> sink7"
+					]
+				}
 			},
 			"dependsOn": []
 		},
@@ -147,7 +1367,194 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_ASQLDB_PIPELINE_PARAMETER')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Extract_Fact_file')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Get Metadata",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "fact_file_ds",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Get Metadata",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Get Metadata').output.childItems",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@startswith(item().name, 'Fact')",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "Copy data",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"storeSettings": {
+															"type": "AzureBlobFSReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "source_dataset_cp",
+														"type": "DatasetReference",
+														"parameters": {
+															"filename": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "dataset_csv_reporting",
+														"type": "DatasetReference",
+														"parameters": {}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "ForEach1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "ansh_dataflow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/ansh_dataflow')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/P_SQL_TO_ADLS')]",
@@ -276,7 +1683,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_ASQLDB_PIPELINE_PARAMETER')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/SQLSERVER_TO_ASQL_ST_PROC')]",
@@ -368,7 +1777,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_ASQLDB_PIPELINE_PARAMETER')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dataflow_newbranch_parallel_pip')]",
@@ -417,7 +1828,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow_newbranch_parallel')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dataflow_parallel')]",
@@ -474,7 +1887,9 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/dataflow_test')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipelineOnpremtoAzuresql')]",
@@ -574,392 +1989,8 @@
 				},
 				"annotations": []
 			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipelinepostgrestest')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "AzurePostgreSqlSink",
-								"writeBatchSize": 1000000,
-								"writeBatchTimeout": "00:30:00",
-								"writeMethod": "CopyCommand"
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "ADLS_Dataset_json2",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzurePostgreSqlTable",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2025-08-08T21:33:46Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/postgrespipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "AzureBlobFSReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "AzurePostgreSqlSink",
-								"writeBatchSize": 1000000,
-								"writeBatchTimeout": "00:30:00",
-								"writeMethod": "CopyCommand"
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "ADLS_Dataset_json2",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "AzurePostgreSqlTable",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2025-04-26T19:58:10Z"
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/triggereventstorage')]",
-			"type": "Microsoft.DataFactory/factories/triggers",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"runtimeState": "Stopped",
-				"pipelines": [
-					{
-						"pipelineReference": {
-							"referenceName": "pipelinestoragedataview",
-							"type": "PipelineReference"
-						},
-						"parameters": {}
-					}
-				],
-				"type": "BlobEventsTrigger",
-				"typeProperties": {
-					"blobPathBeginsWith": "/democontainer/blobs/",
-					"ignoreEmptyBlobs": true,
-					"scope": "[parameters('triggereventstorage_properties_typeProperties_scope')]",
-					"events": [
-						"Microsoft.Storage.BlobCreated"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflowpostgressql')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "AzurePostgreSqlTable",
-								"type": "DatasetReference"
-							},
-							"name": "sourcepostgres"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ADLSGen2datasetsink",
-								"type": "DatasetReference"
-							},
-							"name": "sinkadls"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          id as integer,",
-						"          a as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> sourcepostgres",
-						"sourcepostgres sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sinkadls"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflowtestparallel')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "AzureSqlDataset_Students",
-								"type": "DatasetReference"
-							},
-							"name": "source"
-						},
-						{
-							"dataset": {
-								"referenceName": "AzureSqlDataset_Product",
-								"type": "DatasetReference"
-							},
-							"name": "source2"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ADLSGen2datasetsink",
-								"type": "DatasetReference"
-							},
-							"name": "sink"
-						},
-						{
-							"dataset": {
-								"referenceName": "ADLS_Dataset_json2",
-								"type": "DatasetReference"
-							},
-							"name": "sink2"
-						}
-					],
-					"transformations": [
-						{
-							"name": "derivedColumn"
-						},
-						{
-							"name": "derivedColumn2"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          id as integer,",
-						"          name as string,",
-						"          class as string,",
-						"          dept as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     query: 'Select * from Students',",
-						"     format: 'query') ~> source",
-						"source(output(",
-						"          ProductID as integer,",
-						"          ProductName as string,",
-						"          Category as string,",
-						"          Price as decimal(10,2),",
-						"          Stock as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     query: 'Select * from Products',",
-						"     format: 'query') ~> source2",
-						"source derive(tools = class + '_' + dept) ~> derivedColumn",
-						"source2 derive(Qunatity = iif(greaterOrEqual(Price,20), 2, 4)) ~> derivedColumn2",
-						"derivedColumn sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink",
-						"derivedColumn2 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink2"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/executedataflow')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflowpostgressql",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"sourcepostgres": {},
-									"sinkadls": {}
-								}
-							},
-							"staging": {},
-							"integrationRuntime": {
-								"referenceName": "vnetintegrationRuntime",
-								"type": "IntegrationRuntimeReference"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": [],
-				"lastPublishTime": "2025-08-08T22:13:50Z"
-			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflowpostgressql')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pipelinedataflowparallel')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Data flow",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "dataflowtestparallel",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source": {},
-									"source2": {},
-									"sink": {},
-									"sink2": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflowtestparallel')]"
+				"[concat(variables('factoryId'), '/datasets/AzureSqlDataset_Students')]"
 			]
 		}
 	]

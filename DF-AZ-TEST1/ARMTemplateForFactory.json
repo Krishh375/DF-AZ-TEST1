@@ -31,6 +31,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Db21'"
 		},
+		"Employee_Resign_LS_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Employee_Resign_LS'"
+		},
+		"Github_Atkn_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Github_Atkn'"
+		},
 		"LS_ASQL_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_ASQL'"
@@ -79,6 +87,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_onprem'"
 		},
+		"SqlServeronVM_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServeronVM'"
+		},
 		"Teradata_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Teradata'"
@@ -94,10 +106,6 @@
 		"immutablecopyls_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'immutablecopyls'"
-		},
-		"Employee_Resign_LS_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'Employee_Resign_LS'"
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
 			"type": "string",
@@ -170,6 +178,34 @@
 		"DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa"
+		},
+		"Employee_Resign_LS_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "KRISHHNAPC"
+		},
+		"Employee_Resign_LS_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "TEST"
+		},
+		"Employee_Resign_LS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
+		},
+		"Event_hub_LS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://testeventhub109.servicebus.windows.net"
+		},
+		"Event_hub_LS_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://eventhubs.azure.net/"
+		},
+		"Github_Atkn_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/"
+		},
+		"Github_Atkn_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Krishh375"
 		},
 		"HttpServer1_properties_typeProperties_url": {
 			"type": "string",
@@ -269,13 +305,25 @@
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
+			"defaultValue": "KRISHHNAPC"
 		},
 		"SqlServer_onprem_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": "AdventureWorksDW2019"
+			"defaultValue": "WideWorldImportersDW"
 		},
 		"SqlServer_onprem_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
+		},
+		"SqlServeronVM_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sqlvm.privatelink.centralus.cloudapp.azure.com,1433"
+		},
+		"SqlServeronVM_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "ADFTest"
+		},
+		"SqlServeronVM_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa"
 		},
@@ -314,17 +362,6 @@
 		"triggereventstorage_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-			"type": "string",
-			"defaultValue": "krishh123.database.windows.net"
-		},
-		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
-			"type": "string",
-			"defaultValue": "krishh"
-		},
-		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
-			"type": "secureString"
 		},
 		"AzureBlobStorage705_properties_privateLinkResourceId": {
 			"type": "string",
@@ -384,17 +421,19 @@
 				"krishh-cosmos-db.documents.azure.com"
 			]
 		},
-		"Employee_Resign_LS_properties_typeProperties_server": {
+		"PrivateLinkService492_properties_privateLinkResourceId": {
 			"type": "string",
-			"defaultValue": "KRISHHNAPC"
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/ONprem2SQL/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
 		},
-		"Employee_Resign_LS_properties_typeProperties_database": {
+		"PrivateLinkService492_properties_groupId": {
 			"type": "string",
-			"defaultValue": "TEST"
+			"defaultValue": ""
 		},
-		"Employee_Resign_LS_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "sa"
+		"PrivateLinkService492_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"sqlvm.privatelink.centralus.cloudapp.azure.com"
+			]
 		}
 	},
 	"variables": {
@@ -497,6 +536,194 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Extract_Fact_file')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Get Metadata",
+						"type": "GetMetadata",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataset": {
+								"referenceName": "fact_file_ds",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"fieldList": [
+								"childItems"
+							],
+							"storeSettings": {
+								"type": "AzureBlobFSReadSettings",
+								"recursive": true,
+								"enablePartitionDiscovery": false
+							},
+							"formatSettings": {
+								"type": "DelimitedTextReadSettings"
+							}
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Get Metadata",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Get Metadata').output.childItems",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "If Condition1",
+									"type": "IfCondition",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"expression": {
+											"value": "@startswith(item().name, 'Fact')",
+											"type": "Expression"
+										},
+										"ifTrueActivities": [
+											{
+												"name": "Copy data",
+												"type": "Copy",
+												"dependsOn": [],
+												"policy": {
+													"timeout": "0.12:00:00",
+													"retry": 0,
+													"retryIntervalInSeconds": 30,
+													"secureOutput": false,
+													"secureInput": false
+												},
+												"userProperties": [],
+												"typeProperties": {
+													"source": {
+														"type": "DelimitedTextSource",
+														"storeSettings": {
+															"type": "AzureBlobFSReadSettings",
+															"recursive": true,
+															"enablePartitionDiscovery": false
+														},
+														"formatSettings": {
+															"type": "DelimitedTextReadSettings"
+														}
+													},
+													"sink": {
+														"type": "DelimitedTextSink",
+														"storeSettings": {
+															"type": "AzureBlobFSWriteSettings"
+														},
+														"formatSettings": {
+															"type": "DelimitedTextWriteSettings",
+															"quoteAllText": true,
+															"fileExtension": ".txt"
+														}
+													},
+													"enableStaging": false,
+													"translator": {
+														"type": "TabularTranslator",
+														"typeConversion": true,
+														"typeConversionSettings": {
+															"allowDataTruncation": true,
+															"treatBooleanAsNumber": false
+														}
+													}
+												},
+												"inputs": [
+													{
+														"referenceName": "source_dataset_cp",
+														"type": "DatasetReference",
+														"parameters": {
+															"filename": {
+																"value": "@item().name",
+																"type": "Expression"
+															}
+														}
+													}
+												],
+												"outputs": [
+													{
+														"referenceName": "dataset_csv_reporting",
+														"type": "DatasetReference",
+														"parameters": {}
+													}
+												]
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Data flow1",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [
+							{
+								"activity": "ForEach1",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "ansh_dataflow",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/fact_file_ds')]",
+				"[concat(variables('factoryId'), '/dataflows/ansh_dataflow')]",
+				"[concat(variables('factoryId'), '/datasets/source_dataset_cp')]",
+				"[concat(variables('factoryId'), '/datasets/dataset_csv_reporting')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/FOREACHpipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -589,7 +816,11 @@
 									"typeProperties": {
 										"method": "GET",
 										"headers": {},
-										"url": "Https://httpstat.us/200?sleep=60000"
+										"url": "Https://httpstat.us/200?sleep=60000",
+										"connectVia": {
+											"referenceName": "AutoResolveIntegrationRuntime",
+											"type": "IntegrationRuntimeReference"
+										}
 									}
 								},
 								{
@@ -634,7 +865,84 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_json2')]",
 				"[concat(variables('factoryId'), '/datasets/ADLS_Dataset_sink_dataflow')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
 				"[concat(variables('factoryId'), '/pipelines/lookuppipeline')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Git2blob')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "git_dataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADLSGen2datasetsink",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/git_dataset')]",
+				"[concat(variables('factoryId'), '/datasets/ADLSGen2datasetsink')]"
 			]
 		},
 		{
@@ -863,6 +1171,42 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DS_SP_SQLSERVER')]",
 				"[concat(variables('factoryId'), '/datasets/DS_ASQLDB_PIPELINE_PARAMETER')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Stored_proc')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Stored procedure",
+						"type": "SqlServerStoredProcedure",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"storedProcedureName": "[[dbo].[myprocecdure]"
+						},
+						"linkedServiceName": {
+							"referenceName": "LS_SP_SQLSERVER",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SP_SQLSERVER')]"
 			]
 		},
 		{
@@ -1239,6 +1583,143 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/lookupactivity')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "Employee_Resign_DS",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup').output.value",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Stored procedure",
+									"type": "SqlServerStoredProcedure",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"storedProcedureName": "[[dbo].[emp_delete]",
+										"storedProcedureParameters": {
+											"id": {
+												"value": {
+													"value": "@item().id",
+													"type": "Expression"
+												},
+												"type": "Int32"
+											}
+										}
+									},
+									"linkedServiceName": {
+										"referenceName": "Employee_Resign_LS",
+										"type": "LinkedServiceReference"
+									}
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/Employee_Resign_DS')]",
+				"[concat(variables('factoryId'), '/linkedServices/Employee_Resign_LS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/lookupactvity2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "declare @sql nvarchar(1000)\nset @sql = 'create schema GERIDOFOI'\nexec sp_executesql @sql\nselect * from employee;",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "DS_SQLSERVER",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/DS_SQLSERVER')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/lookuppipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -1419,14 +1900,14 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/pipeline1')]",
+			"name": "[concat(parameters('factoryName'), '/pipeline3')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Stored procedure",
-						"type": "SqlServerStoredProcedure",
+						"name": "Copy data1",
+						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -1437,21 +1918,77 @@
 						},
 						"userProperties": [],
 						"typeProperties": {
-							"storedProcedureName": "[[dbo].[myprocecdure]"
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
 						},
-						"linkedServiceName": {
-							"referenceName": "LS_SP_SQLSERVER",
-							"type": "LinkedServiceReference"
-						}
+						"inputs": [
+							{
+								"referenceName": "Dataflow_source_dataset1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADLSGen2datasetsink",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"parameters": {
+					"for_each": {
+						"type": "string",
+						"defaultValue": [
+							{
+								"id": 1,
+								"name": "A"
+							},
+							{
+								"id": 2,
+								"name": "B"
+							}
+						]
+					}
+				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_SP_SQLSERVER')]"
+				"[concat(variables('factoryId'), '/datasets/Dataflow_source_dataset1')]",
+				"[concat(variables('factoryId'), '/datasets/ADLSGen2datasetsink')]"
 			]
 		},
 		{
@@ -2185,6 +2722,219 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/repro_2602200040008516')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Job1",
+						"type": "DatabricksJob",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"jobId": "465112105947009",
+							"jobParameters": {
+								"fosos": {
+									"value": "@string(pipeline().parameters.lookup_array)",
+									"type": "Expression"
+								}
+							}
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureDatabricks_LS_AT",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"lookup_array": {
+						"type": "string",
+						"defaultValue": [
+							1,
+							2,
+							3
+						]
+					}
+				},
+				"folder": {
+					"name": "repro_2602200040008516"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDatabricks_LS_AT')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/switch_in_forEach')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Lookup",
+						"type": "Lookup",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "select * from [Dimension].[Customer];",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"dataset": {
+								"referenceName": "SqlServer_Onprem",
+								"type": "DatasetReference",
+								"parameters": {}
+							},
+							"firstRowOnly": true
+						}
+					},
+					{
+						"name": "ForEach1",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup').output.value",
+								"type": "Expression"
+							},
+							"activities": [
+								{
+									"name": "Switch1",
+									"type": "Switch",
+									"dependsOn": [],
+									"userProperties": [],
+									"typeProperties": {
+										"on": {
+											"value": "@pipeline().parameters.SSIS_Project",
+											"type": "Expression"
+										},
+										"cases": [
+											{
+												"value": "Pearson_ETL_Staging",
+												"activities": [
+													{
+														"name": "Wait1",
+														"type": "Wait",
+														"dependsOn": [],
+														"userProperties": [],
+														"typeProperties": {
+															"waitTimeInSeconds": 15
+														}
+													}
+												]
+											},
+											{
+												"value": "Finance_ETL_Incremental",
+												"activities": [
+													{
+														"name": "Web1",
+														"type": "WebActivity",
+														"dependsOn": [],
+														"policy": {
+															"timeout": "0.12:00:00",
+															"retry": 0,
+															"retryIntervalInSeconds": 30,
+															"secureOutput": false,
+															"secureInput": false
+														},
+														"userProperties": [],
+														"typeProperties": {
+															"method": "GET",
+															"headers": {},
+															"url": "https://formatjsononline.com/api/users",
+															"connectVia": {
+																"referenceName": "AutoResolveIntegrationRuntime",
+																"type": "IntegrationRuntimeReference"
+															}
+														}
+													}
+												]
+											}
+										],
+										"defaultActivities": [
+											{
+												"name": "Fail1",
+												"type": "Fail",
+												"dependsOn": [],
+												"userProperties": [],
+												"typeProperties": {
+													"message": "user error ",
+													"errorCode": "103"
+												}
+											}
+										]
+									}
+								}
+							]
+						}
+					},
+					{
+						"name": "Fail2",
+						"type": "Fail",
+						"dependsOn": [
+							{
+								"activity": "ForEach1",
+								"dependencyConditions": [
+									"Failed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"message": "operation failed",
+							"errorCode": "3098"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"SSIS_Project": {
+						"type": "string",
+						"defaultValue": "default"
+					}
+				},
+				"folder": {
+					"name": "Repro_2602050040005348"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SqlServer_Onprem')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/teradata_pipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -2373,7 +3123,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "test43.txt",
 						"folderPath": "sinkfolder",
 						"fileSystem": "democontainer"
 					},
@@ -3841,6 +4590,27 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/Employee_Resign_DS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Employee_Resign_LS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "employee_resign"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Employee_Resign_LS')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/Jsonsink')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -4120,7 +4890,7 @@
 				],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "DimCurrency"
+					"table": "test"
 				}
 			},
 			"dependsOn": [
@@ -4186,6 +4956,90 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/HttpServer1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_csv_ansh_sink')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "dataflow_output",
+						"fileSystem": "reporting"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataflow_reporting_csv_source')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "newfolder",
+						"fileSystem": "reporting"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/dataset_csv_reporting')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "newfolder",
+						"fileSystem": "reporting"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
 			]
 		},
 		{
@@ -4264,6 +5118,62 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/destinationimmuls')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/fact_file_ds')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "sinkfolder/Krishh375/ADF_Anish_course/refs/heads/main/",
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/git_dataset')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Github_Atkn",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "Krishh375/ADF_Anish_course/refs/heads/main/Fact_Sales_1.csv"
+					},
+					"columnDelimiter": ",",
+					"rowDelimiter": "\n",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/Github_Atkn')]"
 			]
 		},
 		{
@@ -4400,6 +5310,43 @@
 							"value": "@concat('file', utcNow('yyyy-MM-DD')) ",
 							"type": "Expression"
 						},
+						"fileSystem": "democontainer"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/source_dataset_cp')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
+						"folderPath": "sinkfolder/Krishh375/ADF_Anish_course/refs/heads/main",
 						"fileSystem": "democontainer"
 					},
 					"columnDelimiter": ",",
@@ -4666,7 +5613,8 @@
 					"password": {
 						"type": "SecureString",
 						"value": "[parameters('AzureSqlDatabase2_password')]"
-					}
+					},
+					"commandTimeout": 30
 				},
 				"connectVia": {
 					"referenceName": "vnetintegrationRuntime",
@@ -4716,12 +5664,88 @@
 					"connectionString": "[parameters('Db21_connectionString')]"
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "SHIR-Onprem",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-Onprem')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Employee_Resign_LS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('Employee_Resign_LS_properties_typeProperties_server')]",
+					"database": "[parameters('Employee_Resign_LS_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('Employee_Resign_LS_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Employee_Resign_LS_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "SHIR-Onprem",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-Onprem')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Event_hub_LS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "RestService",
+				"typeProperties": {
+					"url": "[parameters('Event_hub_LS_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "ManagedServiceIdentity",
+					"aadResourceId": "[parameters('Event_hub_LS_properties_typeProperties_aadResourceId')]",
+					"credential": {
+						"referenceName": "credential",
+						"type": "CredentialReference"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/credentials/credential')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Github_Atkn')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('Github_Atkn_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('Github_Atkn_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Github_Atkn_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
 			]
 		},
 		{
@@ -4858,12 +5882,12 @@
 					"connectionString": "[parameters('Oracle_LS_connectionString')]"
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "SHIR-Onprem",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-Onprem')]"
 			]
 		},
 		{
@@ -4889,12 +5913,12 @@
 					"supportV1DataTypes": true
 				},
 				"connectVia": {
-					"referenceName": "SHIR-1",
+					"referenceName": "SHIR-Onprem",
 					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-1')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-Onprem')]"
 			]
 		},
 		{
@@ -5055,6 +6079,34 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-Onprem')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServeronVM')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "SqlServer",
+				"typeProperties": {
+					"server": "[parameters('SqlServeronVM_properties_typeProperties_server')]",
+					"database": "[parameters('SqlServeronVM_properties_typeProperties_database')]",
+					"encrypt": "mandatory",
+					"trustServerCertificate": true,
+					"authenticationType": "SQL",
+					"userName": "[parameters('SqlServeronVM_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('SqlServeronVM_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "vnetintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/vnetintegrationRuntime')]"
 			]
 		},
 		{
@@ -5251,16 +6303,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SHIR-1')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/SHIR-Onprem')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
@@ -5277,36 +6319,6 @@
 			"properties": {
 				"type": "SelfHosted",
 				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SSIS-IR')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "East US",
-						"nodeSize": "Standard_D8_v3",
-						"numberOfNodes": 2,
-						"maxParallelExecutionsPerNode": 4
-					},
-					"ssisProperties": {
-						"catalogInfo": {
-							"catalogServerEndpoint": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]",
-							"catalogAdminUserName": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]",
-							"catalogAdminPassword": {
-								"type": "SecureString",
-								"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
-							},
-							"catalogPricingTier": "S1"
-						},
-						"edition": "Standard",
-						"licenseType": "LicenseIncluded"
-					}
-				}
 			},
 			"dependsOn": []
 		},
@@ -5330,38 +6342,6 @@
 				}
 			},
 			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/integrationRuntime2')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "Managed",
-				"typeProperties": {
-					"computeProperties": {
-						"location": "East US",
-						"dataFlowProperties": {
-							"computeType": "General",
-							"coreCount": 8,
-							"timeToLive": 10,
-							"cleanup": false,
-							"customProperties": []
-						},
-						"pipelineExternalComputeScaleProperties": {
-							"timeToLive": 60,
-							"numberOfPipelineNodes": 1,
-							"numberOfExternalNodes": 1
-						}
-					}
-				},
-				"managedVirtualNetwork": {
-					"type": "ManagedVirtualNetworkReference",
-					"referenceName": "default"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
-			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/vnetintegrationRuntime')]",
@@ -5666,6 +6646,100 @@
 				"[concat(variables('factoryId'), '/datasets/pb_productBuilder_container')]",
 				"[concat(variables('factoryId'), '/datasets/pb_contractsection_container')]",
 				"[concat(variables('factoryId'), '/datasets/Jsonsink')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ansh_dataflow')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "dataflow_reporting_csv_source",
+								"type": "DatasetReference"
+							},
+							"name": "source"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "dataflow_csv_ansh_sink",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "select1"
+						},
+						{
+							"name": "filter1"
+						},
+						{
+							"name": "split1"
+						},
+						{
+							"name": "derivedColumn1"
+						},
+						{
+							"name": "aggregate1"
+						},
+						{
+							"name": "alterRow1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          transaction_id as short,",
+						"          transactional_date as timestamp,",
+						"          product_id as string,",
+						"          customer_id as short,",
+						"          payment as string,",
+						"          credit_card as long,",
+						"          loyalty_card as boolean,",
+						"          cost as double,",
+						"          quantity as short,",
+						"          price as double",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source",
+						"source select(mapColumn(",
+						"          transaction_id,",
+						"          transactional_date,",
+						"          product_id,",
+						"          customer_id,",
+						"          payment,",
+						"          quantity",
+						"     ),",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> select1",
+						"select1 filter(customer_id != 10) ~> filter1",
+						"filter1 split(payment == 'visa',",
+						"     payment == 'mastercard',",
+						"     disjoint: false) ~> split1@(visa, mastercard, americanexp)",
+						"split1@americanexp derive(payment = coalesce(payment, 'N/A')) ~> derivedColumn1",
+						"split1@visa aggregate(groupBy(customer_id),",
+						"     product_id = max(product_id)) ~> aggregate1",
+						"aggregate1 alterRow(insertIf(1==1)) ~> alterRow1",
+						"alterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     umask: 0022,",
+						"     preCommands: [],",
+						"     postCommands: [],",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true) ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/dataflow_reporting_csv_source')]",
+				"[concat(variables('factoryId'), '/datasets/dataflow_csv_ansh_sink')]"
 			]
 		},
 		{
@@ -6492,189 +7566,16 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/lookupactivity')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/default/PrivateLinkService492')]",
+			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "Lookup",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "Employee_Resign_DS",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					},
-					{
-						"name": "ForEach",
-						"type": "ForEach",
-						"dependsOn": [
-							{
-								"activity": "Lookup",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"userProperties": [],
-						"typeProperties": {
-							"items": {
-								"value": "@activity('Lookup').output.value",
-								"type": "Expression"
-							},
-							"isSequential": true,
-							"activities": [
-								{
-									"name": "Stored procedure",
-									"type": "SqlServerStoredProcedure",
-									"dependsOn": [],
-									"policy": {
-										"timeout": "0.12:00:00",
-										"retry": 0,
-										"retryIntervalInSeconds": 30,
-										"secureOutput": false,
-										"secureInput": false
-									},
-									"userProperties": [],
-									"typeProperties": {
-										"storedProcedureName": "[[dbo].[emp_delete]",
-										"storedProcedureParameters": {
-											"id": {
-												"value": {
-													"value": "@item().id",
-													"type": "Expression"
-												},
-												"type": "Int32"
-											}
-										}
-									},
-									"linkedServiceName": {
-										"referenceName": "Employee_Resign_LS",
-										"type": "LinkedServiceReference"
-									}
-								}
-							]
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
+				"privateLinkResourceId": "[parameters('PrivateLinkService492_properties_privateLinkResourceId')]",
+				"groupId": "[parameters('PrivateLinkService492_properties_groupId')]",
+				"fqdns": "[parameters('PrivateLinkService492_properties_fqdns')]"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/Employee_Resign_DS')]",
-				"[concat(variables('factoryId'), '/linkedServices/Employee_Resign_LS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Employee_Resign_LS')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('Employee_Resign_LS_properties_typeProperties_server')]",
-					"database": "[parameters('Employee_Resign_LS_properties_typeProperties_database')]",
-					"encrypt": "mandatory",
-					"trustServerCertificate": true,
-					"authenticationType": "SQL",
-					"userName": "[parameters('Employee_Resign_LS_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('Employee_Resign_LS_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "SHIR-Onprem",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/SHIR-Onprem')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Employee_Resign_DS')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "Employee_Resign_LS",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "employee_resign"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/Employee_Resign_LS')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/lookupactvity2')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Lookup",
-						"type": "Lookup",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "SqlServerSource",
-								"sqlReaderQuery": "declare @sql nvarchar(1000)\nset @sql = 'create schema GERIDOFOI'\nexec sp_executesql @sql\nselect * from employee;",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"dataset": {
-								"referenceName": "DS_SQLSERVER",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"firstRowOnly": false
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_SQLSERVER')]"
+				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
 			]
 		}
 	]

@@ -23,6 +23,12 @@
 		"Db21_connectionString": {
 			"value": ""
 		},
+		"Employee_Resign_LS_password": {
+			"value": ""
+		},
+		"Github_Atkn_password": {
+			"value": ""
+		},
 		"LS_ASQL_password": {
 			"value": ""
 		},
@@ -59,6 +65,9 @@
 		"SqlServer_onprem_password": {
 			"value": ""
 		},
+		"SqlServeronVM_password": {
+			"value": ""
+		},
 		"Teradata_password": {
 			"value": ""
 		},
@@ -69,9 +78,6 @@
 			"value": ""
 		},
 		"immutablecopyls_connectionString": {
-			"value": ""
-		},
-		"Employee_Resign_LS_password": {
 			"value": ""
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
@@ -127,6 +133,27 @@
 		},
 		"DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_userName": {
 			"value": "sa"
+		},
+		"Employee_Resign_LS_properties_typeProperties_server": {
+			"value": "KRISHHNAPC"
+		},
+		"Employee_Resign_LS_properties_typeProperties_database": {
+			"value": "TEST"
+		},
+		"Employee_Resign_LS_properties_typeProperties_userName": {
+			"value": "sa"
+		},
+		"Event_hub_LS_properties_typeProperties_url": {
+			"value": "https://testeventhub109.servicebus.windows.net"
+		},
+		"Event_hub_LS_properties_typeProperties_aadResourceId": {
+			"value": "https://eventhubs.azure.net/"
+		},
+		"Github_Atkn_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/"
+		},
+		"Github_Atkn_properties_typeProperties_userName": {
+			"value": "Krishh375"
 		},
 		"HttpServer1_properties_typeProperties_url": {
 			"value": "https://httpstat.us/200?sleep=60000000"
@@ -201,12 +228,21 @@
 			"value": "MY_DATABASE"
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
-			"value": "KRISHHNAPC\\SQLEXPRESS"
+			"value": "KRISHHNAPC"
 		},
 		"SqlServer_onprem_properties_typeProperties_database": {
-			"value": "AdventureWorksDW2019"
+			"value": "WideWorldImportersDW"
 		},
 		"SqlServer_onprem_properties_typeProperties_userName": {
+			"value": "sa"
+		},
+		"SqlServeronVM_properties_typeProperties_server": {
+			"value": "sqlvm.privatelink.centralus.cloudapp.azure.com,1433"
+		},
+		"SqlServeronVM_properties_typeProperties_database": {
+			"value": "ADFTest"
+		},
+		"SqlServeronVM_properties_typeProperties_userName": {
 			"value": "sa"
 		},
 		"Teradata_properties_typeProperties_server": {
@@ -235,15 +271,6 @@
 		},
 		"triggereventstorage_properties_typeProperties_scope": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-			"value": "krishh123.database.windows.net"
-		},
-		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
-			"value": "krishh"
-		},
-		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
-			"value": ""
 		},
 		"AzureBlobStorage705_properties_privateLinkResourceId": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
@@ -290,14 +317,16 @@
 				"krishh-cosmos-db.documents.azure.com"
 			]
 		},
-		"Employee_Resign_LS_properties_typeProperties_server": {
-			"value": "KRISHHNAPC"
+		"PrivateLinkService492_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/ONprem2SQL/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
 		},
-		"Employee_Resign_LS_properties_typeProperties_database": {
-			"value": "TEST"
+		"PrivateLinkService492_properties_groupId": {
+			"value": ""
 		},
-		"Employee_Resign_LS_properties_typeProperties_userName": {
-			"value": "sa"
+		"PrivateLinkService492_properties_fqdns": {
+			"value": [
+				"sqlvm.privatelink.centralus.cloudapp.azure.com"
+			]
 		},
 		"containerUri": {
 			"value": ""

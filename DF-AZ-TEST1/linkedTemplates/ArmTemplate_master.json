@@ -31,6 +31,14 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'Db21'"
 		},
+		"Employee_Resign_LS_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Employee_Resign_LS'"
+		},
+		"Github_Atkn_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Github_Atkn'"
+		},
 		"LS_ASQL_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_ASQL'"
@@ -79,6 +87,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'SqlServer_onprem'"
 		},
+		"SqlServeronVM_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'SqlServeronVM'"
+		},
 		"Teradata_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Teradata'"
@@ -94,10 +106,6 @@
 		"immutablecopyls_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'immutablecopyls'"
-		},
-		"Employee_Resign_LS_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'Employee_Resign_LS'"
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
 			"type": "string",
@@ -170,6 +178,34 @@
 		"DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa"
+		},
+		"Employee_Resign_LS_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "KRISHHNAPC"
+		},
+		"Employee_Resign_LS_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "TEST"
+		},
+		"Employee_Resign_LS_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
+		},
+		"Event_hub_LS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://testeventhub109.servicebus.windows.net"
+		},
+		"Event_hub_LS_properties_typeProperties_aadResourceId": {
+			"type": "string",
+			"defaultValue": "https://eventhubs.azure.net/"
+		},
+		"Github_Atkn_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/"
+		},
+		"Github_Atkn_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "Krishh375"
 		},
 		"HttpServer1_properties_typeProperties_url": {
 			"type": "string",
@@ -269,13 +305,25 @@
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "KRISHHNAPC\\SQLEXPRESS"
+			"defaultValue": "KRISHHNAPC"
 		},
 		"SqlServer_onprem_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": "AdventureWorksDW2019"
+			"defaultValue": "WideWorldImportersDW"
 		},
 		"SqlServer_onprem_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sa"
+		},
+		"SqlServeronVM_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sqlvm.privatelink.centralus.cloudapp.azure.com,1433"
+		},
+		"SqlServeronVM_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "ADFTest"
+		},
+		"SqlServeronVM_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa"
 		},
@@ -314,17 +362,6 @@
 		"triggereventstorage_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-			"type": "string",
-			"defaultValue": "krishh123.database.windows.net"
-		},
-		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
-			"type": "string",
-			"defaultValue": "krishh"
-		},
-		"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
-			"type": "secureString"
 		},
 		"AzureBlobStorage705_properties_privateLinkResourceId": {
 			"type": "string",
@@ -384,17 +421,19 @@
 				"krishh-cosmos-db.documents.azure.com"
 			]
 		},
-		"Employee_Resign_LS_properties_typeProperties_server": {
+		"PrivateLinkService492_properties_privateLinkResourceId": {
 			"type": "string",
-			"defaultValue": "KRISHHNAPC"
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/ONprem2SQL/providers/Microsoft.Network/privateLinkServices/myPrivateLinkService"
 		},
-		"Employee_Resign_LS_properties_typeProperties_database": {
+		"PrivateLinkService492_properties_groupId": {
 			"type": "string",
-			"defaultValue": "TEST"
+			"defaultValue": ""
 		},
-		"Employee_Resign_LS_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "sa"
+		"PrivateLinkService492_properties_fqdns": {
+			"type": "array",
+			"defaultValue": [
+				"sqlvm.privatelink.centralus.cloudapp.azure.com"
+			]
 		},
 		"containerUri": {
 			"type": "string",
@@ -491,15 +530,6 @@
 					},
 					"productbuilderCosmos_properties_typeProperties_database": {
 						"value": "[parameters('productbuilderCosmos_properties_typeProperties_database')]"
-					},
-					"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint": {
-						"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogServerEndpoint')]"
-					},
-					"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName": {
-						"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminUserName')]"
-					},
-					"SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword": {
-						"value": "[parameters('SSIS-IR_properties_typeProperties_ssisProperties_catalogInfo_catalogAdminPassword')]"
 					}
 				}
 			},
@@ -531,11 +561,14 @@
 					"Db21_connectionString": {
 						"value": "[parameters('Db21_connectionString')]"
 					},
+					"Employee_Resign_LS_password": {
+						"value": "[parameters('Employee_Resign_LS_password')]"
+					},
+					"Github_Atkn_password": {
+						"value": "[parameters('Github_Atkn_password')]"
+					},
 					"LS_SP_SQLSERVER_password": {
 						"value": "[parameters('LS_SP_SQLSERVER_password')]"
-					},
-					"LS_SQLSERVER_password": {
-						"value": "[parameters('LS_SQLSERVER_password')]"
 					},
 					"Adls_script_ls_properties_typeProperties_serviceEndpoint": {
 						"value": "[parameters('Adls_script_ls_properties_typeProperties_serviceEndpoint')]"
@@ -558,6 +591,27 @@
 					"DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_userName": {
 						"value": "[parameters('DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_userName')]"
 					},
+					"Employee_Resign_LS_properties_typeProperties_server": {
+						"value": "[parameters('Employee_Resign_LS_properties_typeProperties_server')]"
+					},
+					"Employee_Resign_LS_properties_typeProperties_database": {
+						"value": "[parameters('Employee_Resign_LS_properties_typeProperties_database')]"
+					},
+					"Employee_Resign_LS_properties_typeProperties_userName": {
+						"value": "[parameters('Employee_Resign_LS_properties_typeProperties_userName')]"
+					},
+					"Event_hub_LS_properties_typeProperties_url": {
+						"value": "[parameters('Event_hub_LS_properties_typeProperties_url')]"
+					},
+					"Event_hub_LS_properties_typeProperties_aadResourceId": {
+						"value": "[parameters('Event_hub_LS_properties_typeProperties_aadResourceId')]"
+					},
+					"Github_Atkn_properties_typeProperties_url": {
+						"value": "[parameters('Github_Atkn_properties_typeProperties_url')]"
+					},
+					"Github_Atkn_properties_typeProperties_userName": {
+						"value": "[parameters('Github_Atkn_properties_typeProperties_userName')]"
+					},
 					"LS_ADLS2_properties_typeProperties_url": {
 						"value": "[parameters('LS_ADLS2_properties_typeProperties_url')]"
 					},
@@ -569,15 +623,6 @@
 					},
 					"LS_SP_SQLSERVER_properties_typeProperties_userName": {
 						"value": "[parameters('LS_SP_SQLSERVER_properties_typeProperties_userName')]"
-					},
-					"LS_SQLSERVER_properties_typeProperties_server": {
-						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]"
-					},
-					"LS_SQLSERVER_properties_typeProperties_database": {
-						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]"
-					},
-					"LS_SQLSERVER_properties_typeProperties_userName": {
-						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -599,6 +644,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"LS_SQLSERVER_password": {
+						"value": "[parameters('LS_SQLSERVER_password')]"
+					},
 					"Oracle_LS_connectionString": {
 						"value": "[parameters('Oracle_LS_connectionString')]"
 					},
@@ -617,8 +665,14 @@
 					"Teradata_user_password": {
 						"value": "[parameters('Teradata_user_password')]"
 					},
-					"Employee_Resign_LS_password": {
-						"value": "[parameters('Employee_Resign_LS_password')]"
+					"LS_SQLSERVER_properties_typeProperties_server": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_database": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]"
 					},
 					"Oracle_ls_V2_properties_typeProperties_server": {
 						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_server')]"
@@ -698,14 +752,14 @@
 					"CosmosDb_properties_fqdns": {
 						"value": "[parameters('CosmosDb_properties_fqdns')]"
 					},
-					"Employee_Resign_LS_properties_typeProperties_server": {
-						"value": "[parameters('Employee_Resign_LS_properties_typeProperties_server')]"
+					"PrivateLinkService492_properties_privateLinkResourceId": {
+						"value": "[parameters('PrivateLinkService492_properties_privateLinkResourceId')]"
 					},
-					"Employee_Resign_LS_properties_typeProperties_database": {
-						"value": "[parameters('Employee_Resign_LS_properties_typeProperties_database')]"
+					"PrivateLinkService492_properties_groupId": {
+						"value": "[parameters('PrivateLinkService492_properties_groupId')]"
 					},
-					"Employee_Resign_LS_properties_typeProperties_userName": {
-						"value": "[parameters('Employee_Resign_LS_properties_typeProperties_userName')]"
+					"PrivateLinkService492_properties_fqdns": {
+						"value": "[parameters('PrivateLinkService492_properties_fqdns')]"
 					}
 				}
 			},
@@ -746,6 +800,26 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_3')]"
+			]
+		},
+		{
+			"name": "DF-AZ-TEST1_ArmTemplate_5",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
 					},
 					"AzureSqlDatabase2_password": {
 						"value": "[parameters('AzureSqlDatabase2_password')]"
@@ -758,6 +832,9 @@
 					},
 					"Snowflake_ls_privateKeyPassphrase": {
 						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
+					},
+					"SqlServeronVM_password": {
+						"value": "[parameters('SqlServeronVM_password')]"
 					},
 					"AzurePostgreSql_properties_typeProperties_server": {
 						"value": "[parameters('AzurePostgreSql_properties_typeProperties_server')]"
@@ -785,26 +862,15 @@
 					},
 					"Snowflake_ls_properties_typeProperties_database": {
 						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
-					}
-				}
-			},
-			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_3')]"
-			]
-		},
-		{
-			"name": "DF-AZ-TEST1_ArmTemplate_5",
-			"type": "Microsoft.Resources/deployments",
-			"apiVersion": "2024-03-01",
-			"properties": {
-				"mode": "incremental",
-				"templateLink": {
-					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_5.json', parameters('containerSasToken'))]",
-					"contentVersion": "1.0.0.0"
-				},
-				"parameters": {
-					"factoryName": {
-						"value": "[parameters('factoryName')]"
+					},
+					"SqlServeronVM_properties_typeProperties_server": {
+						"value": "[parameters('SqlServeronVM_properties_typeProperties_server')]"
+					},
+					"SqlServeronVM_properties_typeProperties_database": {
+						"value": "[parameters('SqlServeronVM_properties_typeProperties_database')]"
+					},
+					"SqlServeronVM_properties_typeProperties_userName": {
+						"value": "[parameters('SqlServeronVM_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -825,6 +891,26 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_5')]"
+			]
+		},
+		{
+			"name": "DF-AZ-TEST1_ArmTemplate_7",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_7.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
 					},
 					"triggereventstorage_properties_typeProperties_scope": {
 						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
@@ -832,7 +918,7 @@
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_5')]"
+				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_6')]"
 			]
 		}
 	]
