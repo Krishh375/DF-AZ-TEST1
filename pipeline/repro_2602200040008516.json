@@ -15,6 +15,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"jobId": "465112105947009",
 					"jobParameters": {
 						"fosos": {
 							"value": "@string(pipeline().parameters.lookup_array)",
