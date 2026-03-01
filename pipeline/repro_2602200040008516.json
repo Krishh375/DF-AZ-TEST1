@@ -1,0 +1,43 @@
+{
+	"name": "repro_2602200040008516",
+	"properties": {
+		"activities": [
+			{
+				"name": "Job1",
+				"type": "DatabricksJob",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"jobParameters": {
+						"fosos": {
+							"value": "@string(pipeline().parameters.lookup_array)",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks_LS_AT",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"lookup_array": {
+				"type": "string",
+				"defaultValue": [
+					1,
+					2,
+					3
+				]
+			}
+		},
+		"annotations": []
+	}
+}
