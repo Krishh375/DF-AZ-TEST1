@@ -21,6 +21,10 @@
 				"name": "CurrencyName",
 				"type": "nvarchar"
 			}
-		]
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "test"
+		}
 	}
 }
