@@ -359,6 +359,10 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		},
+		"event_trigger_ansh_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
 		"triggereventstorage_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
@@ -911,6 +915,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"event_trigger_ansh_properties_typeProperties_scope": {
+						"value": "[parameters('event_trigger_ansh_properties_typeProperties_scope')]"
 					},
 					"triggereventstorage_properties_typeProperties_scope": {
 						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
