@@ -1,5 +1,5 @@
 {
-	"name": "Extract_Fact_file",
+	"name": "Repro_Ansh_Extract_Fact_file",
 	"properties": {
 		"activities": [
 			{
@@ -24,6 +24,7 @@
 					],
 					"storeSettings": {
 						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
 						"enablePartitionDiscovery": false
 					},
 					"formatSettings": {
