@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "sinkfolder/Krishh375/ADF_Anish_course/refs/heads/main/",
+				"folderPath": "sinkfolder/Krishh375/ADF_Anish_course/refs/heads/main",
 				"fileSystem": "democontainer"
 			},
 			"columnDelimiter": ",",
