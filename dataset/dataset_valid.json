@@ -1,5 +1,5 @@
 {
-	"name": "fact_file_ds",
+	"name": "dataset_valid",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorageLS",
@@ -10,9 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "Fact_Sales_1.csv",
-				"folderPath": "csvfiles",
-				"fileSystem": "source"
+				"fileSystem": "destination"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

@@ -54,12 +54,15 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ADLSGen2datasetsink",
+						"referenceName": "sink_trigger",
 						"type": "DatasetReference"
 					}
 				]
 			}
 		],
+		"folder": {
+			"name": "Ansh_ADF_course"
+		},
 		"annotations": []
 	}
 }
