@@ -55,7 +55,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "sink_trigger",
+						"referenceName": "sink_copy_ds",
 						"type": "DatasetReference"
 					}
 				]
