@@ -1,11 +1,18 @@
 {
-	"name": "Repro_Ansh_Extract_Fact_file",
+	"name": "Only_selected_files",
 	"properties": {
 		"activities": [
 			{
 				"name": "Get Metadata",
 				"type": "GetMetadata",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Validation1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -162,8 +169,25 @@
 					},
 					"traceLevel": "Fine"
 				}
+			},
+			{
+				"name": "Validation1",
+				"type": "Validation",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "fact_file_ds",
+						"type": "DatasetReference"
+					},
+					"timeout": "0.12:00:00",
+					"sleep": 10
+				}
 			}
 		],
+		"folder": {
+			"name": "Ansh_ADF_course"
+		},
 		"annotations": []
 	}
 }
