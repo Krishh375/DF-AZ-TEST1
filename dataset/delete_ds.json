@@ -10,9 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "title.csv",
-				"folderPath": "trigger_path",
-				"fileSystem": "lake"
+				"folderPath": "csvfiles",
+				"fileSystem": "source"
 			}
 		}
 	}
