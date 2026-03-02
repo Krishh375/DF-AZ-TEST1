@@ -1,5 +1,5 @@
 {
-	"name": "ansh_lambe_event_trigger",
+	"name": "pipeline_manager",
 	"properties": {
 		"activities": [
 			{
@@ -93,6 +93,9 @@
 				}
 			}
 		],
+		"folder": {
+			"name": "Ansh_ADF_course"
+		},
 		"annotations": []
 	}
 }
