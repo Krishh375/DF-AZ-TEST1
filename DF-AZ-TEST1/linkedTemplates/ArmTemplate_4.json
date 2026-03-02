@@ -491,9 +491,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "title.csv",
-						"folderPath": "trigger_path",
-						"fileSystem": "lake"
+						"folderPath": "csvfiles",
+						"fileSystem": "source"
 					}
 				}
 			},
@@ -513,8 +512,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "sinkfolder/Krishh375/ADF_Anish_course/refs/heads/main",
-						"fileSystem": "democontainer"
+						"folderPath": "csvfiles",
+						"fileSystem": "source"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",

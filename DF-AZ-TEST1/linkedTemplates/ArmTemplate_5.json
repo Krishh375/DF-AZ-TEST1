@@ -120,8 +120,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"folderPath": "trigger",
-						"fileSystem": "lake"
+						"folderPath": "csvfiles",
+						"fileSystem": "destination"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -570,7 +570,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ansh_lambe_event_trigger')]",
+			"name": "[concat(parameters('factoryName'), '/pipeline_manager')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -672,6 +672,9 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
+				"folder": {
+					"name": "Ansh_ADF_course"
+				},
 				"annotations": []
 			},
 			"dependsOn": [
@@ -746,6 +749,9 @@
 					"var_pipe": {
 						"type": "Array"
 					}
+				},
+				"folder": {
+					"name": "Ansh_ADF_course"
 				},
 				"annotations": []
 			},
