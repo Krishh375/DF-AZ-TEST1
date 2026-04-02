@@ -7,14 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
-		"LS_SQLSERVER_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'LS_SQLSERVER'"
-		},
-		"Oracle_LS_connectionString": {
-			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'Oracle_LS'"
-		},
 		"Oracle_ls_V2_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Oracle_ls_V2'"
@@ -22,6 +14,14 @@
 		"PostgreSql1_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'PostgreSql1'"
+		},
+		"Sftp2_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Sftp2'"
+		},
+		"Sftp_sa_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Sftp_sa'"
 		},
 		"SqlServer_onprem_password": {
 			"type": "secureString",
@@ -34,18 +34,6 @@
 		"Teradata_user_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Teradata_user'"
-		},
-		"LS_SQLSERVER_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "KRISHHNAPC"
-		},
-		"LS_SQLSERVER_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "TEST"
-		},
-		"LS_SQLSERVER_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "sa"
 		},
 		"Oracle_ls_V2_properties_typeProperties_server": {
 			"type": "string",
@@ -66,6 +54,22 @@
 		"PostgreSql1_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "postgres"
+		},
+		"Sftp2_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "adlsdemostorage21.blob.core.windows.net"
+		},
+		"Sftp2_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adlsdemostorage21.sftpsink.krishh"
+		},
+		"Sftp_sa_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "adlsdemostorage21.blob.core.windows.net"
+		},
+		"Sftp_sa_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adlsdemostorage21.sftpcont.krishh"
 		},
 		"SqlServer_onprem_properties_typeProperties_server": {
 			"type": "string",
@@ -177,49 +181,6 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/LS_SQLSERVER')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]",
-					"database": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": true,
-					"authenticationType": "SQL",
-					"userName": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('LS_SQLSERVER_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "SHIR-Onprem",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Oracle_LS')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Oracle",
-				"typeProperties": {
-					"connectionString": "[parameters('Oracle_LS_connectionString')]"
-				},
-				"connectVia": {
-					"referenceName": "SHIR-Onprem",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/Oracle_ls_V2')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -269,6 +230,56 @@
 				},
 				"connectVia": {
 					"referenceName": "SHIR-Onprem",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Sftp2')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Sftp",
+				"typeProperties": {
+					"host": "[parameters('Sftp2_properties_typeProperties_host')]",
+					"port": 22,
+					"skipHostKeyValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('Sftp2_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Sftp2_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Sftp_sa')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "Sftp",
+				"typeProperties": {
+					"host": "[parameters('Sftp_sa_properties_typeProperties_host')]",
+					"port": 22,
+					"skipHostKeyValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('Sftp_sa_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Sftp_sa_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
 					"type": "IntegrationRuntimeReference"
 				}
 			},

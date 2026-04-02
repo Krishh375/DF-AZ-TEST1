@@ -53,7 +53,10 @@
 		"ServiceNow_LS_password": {
 			"value": ""
 		},
-		"Sftp_password": {
+		"Sftp2_password": {
+			"value": ""
+		},
+		"Sftp_sa_password": {
 			"value": ""
 		},
 		"Snowflake_ls_privateKey": {
@@ -215,14 +218,17 @@
 		"ServiceNow_LS_properties_typeProperties_username": {
 			"value": "thatikondakrishna77@gmail.com"
 		},
-		"Sftp_properties_typeProperties_host": {
-			"value": "az-postgres-demo.postgres.database.azure.com"
+		"Sftp2_properties_typeProperties_host": {
+			"value": "adlsdemostorage21.blob.core.windows.net"
 		},
-		"Sftp_properties_typeProperties_hostKeyFingerprint": {
-			"value": "flkfllessllfdfld"
+		"Sftp2_properties_typeProperties_userName": {
+			"value": "adlsdemostorage21.sftpsink.krishh"
 		},
-		"Sftp_properties_typeProperties_userName": {
-			"value": "pg"
+		"Sftp_sa_properties_typeProperties_host": {
+			"value": "adlsdemostorage21.blob.core.windows.net"
+		},
+		"Sftp_sa_properties_typeProperties_userName": {
+			"value": "adlsdemostorage21.sftpcont.krishh"
 		},
 		"Snowflake_ls_properties_typeProperties_database": {
 			"value": "MY_DATABASE"
@@ -330,6 +336,12 @@
 			"value": [
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
+		},
+		"tumbling_trigger_properties_pipeline_parameters_StartTime": {
+			"value": "@trigger().outputs.windowStartTime"
+		},
+		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
+			"value": "@trigger().outputs.windowEndTime"
 		}
 	}
 }

@@ -19,10 +19,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ServiceNow_LS'"
 		},
-		"Sftp_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'Sftp'"
-		},
 		"destinationimmuls_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'destinationimmuls'"
@@ -74,18 +70,6 @@
 		"ServiceNow_LS_properties_typeProperties_username": {
 			"type": "string",
 			"defaultValue": "thatikondakrishna77@gmail.com"
-		},
-		"Sftp_properties_typeProperties_host": {
-			"type": "string",
-			"defaultValue": "az-postgres-demo.postgres.database.azure.com"
-		},
-		"Sftp_properties_typeProperties_hostKeyFingerprint": {
-			"type": "string",
-			"defaultValue": "flkfllessllfdfld"
-		},
-		"Sftp_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "pg"
 		},
 		"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -314,28 +298,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Sftp')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "Sftp",
-				"typeProperties": {
-					"host": "[parameters('Sftp_properties_typeProperties_host')]",
-					"port": "1532",
-					"skipHostKeyValidation": false,
-					"hostKeyFingerprint": "[parameters('Sftp_properties_typeProperties_hostKeyFingerprint')]",
-					"authenticationType": "Basic",
-					"userName": "[parameters('Sftp_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('Sftp_password')]"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/destinationimmuls')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -426,16 +388,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SHIR-sql-vm')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"typeProperties": {}
-			},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/integrationRuntime1')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
@@ -467,6 +419,34 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/default')]",
+			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks",
+			"apiVersion": "2018-06-01",
+			"properties": {},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureDestinyGlobal')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AZDestinyGlobalDatabase",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "FacExternalUserAssignment"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AZDestinyGlobalDatabase')]"
+			]
 		}
 	]
 }

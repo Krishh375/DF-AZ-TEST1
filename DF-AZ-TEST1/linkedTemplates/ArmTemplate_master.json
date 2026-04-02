@@ -71,9 +71,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'ServiceNow_LS'"
 		},
-		"Sftp_password": {
+		"Sftp2_password": {
 			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'Sftp'"
+			"metadata": "Secure string for 'password' of 'Sftp2'"
+		},
+		"Sftp_sa_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Sftp_sa'"
 		},
 		"Snowflake_ls_privateKey": {
 			"type": "secureString",
@@ -287,17 +291,21 @@
 			"type": "string",
 			"defaultValue": "thatikondakrishna77@gmail.com"
 		},
-		"Sftp_properties_typeProperties_host": {
+		"Sftp2_properties_typeProperties_host": {
 			"type": "string",
-			"defaultValue": "az-postgres-demo.postgres.database.azure.com"
+			"defaultValue": "adlsdemostorage21.blob.core.windows.net"
 		},
-		"Sftp_properties_typeProperties_hostKeyFingerprint": {
+		"Sftp2_properties_typeProperties_userName": {
 			"type": "string",
-			"defaultValue": "flkfllessllfdfld"
+			"defaultValue": "adlsdemostorage21.sftpsink.krishh"
 		},
-		"Sftp_properties_typeProperties_userName": {
+		"Sftp_sa_properties_typeProperties_host": {
 			"type": "string",
-			"defaultValue": "pg"
+			"defaultValue": "adlsdemostorage21.blob.core.windows.net"
+		},
+		"Sftp_sa_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "adlsdemostorage21.sftpcont.krishh"
 		},
 		"Snowflake_ls_properties_typeProperties_database": {
 			"type": "string",
@@ -439,6 +447,14 @@
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
 		},
+		"tumbling_trigger_properties_pipeline_parameters_StartTime": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowStartTime"
+		},
+		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowEndTime"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -474,9 +490,6 @@
 					},
 					"ServiceNow_LS_password": {
 						"value": "[parameters('ServiceNow_LS_password')]"
-					},
-					"Sftp_password": {
-						"value": "[parameters('Sftp_password')]"
 					},
 					"destinationimmuls_connectionString": {
 						"value": "[parameters('destinationimmuls_connectionString')]"
@@ -516,15 +529,6 @@
 					},
 					"ServiceNow_LS_properties_typeProperties_username": {
 						"value": "[parameters('ServiceNow_LS_properties_typeProperties_username')]"
-					},
-					"Sftp_properties_typeProperties_host": {
-						"value": "[parameters('Sftp_properties_typeProperties_host')]"
-					},
-					"Sftp_properties_typeProperties_hostKeyFingerprint": {
-						"value": "[parameters('Sftp_properties_typeProperties_hostKeyFingerprint')]"
-					},
-					"Sftp_properties_typeProperties_userName": {
-						"value": "[parameters('Sftp_properties_typeProperties_userName')]"
 					},
 					"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
 						"value": "[parameters('ls_kv_datafactory_bi_properties_typeProperties_baseUrl')]"
@@ -573,6 +577,12 @@
 					},
 					"LS_SP_SQLSERVER_password": {
 						"value": "[parameters('LS_SP_SQLSERVER_password')]"
+					},
+					"LS_SQLSERVER_password": {
+						"value": "[parameters('LS_SQLSERVER_password')]"
+					},
+					"Oracle_LS_connectionString": {
+						"value": "[parameters('Oracle_LS_connectionString')]"
 					},
 					"Adls_script_ls_properties_typeProperties_serviceEndpoint": {
 						"value": "[parameters('Adls_script_ls_properties_typeProperties_serviceEndpoint')]"
@@ -627,6 +637,15 @@
 					},
 					"LS_SP_SQLSERVER_properties_typeProperties_userName": {
 						"value": "[parameters('LS_SP_SQLSERVER_properties_typeProperties_userName')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_server": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_database": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -648,17 +667,17 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"LS_SQLSERVER_password": {
-						"value": "[parameters('LS_SQLSERVER_password')]"
-					},
-					"Oracle_LS_connectionString": {
-						"value": "[parameters('Oracle_LS_connectionString')]"
-					},
 					"Oracle_ls_V2_password": {
 						"value": "[parameters('Oracle_ls_V2_password')]"
 					},
 					"PostgreSql1_password": {
 						"value": "[parameters('PostgreSql1_password')]"
+					},
+					"Sftp2_password": {
+						"value": "[parameters('Sftp2_password')]"
+					},
+					"Sftp_sa_password": {
+						"value": "[parameters('Sftp_sa_password')]"
 					},
 					"SqlServer_onprem_password": {
 						"value": "[parameters('SqlServer_onprem_password')]"
@@ -668,15 +687,6 @@
 					},
 					"Teradata_user_password": {
 						"value": "[parameters('Teradata_user_password')]"
-					},
-					"LS_SQLSERVER_properties_typeProperties_server": {
-						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]"
-					},
-					"LS_SQLSERVER_properties_typeProperties_database": {
-						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]"
-					},
-					"LS_SQLSERVER_properties_typeProperties_userName": {
-						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]"
 					},
 					"Oracle_ls_V2_properties_typeProperties_server": {
 						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_server')]"
@@ -692,6 +702,18 @@
 					},
 					"PostgreSql1_properties_typeProperties_username": {
 						"value": "[parameters('PostgreSql1_properties_typeProperties_username')]"
+					},
+					"Sftp2_properties_typeProperties_host": {
+						"value": "[parameters('Sftp2_properties_typeProperties_host')]"
+					},
+					"Sftp2_properties_typeProperties_userName": {
+						"value": "[parameters('Sftp2_properties_typeProperties_userName')]"
+					},
+					"Sftp_sa_properties_typeProperties_host": {
+						"value": "[parameters('Sftp_sa_properties_typeProperties_host')]"
+					},
+					"Sftp_sa_properties_typeProperties_userName": {
+						"value": "[parameters('Sftp_sa_properties_typeProperties_userName')]"
 					},
 					"SqlServer_onprem_properties_typeProperties_server": {
 						"value": "[parameters('SqlServer_onprem_properties_typeProperties_server')]"
@@ -919,13 +941,39 @@
 					"triggereventstorage_properties_typeProperties_scope": {
 						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
 					},
+					"tumbling_trigger_properties_pipeline_parameters_StartTime": {
+						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_StartTime')]"
+					},
+					"tumbling_trigger_properties_pipeline_parameters_EndTime": {
+						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_EndTime')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_6')]"
+			]
+		},
+		{
+			"name": "DF-AZ-TEST1_ArmTemplate_8",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_8.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
 					"man_trigger_properties_typeProperties_scope": {
 						"value": "[parameters('man_trigger_properties_typeProperties_scope')]"
 					}
 				}
 			},
 			"dependsOn": [
-				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_6')]"
+				"[resourceId('Microsoft.Resources/deployments', 'DF-AZ-TEST1_ArmTemplate_7')]"
 			]
 		}
 	]
