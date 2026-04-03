@@ -29,9 +29,6 @@
 		"Github_Atkn_password": {
 			"value": ""
 		},
-		"LS_ASQL_password": {
-			"value": ""
-		},
 		"LS_SP_SQLSERVER_password": {
 			"value": ""
 		},
@@ -165,13 +162,10 @@
 			"value": "https://adlsdemostorage21.dfs.core.windows.net/"
 		},
 		"LS_ASQL_properties_typeProperties_server": {
-			"value": "krishh123.database.windows.net"
+			"value": "sqlk.database.windows.net"
 		},
 		"LS_ASQL_properties_typeProperties_database": {
-			"value": "krishhdb"
-		},
-		"LS_ASQL_properties_typeProperties_userName": {
-			"value": "krishh"
+			"value": "testsql"
 		},
 		"LS_SP_SQLSERVER_properties_typeProperties_server": {
 			"value": "KRISHHNAPC\\SQLEXPRESS"
@@ -281,6 +275,12 @@
 		"triggereventstorage_properties_typeProperties_scope": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		},
+		"tumbling_trigger_properties_pipeline_parameters_StartTime": {
+			"value": "@trigger().outputs.windowStartTime"
+		},
+		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
+			"value": "@trigger().outputs.windowEndTime"
+		},
 		"AzureBlobStorage705_properties_privateLinkResourceId": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		},
@@ -308,6 +308,12 @@
 			"value": [
 				"pracdemostorage.dfs.core.windows.net"
 			]
+		},
+		"AzureSqlDatabase540_properties_privateLinkResourceId": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/DefaultResourceGroup-CCAN/providers/Microsoft.Sql/servers/sqlk"
+		},
+		"AzureSqlDatabase540_properties_groupId": {
+			"value": "sqlServer"
 		},
 		"AzureSqlDatabase591_properties_privateLinkResourceId": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/RG-TEST/providers/Microsoft.Sql/servers/krishh123"
@@ -337,11 +343,11 @@
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
 		},
-		"tumbling_trigger_properties_pipeline_parameters_StartTime": {
-			"value": "@trigger().outputs.windowStartTime"
+		"tumb_win_trigger_properties_pipeline_parameters_pstartdate": {
+			"value": "@trigger().outputs.windowstarttime"
 		},
-		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
-			"value": "@trigger().outputs.windowEndTime"
+		"tumb_win_trigger_properties_pipeline_parameters_penddate": {
+			"value": "@trigger().outputs.windowEndtime"
 		},
 		"containerUri": {
 			"value": ""

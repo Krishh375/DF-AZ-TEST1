@@ -39,10 +39,6 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'Github_Atkn'"
 		},
-		"LS_ASQL_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'LS_ASQL'"
-		},
 		"LS_SP_SQLSERVER_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SP_SQLSERVER'"
@@ -221,15 +217,11 @@
 		},
 		"LS_ASQL_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "krishh123.database.windows.net"
+			"defaultValue": "sqlk.database.windows.net"
 		},
 		"LS_ASQL_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": "krishhdb"
-		},
-		"LS_ASQL_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "krishh"
+			"defaultValue": "testsql"
 		},
 		"LS_SP_SQLSERVER_properties_typeProperties_server": {
 			"type": "string",
@@ -375,6 +367,14 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		},
+		"tumbling_trigger_properties_pipeline_parameters_StartTime": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowStartTime"
+		},
+		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowEndTime"
+		},
 		"AzureBlobStorage705_properties_privateLinkResourceId": {
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
@@ -410,6 +410,14 @@
 			"defaultValue": [
 				"pracdemostorage.dfs.core.windows.net"
 			]
+		},
+		"AzureSqlDatabase540_properties_privateLinkResourceId": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/DefaultResourceGroup-CCAN/providers/Microsoft.Sql/servers/sqlk"
+		},
+		"AzureSqlDatabase540_properties_groupId": {
+			"type": "string",
+			"defaultValue": "sqlServer"
 		},
 		"AzureSqlDatabase591_properties_privateLinkResourceId": {
 			"type": "string",
@@ -447,13 +455,13 @@
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
 		},
-		"tumbling_trigger_properties_pipeline_parameters_StartTime": {
+		"tumb_win_trigger_properties_pipeline_parameters_pstartdate": {
 			"type": "string",
-			"defaultValue": "@trigger().outputs.windowStartTime"
+			"defaultValue": "@trigger().outputs.windowstarttime"
 		},
-		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
+		"tumb_win_trigger_properties_pipeline_parameters_penddate": {
 			"type": "string",
-			"defaultValue": "@trigger().outputs.windowEndTime"
+			"defaultValue": "@trigger().outputs.windowEndtime"
 		},
 		"containerUri": {
 			"type": "string",
@@ -763,6 +771,12 @@
 					"AzureDataLakeStorage299_properties_fqdns": {
 						"value": "[parameters('AzureDataLakeStorage299_properties_fqdns')]"
 					},
+					"AzureSqlDatabase540_properties_privateLinkResourceId": {
+						"value": "[parameters('AzureSqlDatabase540_properties_privateLinkResourceId')]"
+					},
+					"AzureSqlDatabase540_properties_groupId": {
+						"value": "[parameters('AzureSqlDatabase540_properties_groupId')]"
+					},
 					"AzureSqlDatabase591_properties_privateLinkResourceId": {
 						"value": "[parameters('AzureSqlDatabase591_properties_privateLinkResourceId')]"
 					},
@@ -850,9 +864,6 @@
 					"AzureSqlDatabase2_password": {
 						"value": "[parameters('AzureSqlDatabase2_password')]"
 					},
-					"LS_ASQL_password": {
-						"value": "[parameters('LS_ASQL_password')]"
-					},
 					"Snowflake_ls_privateKey": {
 						"value": "[parameters('Snowflake_ls_privateKey')]"
 					},
@@ -882,9 +893,6 @@
 					},
 					"LS_ASQL_properties_typeProperties_database": {
 						"value": "[parameters('LS_ASQL_properties_typeProperties_database')]"
-					},
-					"LS_ASQL_properties_typeProperties_userName": {
-						"value": "[parameters('LS_ASQL_properties_typeProperties_userName')]"
 					},
 					"Snowflake_ls_properties_typeProperties_database": {
 						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
@@ -966,6 +974,12 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"tumb_win_trigger_properties_pipeline_parameters_pstartdate": {
+						"value": "[parameters('tumb_win_trigger_properties_pipeline_parameters_pstartdate')]"
+					},
+					"tumb_win_trigger_properties_pipeline_parameters_penddate": {
+						"value": "[parameters('tumb_win_trigger_properties_pipeline_parameters_penddate')]"
 					},
 					"man_trigger_properties_typeProperties_scope": {
 						"value": "[parameters('man_trigger_properties_typeProperties_scope')]"

@@ -13,6 +13,138 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/compresspipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data compress",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "ADLS_Dataset_json2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADLS_Dataset_sink_dataflow",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-05-07T19:46:35Z"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/compresspipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "ADLS_Dataset_json2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ADLS_Dataset_json2",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2025-05-07T19:46:34Z"
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/lookupactivity')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -998,6 +1130,91 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/tumblingwindow_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"description": "incremental loading using tumbling window trigger",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "AzureBlobFSReadSettings",
+									"recursive": true,
+									"modifiedDatetimeStart": {
+										"value": "@pipeline().parameters.StartTime",
+										"type": "Expression"
+									},
+									"modifiedDatetimeEnd": {
+										"value": "@pipeline().parameters.EndTime",
+										"type": "Expression"
+									},
+									"wildcardFileName": "*.json",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "Jsonsourcedataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "Jsonsinkdataset",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"StartTime": {
+						"type": "string"
+					},
+					"EndTime": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Incremental_loading/Tumblingwindowtrigger"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzurePostgreSqlTable')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -1079,6 +1296,22 @@
 					"schema": "dbo",
 					"table": "product"
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable1')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_ASQL",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {}
 			},
 			"dependsOn": []
 		},
@@ -1198,464 +1431,6 @@
 				"typeProperties": {
 					"schema": "MY_SCHEMA",
 					"table": "ELEMENTS"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DF_EXT_REPORTE_SZRPPIN_CAMPUS_CONGELADOS')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DF_EXT_REPORTE_SZRPPIN_CAMPUS_SOURCE_DATASET",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DF_EXT_REPORTE_SZRPPIN_CAMPUS_SINK_DATASET",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "select1"
-						},
-						{
-							"name": "filter1"
-						},
-						{
-							"name": "sort1"
-						}
-					],
-					"scriptLines": [
-						"parameters{",
-						"     id as integer[] ([842302,842517,84300903,844359,46])",
-						"}",
-						"source(output(",
-						"          id as integer,",
-						"          diagnosis as string,",
-						"          radius_mean as string,",
-						"          texture_mean as string,",
-						"          perimeter_mean as string,",
-						"          area_mean as string,",
-						"          smoothness_mean as string,",
-						"          compactness_mean as string,",
-						"          concavity_mean as string,",
-						"          {concave points_mean} as string,",
-						"          symmetry_mean as string,",
-						"          fractal_dimension_mean as string,",
-						"          radius_se as string,",
-						"          texture_se as string,",
-						"          perimeter_se as string,",
-						"          area_se as string,",
-						"          smoothness_se as string,",
-						"          compactness_se as string,",
-						"          concavity_se as string,",
-						"          {concave points_se} as string,",
-						"          symmetry_se as string,",
-						"          fractal_dimension_se as string,",
-						"          radius_worst as string,",
-						"          texture_worst as string,",
-						"          perimeter_worst as string,",
-						"          area_worst as string,",
-						"          smoothness_worst as string,",
-						"          compactness_worst as string,",
-						"          concavity_worst as string,",
-						"          {concave points_worst} as string,",
-						"          symmetry_worst as string,",
-						"          fractal_dimension_worst as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     fileSystem: 'datalake',",
-						"     folderPath: (concat($path, $file_name))) ~> source1",
-						"source1 select(skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"select1 filter(in($id, id)) ~> filter1",
-						"filter1 sort(asc(radius_mean, true)) ~> sort1",
-						"sort1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TransformContractSectionViewBordereau_blob')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "AzureDestinyGlobal",
-								"type": "DatasetReference"
-							},
-							"name": "AzureDestinyGlobal"
-						},
-						{
-							"dataset": {
-								"referenceName": "pb_productBuilder_container",
-								"type": "DatasetReference"
-							},
-							"name": "productBuilderContractSections"
-						},
-						{
-							"dataset": {
-								"referenceName": "pb_contractsection_container",
-								"type": "DatasetReference"
-							},
-							"name": "ContractSectionViewBordereau"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "Jsonsink",
-								"type": "DatasetReference"
-							},
-							"name": "UpdateCosmosDB"
-						},
-						{
-							"dataset": {
-								"referenceName": "pb_contractsection_container",
-								"type": "DatasetReference"
-							},
-							"name": "DeleteItemsInCosmos"
-						}
-					],
-					"transformations": [
-						{
-							"name": "LookupContractSection"
-						},
-						{
-							"name": "LookupId"
-						},
-						{
-							"name": "DerivedColumns"
-						},
-						{
-							"name": "AggregateColumns"
-						},
-						{
-							"name": "SelectAttributes"
-						},
-						{
-							"name": "InsertOrUpdate"
-						},
-						{
-							"name": "UnusedData"
-						},
-						{
-							"name": "SelectItemKeys"
-						},
-						{
-							"name": "SetToDeleteUnusedData"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          ContractSectionID as integer,",
-						"          LastUpdatedBy as string,",
-						"          IEContactID as integer,",
-						"          CanViewBordereauFlag as boolean",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     query: 'SELECT [eua].[ContractSectionID] ,[eua].[LastUpdatedBy] ,[eua].[IEContactID] ,[eub].[CanViewBordereauFlag] FROM [DestinyGlobal].[dbo].[FacExternalUserAssignment] AS [eua] INNER JOIN [DestinyGlobal].[dbo].[FacExternalUserBordereau] AS [eub] ON [eua].[FacExternalUserAssignmentID] = [eub].[FacExternalUserAssignmentID]',",
-						"     format: 'query') ~> AzureDestinyGlobal",
-						"source(output(",
-						"          typeId as string,",
-						"          cosmosContractSectionId as integer",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     query: 'SELECT DISTINCT\\r\\n    f.typeId AS typeId,                     \\r\\n    f.contractSectionId AS cosmosContractSectionId\\r\\nFROM behaviors AS f\\r\\nWHERE f.type = \"contractSection\"\\r\\nAND f.isDeleted = false',",
-						"     format: 'documentQuery',",
-						"     systemColumns: false) ~> productBuilderContractSections",
-						"source(output(",
-						"          typeId as string,",
-						"          type as string,",
-						"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
-						"          environments as string[],",
-						"          users as (ieContactId as integer, emailNotifications as integer[])[],",
-						"          lastUpdatedBy as (email as string, userContextId as string),",
-						"          isDeleted as boolean",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     format: 'document',",
-						"     systemColumns: false) ~> ContractSectionViewBordereau",
-						"AzureDestinyGlobal, productBuilderContractSections lookup(ContractSectionID == cosmosContractSectionId,",
-						"     multiple: false,",
-						"     pickup: 'any',",
-						"     broadcast: 'auto')~> LookupContractSection",
-						"LookupContractSection, ContractSectionViewBordereau lookup(productBuilderContractSections@typeId == ContractSectionViewBordereau@typeId,",
-						"     multiple: false,",
-						"     pickup: 'any',",
-						"     broadcast: 'auto')~> LookupId",
-						"LookupId derive(typeId = \"bordereau\",",
-						"          CanViewBordereauFlag = @(ieContactId=IEContactID,",
-						"          canViewBordereau=CanViewBordereauFlag)) ~> DerivedColumns",
-						"DerivedColumns aggregate(groupBy(typeId),",
-						"     users = collect(CanViewBordereauFlag)) ~> AggregateColumns",
-						"AggregateColumns select(skipDuplicateMapInputs: false,",
-						"     skipDuplicateMapOutputs: false) ~> SelectAttributes",
-						"SelectAttributes alterRow(upsertIf(!isNull(typeId)),",
-						"     insertIf(isNull(users))) ~> InsertOrUpdate",
-						"ContractSectionViewBordereau, productBuilderContractSections exists(ContractSectionViewBordereau@typeId == productBuilderContractSections@typeId,",
-						"     negate:true,",
-						"     broadcast: 'auto')~> UnusedData",
-						"UnusedData select(mapColumn(",
-						"          typeId",
-						"     ),",
-						"     skipDuplicateMapInputs: false,",
-						"     skipDuplicateMapOutputs: false) ~> SelectItemKeys",
-						"SelectItemKeys alterRow(deleteIf(true())) ~> SetToDeleteUnusedData",
-						"InsertOrUpdate sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     saveOrder: 1,",
-						"     mapColumn(",
-						"          typeId,",
-						"          users",
-						"     ),",
-						"     format: 'document') ~> UpdateCosmosDB",
-						"SetToDeleteUnusedData sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          typeId as string,",
-						"          type as string,",
-						"          regions as (region as string, lastUpdatedBy as (email as string, userContextId as string))[],",
-						"          environments as string[],",
-						"          users as (ieContactId as integer, emailNotifications as integer[])[],",
-						"          lastUpdatedBy as (email as string, userContextId as string),",
-						"          isDeleted as boolean",
-						"     ),",
-						"     deletable:true,",
-						"     insertable:false,",
-						"     updateable:false,",
-						"     upsertable:false,",
-						"     format: 'document',",
-						"     partitionKey: ['/typeId'],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> DeleteItemsInCosmos"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ansh_dataflow')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "dataflow_reporting_csv_source",
-								"type": "DatasetReference"
-							},
-							"name": "source"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "dataflow_csv_ansh_sink",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "select1"
-						},
-						{
-							"name": "filter1"
-						},
-						{
-							"name": "split1"
-						},
-						{
-							"name": "derivedColumn1"
-						},
-						{
-							"name": "aggregate1"
-						},
-						{
-							"name": "alterRow1"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          transaction_id as short,",
-						"          transactional_date as timestamp,",
-						"          product_id as string,",
-						"          customer_id as short,",
-						"          payment as string,",
-						"          credit_card as long,",
-						"          loyalty_card as boolean,",
-						"          cost as double,",
-						"          quantity as short,",
-						"          price as double",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source",
-						"source select(mapColumn(",
-						"          transaction_id,",
-						"          transactional_date,",
-						"          product_id,",
-						"          customer_id,",
-						"          payment,",
-						"          quantity",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"select1 filter(customer_id != 10) ~> filter1",
-						"filter1 split(payment == 'visa',",
-						"     payment == 'mastercard',",
-						"     disjoint: false) ~> split1@(visa, mastercard, americanexp)",
-						"split1@americanexp derive(payment = coalesce(payment, 'N/A')) ~> derivedColumn1",
-						"split1@visa aggregate(groupBy(customer_id),",
-						"     product_id = max(product_id)) ~> aggregate1",
-						"aggregate1 alterRow(insertIf(1==1)) ~> alterRow1",
-						"alterRow1 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink1"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflow-partialrow-trans')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "dataset_title_csv",
-								"type": "DatasetReference"
-							},
-							"name": "source1"
-						},
-						{
-							"dataset": {
-								"referenceName": "Dataset_csv_copytitle",
-								"type": "DatasetReference"
-							},
-							"name": "source2"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "Dataset_sink_title_csv",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [
-						{
-							"name": "derivedColumn1"
-						},
-						{
-							"name": "join1"
-						},
-						{
-							"name": "select1"
-						},
-						{
-							"name": "derivedColumn2"
-						}
-					],
-					"scriptLines": [
-						"source(output(",
-						"          TITLE_ID as integer,",
-						"          { TITLE} as string,",
-						"          { JOB_DIVISION} as string,",
-						"          { JOB_FAMILY} as string,",
-						"          { JOB_TITLE} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source1",
-						"source(output(",
-						"          EMP_ID as string,",
-						"          EMPLOYEE as string,",
-						"          EMP_DEPT as string,",
-						"          { JOB_TITLE} as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false) ~> source2",
-						"select1 derive({ TITLE} = split({ TITLE}, '-'),",
-						"          TITLE_ID = TITLE_ID) ~> derivedColumn1",
-						"source1, source2 join({ JOB_FAMILY} == EMP_DEPT,",
-						"     joinType:'inner',",
-						"     matchType:'exact',",
-						"     ignoreSpaces: false,",
-						"     broadcast: 'auto')~> join1",
-						"join1 select(mapColumn(",
-						"          TITLE_ID,",
-						"          { TITLE},",
-						"          { JOB_DIVISION},",
-						"          { JOB_TITLE} = source1@{ JOB_TITLE},",
-						"          EMP_ID,",
-						"          EMPLOYEE,",
-						"          EMP_DEPT",
-						"     ),",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> select1",
-						"derivedColumn1 derive({ TITLE} = { TITLE}[1]) ~> derivedColumn2",
-						"derivedColumn2 sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     input(",
-						"          id as string,",
-						"          name as string,",
-						"          dept as string",
-						"     ),",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sink1"
-					]
 				}
 			},
 			"dependsOn": []
