@@ -2106,14 +2106,14 @@
 								"sqlReaderStoredProcedureName": "[[dbo].[cust_sale]",
 								"storedProcedureParameters": {
 									"enddate": {
-										"type": "String",
+										"type": "Datetime",
 										"value": {
 											"value": "@pipeline().parameters.pendtime",
 											"type": "Expression"
 										}
 									},
 									"startdate": {
-										"type": "String",
+										"type": "Datetime",
 										"value": {
 											"value": "@pipeline().parameters.pstarttime",
 											"type": "Expression"

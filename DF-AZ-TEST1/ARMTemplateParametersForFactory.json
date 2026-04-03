@@ -344,10 +344,10 @@
 			"value": "@trigger().outputs.windowEndTime"
 		},
 		"tumb_trigger2_properties_pipeline_parameters_pstarttime": {
-			"value": "trigger().outputs.windowStartTime"
+			"value": "@trigger().outputs.windowStartTime"
 		},
 		"tumb_trigger2_properties_pipeline_parameters_pendtime": {
-			"value": "trigger().outputs.windowEndTime"
+			"value": "@trigger().outputs.windowEndTime"
 		}
 	}
 }

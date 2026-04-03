@@ -21,11 +21,11 @@
 		},
 		"tumb_trigger2_properties_pipeline_parameters_pstarttime": {
 			"type": "string",
-			"defaultValue": "trigger().outputs.windowStartTime"
+			"defaultValue": "@trigger().outputs.windowStartTime"
 		},
 		"tumb_trigger2_properties_pipeline_parameters_pendtime": {
 			"type": "string",
-			"defaultValue": "trigger().outputs.windowEndTime"
+			"defaultValue": "@trigger().outputs.windowEndTime"
 		},
 		"man_trigger_properties_typeProperties_scope": {
 			"type": "string",
