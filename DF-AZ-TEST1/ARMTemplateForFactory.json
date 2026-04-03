@@ -455,13 +455,13 @@
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
 		},
-		"tumb_trigger2_properties_pipeline_parameters_pstarttime": {
+		"trigger_tumb2_properties_pipeline_parameters_pstarttime": {
 			"type": "string",
-			"defaultValue": "@trigger().outputs.windowStartTime"
+			"defaultValue": "trigger().outputs.windowStartTime"
 		},
-		"tumb_trigger2_properties_pipeline_parameters_pendtime": {
+		"trigger_tumb2_properties_pipeline_parameters_pendtime": {
 			"type": "string",
-			"defaultValue": "@trigger().outputs.windowEndTime"
+			"defaultValue": "trigger().outputs.windowEndTime"
 		}
 	},
 	"variables": {
@@ -8516,7 +8516,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tumb_trigger2')]",
+			"name": "[concat(parameters('factoryName'), '/trigger_tumb2')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -8528,16 +8528,16 @@
 						"type": "PipelineReference"
 					},
 					"parameters": {
-						"pstarttime": "[parameters('tumb_trigger2_properties_pipeline_parameters_pstarttime')]",
-						"pendtime": "[parameters('tumb_trigger2_properties_pipeline_parameters_pendtime')]"
+						"pstarttime": "[parameters('trigger_tumb2_properties_pipeline_parameters_pstarttime')]",
+						"pendtime": "[parameters('trigger_tumb2_properties_pipeline_parameters_pendtime')]"
 					}
 				},
 				"type": "TumblingWindowTrigger",
 				"typeProperties": {
-					"frequency": "Hour",
+					"frequency": "Minute",
 					"interval": 24,
-					"startTime": "2024-03-01T00:00:00Z",
-					"endTime": "2024-03-05T00:00:00Z",
+					"startTime": "2026-04-01T00:00:00Z",
+					"endTime": "2026-04-05T00:00:00Z",
 					"delay": "00:00:00",
 					"maxConcurrency": 50,
 					"retryPolicy": {
