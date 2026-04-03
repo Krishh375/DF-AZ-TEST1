@@ -2,7 +2,7 @@
 	"name": "tumb_win_trigger",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipeline": {
 			"pipelineReference": {
 				"referenceName": "tumb_pipeline2",
