@@ -455,13 +455,13 @@
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
 		},
-		"tumb_win_trigger_properties_pipeline_parameters_pstartdate": {
+		"tumb_trigger2_properties_pipeline_parameters_pstarttime": {
 			"type": "string",
-			"defaultValue": "@trigger().outputs.windowstarttime"
+			"defaultValue": "@trigger().outputs.windowStartTime"
 		},
-		"tumb_win_trigger_properties_pipeline_parameters_penddate": {
+		"tumb_trigger2_properties_pipeline_parameters_pendtime": {
 			"type": "string",
-			"defaultValue": "@trigger().outputs.windowEndtime"
+			"defaultValue": "@trigger().outputs.windowEndTime"
 		}
 	},
 	"variables": {
@@ -3410,105 +3410,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/Teradata_dataset_user')]",
 				"[concat(variables('factoryId'), '/datasets/ADLSGen2datasetsink')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/tumb_pipeline2')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"sqlReaderStoredProcedureName": "[[dbo].[cust_sale]",
-								"storedProcedureParameters": {
-									"enddate": {
-										"type": "DateTime",
-										"value": {
-											"value": "@pipeline().parameters.penddate",
-											"type": "Expression"
-										}
-									},
-									"startdate": {
-										"type": "DateTime",
-										"value": {
-											"value": "@pipeline().parameters.pstartdate",
-											"type": "Expression"
-										}
-									}
-								},
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "AzureSqlTable2",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "tumbling_trigger_ds",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"parameters": {
-					"pstartdate": {
-						"type": "string"
-					},
-					"penddate": {
-						"type": "string"
-					}
-				},
-				"folder": {
-					"name": "Incremental_loading/Tumblingwindowtrigger"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/AzureSqlTable2')]",
-				"[concat(variables('factoryId'), '/datasets/tumbling_trigger_ds')]"
 			]
 		},
 		{
@@ -8426,7 +8327,106 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlTable2')]",
+			"name": "[concat(parameters('factoryName'), '/tumbling_pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[dbo].[cust_sale]",
+								"storedProcedureParameters": {
+									"enddate": {
+										"type": "DateTime",
+										"value": {
+											"value": "@pipeline().parameters.pendtime",
+											"type": "Expression"
+										}
+									},
+									"startdate": {
+										"type": "DateTime",
+										"value": {
+											"value": "@pipeline().parameters.pstarttime",
+											"type": "Expression"
+										}
+									}
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTable_tumbling_ds",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "tumbling_win_ds",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"pstarttime": {
+						"type": "string"
+					},
+					"pendtime": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Incremental_loading/Tumblingwindowtrigger"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/AzureSqlTable_tumbling_ds')]",
+				"[concat(variables('factoryId'), '/datasets/tumbling_win_ds')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/AzureSqlTable_tumbling_ds')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -8444,7 +8444,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tumbling_trigger_ds')]",
+			"name": "[concat(parameters('factoryName'), '/tumbling_win_ds')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -8457,11 +8457,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "file.csv",
-						"folderPath": {
-							"value": "@concat('tumbling', utcNow())",
-							"type": "Expression"
-						},
 						"fileSystem": "lake"
 					},
 					"columnDelimiter": ",",
@@ -8469,14 +8464,55 @@
 					"firstRowAsHeader": true,
 					"quoteChar": "\""
 				},
-				"schema": []
+				"schema": [
+					{
+						"name": "transaction_id",
+						"type": "String"
+					},
+					{
+						"name": "transactional_date",
+						"type": "String"
+					},
+					{
+						"name": "product_id",
+						"type": "String"
+					},
+					{
+						"name": "customer_id",
+						"type": "String"
+					},
+					{
+						"name": "payment",
+						"type": "String"
+					},
+					{
+						"name": "credit_card",
+						"type": "String"
+					},
+					{
+						"name": "loyalty_card",
+						"type": "String"
+					},
+					{
+						"name": "cost",
+						"type": "String"
+					},
+					{
+						"name": "quantity",
+						"type": "String"
+					},
+					{
+						"name": "price",
+						"type": "String"
+					}
+				]
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tumb_win_trigger')]",
+			"name": "[concat(parameters('factoryName'), '/tumb_trigger2')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -8484,12 +8520,12 @@
 				"runtimeState": "Started",
 				"pipeline": {
 					"pipelineReference": {
-						"referenceName": "tumb_pipeline2",
+						"referenceName": "tumbling_pipeline2",
 						"type": "PipelineReference"
 					},
 					"parameters": {
-						"pstartdate": "[parameters('tumb_win_trigger_properties_pipeline_parameters_pstartdate')]",
-						"penddate": "[parameters('tumb_win_trigger_properties_pipeline_parameters_penddate')]"
+						"pstarttime": "[parameters('tumb_trigger2_properties_pipeline_parameters_pstarttime')]",
+						"pendtime": "[parameters('tumb_trigger2_properties_pipeline_parameters_pendtime')]"
 					}
 				},
 				"type": "TumblingWindowTrigger",
@@ -8507,7 +8543,7 @@
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/pipelines/tumb_pipeline2')]"
+				"[concat(variables('factoryId'), '/pipelines/tumbling_pipeline2')]"
 			]
 		}
 	]

@@ -7,13 +7,13 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
-		"tumb_win_trigger_properties_pipeline_parameters_pstartdate": {
+		"tumb_trigger2_properties_pipeline_parameters_pstarttime": {
 			"type": "string",
-			"defaultValue": "@trigger().outputs.windowstarttime"
+			"defaultValue": "@trigger().outputs.windowStartTime"
 		},
-		"tumb_win_trigger_properties_pipeline_parameters_penddate": {
+		"tumb_trigger2_properties_pipeline_parameters_pendtime": {
 			"type": "string",
-			"defaultValue": "@trigger().outputs.windowEndtime"
+			"defaultValue": "@trigger().outputs.windowEndTime"
 		},
 		"man_trigger_properties_typeProperties_scope": {
 			"type": "string",
@@ -24,53 +24,6 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
-		{
-			"name": "[concat(parameters('factoryName'), '/dataflowpostgressql')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "AzurePostgreSqlTable",
-								"type": "DatasetReference"
-							},
-							"name": "sourcepostgres"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "ADLSGen2datasetsink",
-								"type": "DatasetReference"
-							},
-							"name": "sinkadls"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          id as integer,",
-						"          a as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     isolationLevel: 'READ_UNCOMMITTED',",
-						"     format: 'table') ~> sourcepostgres",
-						"sourcepostgres sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true) ~> sinkadls"
-					]
-				}
-			},
-			"dependsOn": []
-		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dataflowtestparallel')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
@@ -160,6 +113,102 @@
 						"     skipDuplicateMapOutputs: true) ~> sink2"
 					]
 				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/tumbling_pipeline2')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"sqlReaderStoredProcedureName": "[[dbo].[cust_sale]",
+								"storedProcedureParameters": {
+									"enddate": {
+										"type": "DateTime",
+										"value": {
+											"value": "@pipeline().parameters.pendtime",
+											"type": "Expression"
+										}
+									},
+									"startdate": {
+										"type": "DateTime",
+										"value": {
+											"value": "@pipeline().parameters.pstarttime",
+											"type": "Expression"
+										}
+									}
+								},
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "DelimitedTextSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
+								}
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "AzureSqlTable_tumbling_ds",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "tumbling_win_ds",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"pstarttime": {
+						"type": "string"
+					},
+					"pendtime": {
+						"type": "string"
+					}
+				},
+				"folder": {
+					"name": "Incremental_loading/Tumblingwindowtrigger"
+				},
+				"annotations": []
 			},
 			"dependsOn": []
 		},
@@ -264,9 +313,7 @@
 				"annotations": [],
 				"lastPublishTime": "2025-08-08T22:13:50Z"
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/dataflowpostgressql')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pipelinedataflowparallel')]",
@@ -317,7 +364,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/tumb_win_trigger')]",
+			"name": "[concat(parameters('factoryName'), '/tumb_trigger2')]",
 			"type": "Microsoft.DataFactory/factories/triggers",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -325,12 +372,12 @@
 				"runtimeState": "Started",
 				"pipeline": {
 					"pipelineReference": {
-						"referenceName": "tumb_pipeline2",
+						"referenceName": "tumbling_pipeline2",
 						"type": "PipelineReference"
 					},
 					"parameters": {
-						"pstartdate": "[parameters('tumb_win_trigger_properties_pipeline_parameters_pstartdate')]",
-						"penddate": "[parameters('tumb_win_trigger_properties_pipeline_parameters_penddate')]"
+						"pstarttime": "[parameters('tumb_trigger2_properties_pipeline_parameters_pstarttime')]",
+						"pendtime": "[parameters('tumb_trigger2_properties_pipeline_parameters_pendtime')]"
 					}
 				},
 				"type": "TumblingWindowTrigger",
@@ -347,7 +394,9 @@
 					"dependsOn": []
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/tumbling_pipeline2')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/man_trigger')]",

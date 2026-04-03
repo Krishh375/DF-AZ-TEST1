@@ -455,13 +455,13 @@
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
 		},
-		"tumb_win_trigger_properties_pipeline_parameters_pstartdate": {
+		"tumb_trigger2_properties_pipeline_parameters_pstarttime": {
 			"type": "string",
-			"defaultValue": "@trigger().outputs.windowstarttime"
+			"defaultValue": "@trigger().outputs.windowStartTime"
 		},
-		"tumb_win_trigger_properties_pipeline_parameters_penddate": {
+		"tumb_trigger2_properties_pipeline_parameters_pendtime": {
 			"type": "string",
-			"defaultValue": "@trigger().outputs.windowEndtime"
+			"defaultValue": "@trigger().outputs.windowEndTime"
 		},
 		"containerUri": {
 			"type": "string",
@@ -975,11 +975,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"tumb_win_trigger_properties_pipeline_parameters_pstartdate": {
-						"value": "[parameters('tumb_win_trigger_properties_pipeline_parameters_pstartdate')]"
+					"tumb_trigger2_properties_pipeline_parameters_pstarttime": {
+						"value": "[parameters('tumb_trigger2_properties_pipeline_parameters_pstarttime')]"
 					},
-					"tumb_win_trigger_properties_pipeline_parameters_penddate": {
-						"value": "[parameters('tumb_win_trigger_properties_pipeline_parameters_penddate')]"
+					"tumb_trigger2_properties_pipeline_parameters_pendtime": {
+						"value": "[parameters('tumb_trigger2_properties_pipeline_parameters_pendtime')]"
 					},
 					"man_trigger_properties_typeProperties_scope": {
 						"value": "[parameters('man_trigger_properties_typeProperties_scope')]"
