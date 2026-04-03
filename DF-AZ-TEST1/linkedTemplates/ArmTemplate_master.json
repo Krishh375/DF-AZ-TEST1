@@ -355,26 +355,6 @@
 			"type": "string",
 			"defaultValue": "@{linkedService().Database_name}"
 		},
-		"blob_event_trigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"man_trigger_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"triggereventstorage_properties_typeProperties_scope": {
-			"type": "string",
-			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"tumbling_trigger_properties_pipeline_parameters_StartTime": {
-			"type": "string",
-			"defaultValue": "@trigger().outputs.windowStartTime"
-		},
-		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
-			"type": "string",
-			"defaultValue": "@trigger().outputs.windowEndTime"
-		},
 		"AzureBlobStorage705_properties_privateLinkResourceId": {
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
@@ -455,11 +435,31 @@
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
 		},
-		"trigger_tumb2_properties_pipeline_parameters_pstarttime": {
+		"blob_event_trigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"man_trigger_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"triggereventstorage_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"tumbling_trigger_properties_pipeline_parameters_StartTime": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowStartTime"
+		},
+		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowEndTime"
+		},
+		"tumb_trigger2_properties_pipeline_parameters_pstarttime": {
 			"type": "string",
 			"defaultValue": "trigger().outputs.windowStartTime"
 		},
-		"trigger_tumb2_properties_pipeline_parameters_pendtime": {
+		"tumb_trigger2_properties_pipeline_parameters_pendtime": {
 			"type": "string",
 			"defaultValue": "trigger().outputs.windowEndTime"
 		},
@@ -744,9 +744,6 @@
 					"Teradata_user_properties_typeProperties_username": {
 						"value": "[parameters('Teradata_user_properties_typeProperties_username')]"
 					},
-					"blob_event_trigger_properties_typeProperties_scope": {
-						"value": "[parameters('blob_event_trigger_properties_typeProperties_scope')]"
-					},
 					"AzureBlobStorage705_properties_privateLinkResourceId": {
 						"value": "[parameters('AzureBlobStorage705_properties_privateLinkResourceId')]"
 					},
@@ -800,6 +797,9 @@
 					},
 					"PrivateLinkService492_properties_fqdns": {
 						"value": "[parameters('PrivateLinkService492_properties_fqdns')]"
+					},
+					"blob_event_trigger_properties_typeProperties_scope": {
+						"value": "[parameters('blob_event_trigger_properties_typeProperties_scope')]"
 					}
 				}
 			},
@@ -945,15 +945,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"triggereventstorage_properties_typeProperties_scope": {
-						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
-					},
-					"tumbling_trigger_properties_pipeline_parameters_StartTime": {
-						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_StartTime')]"
-					},
-					"tumbling_trigger_properties_pipeline_parameters_EndTime": {
-						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_EndTime')]"
 					}
 				}
 			},
@@ -975,11 +966,20 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"trigger_tumb2_properties_pipeline_parameters_pstarttime": {
-						"value": "[parameters('trigger_tumb2_properties_pipeline_parameters_pstarttime')]"
+					"triggereventstorage_properties_typeProperties_scope": {
+						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
 					},
-					"trigger_tumb2_properties_pipeline_parameters_pendtime": {
-						"value": "[parameters('trigger_tumb2_properties_pipeline_parameters_pendtime')]"
+					"tumbling_trigger_properties_pipeline_parameters_StartTime": {
+						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_StartTime')]"
+					},
+					"tumbling_trigger_properties_pipeline_parameters_EndTime": {
+						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_EndTime')]"
+					},
+					"tumb_trigger2_properties_pipeline_parameters_pstarttime": {
+						"value": "[parameters('tumb_trigger2_properties_pipeline_parameters_pstarttime')]"
+					},
+					"tumb_trigger2_properties_pipeline_parameters_pendtime": {
+						"value": "[parameters('tumb_trigger2_properties_pipeline_parameters_pendtime')]"
 					},
 					"man_trigger_properties_typeProperties_scope": {
 						"value": "[parameters('man_trigger_properties_typeProperties_scope')]"
