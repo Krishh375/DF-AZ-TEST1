@@ -445,11 +445,11 @@
 		},
 		"trigger_tumbling_2_properties_pipeline_parameters_pstarttime": {
 			"type": "string",
-			"defaultValue": "@trigger.outputs.windowStartTime"
+			"defaultValue": "@trigger().outputs.windowstarttime"
 		},
 		"trigger_tumbling_2_properties_pipeline_parameters_pendtime": {
 			"type": "string",
-			"defaultValue": "@trigger.outputs.windowEndTime"
+			"defaultValue": "@trigger().outputs.windowEndtime"
 		},
 		"triggereventstorage_properties_typeProperties_scope": {
 			"type": "string",
