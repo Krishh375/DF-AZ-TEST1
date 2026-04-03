@@ -455,14 +455,6 @@
 			"type": "string",
 			"defaultValue": "@trigger().outputs.windowEndTime"
 		},
-		"tumb_trigger2_properties_pipeline_parameters_pstarttime": {
-			"type": "string",
-			"defaultValue": "@trigger().outputs.windowStartTime"
-		},
-		"tumb_trigger2_properties_pipeline_parameters_pendtime": {
-			"type": "string",
-			"defaultValue": "@trigger().outputs.windowEndTime"
-		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -974,12 +966,6 @@
 					},
 					"tumbling_trigger_properties_pipeline_parameters_EndTime": {
 						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_EndTime')]"
-					},
-					"tumb_trigger2_properties_pipeline_parameters_pstarttime": {
-						"value": "[parameters('tumb_trigger2_properties_pipeline_parameters_pstarttime')]"
-					},
-					"tumb_trigger2_properties_pipeline_parameters_pendtime": {
-						"value": "[parameters('tumb_trigger2_properties_pipeline_parameters_pendtime')]"
 					},
 					"man_trigger_properties_typeProperties_scope": {
 						"value": "[parameters('man_trigger_properties_typeProperties_scope')]"
