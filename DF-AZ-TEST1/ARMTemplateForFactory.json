@@ -8457,6 +8457,10 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"folderPath": {
+							"value": "@concat('tumbling', '-', utcNow())",
+							"type": "Expression"
+						},
 						"fileSystem": "lake"
 					},
 					"columnDelimiter": ",",
