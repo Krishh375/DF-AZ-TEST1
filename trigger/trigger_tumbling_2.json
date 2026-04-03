@@ -2,15 +2,15 @@
 	"name": "trigger_tumbling_2",
 	"properties": {
 		"annotations": [],
-		"runtimeState": "Started",
+		"runtimeState": "Stopped",
 		"pipeline": {
 			"pipelineReference": {
 				"referenceName": "tumbling_pipeline2",
 				"type": "PipelineReference"
 			},
 			"parameters": {
-				"pstarttime": "@trigger.outputs.windowStartTime",
-				"pendtime": "@trigger.outputs.windowEndTime"
+				"pstarttime": "@trigger().outputs.windowstarttime",
+				"pendtime": "@trigger().outputs.windowEndtime"
 			}
 		},
 		"type": "TumblingWindowTrigger",
