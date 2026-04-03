@@ -443,14 +443,6 @@
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		},
-		"trigger_tumbling_2_properties_pipeline_parameters_pstarttime": {
-			"type": "string",
-			"defaultValue": "@trigger().outputs.windowstarttime"
-		},
-		"trigger_tumbling_2_properties_pipeline_parameters_pendtime": {
-			"type": "string",
-			"defaultValue": "@trigger().outputs.windowEndtime"
-		},
 		"triggereventstorage_properties_typeProperties_scope": {
 			"type": "string",
 			"defaultValue": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
@@ -462,6 +454,14 @@
 		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
 			"type": "string",
 			"defaultValue": "@trigger().outputs.windowEndTime"
+		},
+		"trigger_tum_new_properties_pipeline_parameters_penddate": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowEndtime"
+		},
+		"trigger_tum_new_properties_pipeline_parameters_pstartdate": {
+			"type": "string",
+			"defaultValue": "@trigger().outputs.windowstarttime"
 		},
 		"containerUri": {
 			"type": "string",
@@ -945,6 +945,15 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"triggereventstorage_properties_typeProperties_scope": {
+						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
+					},
+					"tumbling_trigger_properties_pipeline_parameters_StartTime": {
+						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_StartTime')]"
+					},
+					"tumbling_trigger_properties_pipeline_parameters_EndTime": {
+						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_EndTime')]"
 					}
 				}
 			},
@@ -966,20 +975,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"triggereventstorage_properties_typeProperties_scope": {
-						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
+					"trigger_tum_new_properties_pipeline_parameters_penddate": {
+						"value": "[parameters('trigger_tum_new_properties_pipeline_parameters_penddate')]"
 					},
-					"tumbling_trigger_properties_pipeline_parameters_StartTime": {
-						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_StartTime')]"
-					},
-					"tumbling_trigger_properties_pipeline_parameters_EndTime": {
-						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_EndTime')]"
-					},
-					"trigger_tumbling_2_properties_pipeline_parameters_pstarttime": {
-						"value": "[parameters('trigger_tumbling_2_properties_pipeline_parameters_pstarttime')]"
-					},
-					"trigger_tumbling_2_properties_pipeline_parameters_pendtime": {
-						"value": "[parameters('trigger_tumbling_2_properties_pipeline_parameters_pendtime')]"
+					"trigger_tum_new_properties_pipeline_parameters_pstartdate": {
+						"value": "[parameters('trigger_tum_new_properties_pipeline_parameters_pstartdate')]"
 					},
 					"man_trigger_properties_typeProperties_scope": {
 						"value": "[parameters('man_trigger_properties_typeProperties_scope')]"

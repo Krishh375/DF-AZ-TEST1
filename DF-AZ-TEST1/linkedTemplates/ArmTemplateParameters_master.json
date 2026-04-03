@@ -334,12 +334,6 @@
 		"man_trigger_properties_typeProperties_scope": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		},
-		"trigger_tumbling_2_properties_pipeline_parameters_pstarttime": {
-			"value": "@trigger().outputs.windowstarttime"
-		},
-		"trigger_tumbling_2_properties_pipeline_parameters_pendtime": {
-			"value": "@trigger().outputs.windowEndtime"
-		},
 		"triggereventstorage_properties_typeProperties_scope": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		},
@@ -348,6 +342,12 @@
 		},
 		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
 			"value": "@trigger().outputs.windowEndTime"
+		},
+		"trigger_tum_new_properties_pipeline_parameters_penddate": {
+			"value": "@trigger().outputs.windowEndtime"
+		},
+		"trigger_tum_new_properties_pipeline_parameters_pstartdate": {
+			"value": "@trigger().outputs.windowstarttime"
 		},
 		"containerUri": {
 			"value": ""
