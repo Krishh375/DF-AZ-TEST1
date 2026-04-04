@@ -7,10 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
-		"AzureSqlDatabase2_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'AzureSqlDatabase2'"
-		},
 		"Snowflake_ls_privateKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'privateKey' of 'Snowflake_ls'"
@@ -31,17 +27,13 @@
 			"type": "string",
 			"defaultValue": "testdemodatabase"
 		},
-		"AzureSqlDatabase2_properties_typeProperties_server": {
+		"AzureSqlDatabaseLinkedService_properties_typeProperties_server": {
 			"type": "string",
-			"defaultValue": "krishh123.database.windows.net"
+			"defaultValue": "sqlk.database.windows.net"
 		},
-		"AzureSqlDatabase2_properties_typeProperties_database": {
+		"AzureSqlDatabaseLinkedService_properties_typeProperties_database": {
 			"type": "string",
-			"defaultValue": "krishhdb"
-		},
-		"AzureSqlDatabase2_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "krishh"
+			"defaultValue": "testsql"
 		},
 		"LS_ASQL_properties_typeProperties_server": {
 			"type": "string",
@@ -72,6 +64,32 @@
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/dataset_csv_reporting')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "newfolder",
+						"fileSystem": "reporting"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/dataset_title_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -484,24 +502,18 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabase2')]",
+			"name": "[concat(parameters('factoryName'), '/AzureSqlDatabaseLinkedService')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "AzureSqlDatabase",
 				"typeProperties": {
-					"server": "[parameters('AzureSqlDatabase2_properties_typeProperties_server')]",
-					"database": "[parameters('AzureSqlDatabase2_properties_typeProperties_database')]",
+					"server": "[parameters('AzureSqlDatabaseLinkedService_properties_typeProperties_server')]",
+					"database": "[parameters('AzureSqlDatabaseLinkedService_properties_typeProperties_database')]",
 					"encrypt": "mandatory",
 					"trustServerCertificate": true,
-					"authenticationType": "SQL",
-					"userName": "[parameters('AzureSqlDatabase2_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('AzureSqlDatabase2_password')]"
-					},
-					"commandTimeout": 30
+					"authenticationType": "SystemAssignedManagedIdentity"
 				},
 				"connectVia": {
 					"referenceName": "vnetintegrationRuntime",
@@ -804,85 +816,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/git_dataset')]",
 				"[concat(variables('factoryId'), '/datasets/sink_trigger')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ansh_lambe_set_variable')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Get Metadata",
-						"type": "GetMetadata",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataset": {
-								"referenceName": "set_variable_ds",
-								"type": "DatasetReference",
-								"parameters": {}
-							},
-							"fieldList": [
-								"childItems"
-							],
-							"storeSettings": {
-								"type": "AzureBlobFSReadSettings",
-								"recursive": true,
-								"enablePartitionDiscovery": false
-							},
-							"formatSettings": {
-								"type": "DelimitedTextReadSettings"
-							}
-						}
-					},
-					{
-						"name": "Set variable1",
-						"type": "SetVariable",
-						"dependsOn": [
-							{
-								"activity": "Get Metadata",
-								"dependencyConditions": [
-									"Succeeded"
-								]
-							}
-						],
-						"policy": {
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"variableName": "var_pipe",
-							"value": {
-								"value": "@activity('Get Metadata').output.childItems",
-								"type": "Expression"
-							}
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"variables": {
-					"var_pipe": {
-						"type": "Array"
-					}
-				},
-				"folder": {
-					"name": "Ansh_ADF_course"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/set_variable_ds')]"
 			]
 		}
 	]

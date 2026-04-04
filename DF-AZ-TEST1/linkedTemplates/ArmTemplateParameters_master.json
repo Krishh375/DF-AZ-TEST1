@@ -14,9 +14,6 @@
 		"AzureDatabricks_LS_AT_accessToken": {
 			"value": ""
 		},
-		"AzureSqlDatabase2_password": {
-			"value": ""
-		},
 		"DS_ASQLDB_PIPELINE_PARAMETER_password": {
 			"value": ""
 		},
@@ -116,14 +113,11 @@
 		"AzurePostgreSql_properties_typeProperties_database": {
 			"value": "testdemodatabase"
 		},
-		"AzureSqlDatabase2_properties_typeProperties_server": {
-			"value": "krishh123.database.windows.net"
+		"AzureSqlDatabaseLinkedService_properties_typeProperties_server": {
+			"value": "sqlk.database.windows.net"
 		},
-		"AzureSqlDatabase2_properties_typeProperties_database": {
-			"value": "krishhdb"
-		},
-		"AzureSqlDatabase2_properties_typeProperties_userName": {
-			"value": "krishh"
+		"AzureSqlDatabaseLinkedService_properties_typeProperties_database": {
+			"value": "testsql"
 		},
 		"DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_server": {
 			"value": "KRISHHNAPC\\SQLEXPRESS"
@@ -266,6 +260,27 @@
 		"productbuilderCosmos_properties_typeProperties_database": {
 			"value": "@{linkedService().Database_name}"
 		},
+		"blob_event_trigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"man_trigger_properties_typeProperties_scope": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"trigger_tum_new_properties_pipeline_parameters_penddate": {
+			"value": "@trigger().outputs.windowEndtime"
+		},
+		"trigger_tum_new_properties_pipeline_parameters_pstartdate": {
+			"value": "@trigger().outputs.windowstarttime"
+		},
+		"triggereventstorage_properties_typeProperties_scope": {
+			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
+		},
+		"tumbling_trigger_properties_pipeline_parameters_StartTime": {
+			"value": "@trigger().outputs.windowStartTime"
+		},
+		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
+			"value": "@trigger().outputs.windowEndTime"
+		},
 		"AzureBlobStorage705_properties_privateLinkResourceId": {
 			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
 		},
@@ -327,27 +342,6 @@
 			"value": [
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
-		},
-		"blob_event_trigger_properties_typeProperties_scope": {
-			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"man_trigger_properties_typeProperties_scope": {
-			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"triggereventstorage_properties_typeProperties_scope": {
-			"value": "/subscriptions/98163876-b4d3-4128-ad45-c4c6a103c74c/resourceGroups/az-learn/providers/Microsoft.Storage/storageAccounts/adlsdemostorage21"
-		},
-		"tumbling_trigger_properties_pipeline_parameters_StartTime": {
-			"value": "@trigger().outputs.windowStartTime"
-		},
-		"tumbling_trigger_properties_pipeline_parameters_EndTime": {
-			"value": "@trigger().outputs.windowEndTime"
-		},
-		"trigger_tum_new_properties_pipeline_parameters_penddate": {
-			"value": "@trigger().outputs.windowEndtime"
-		},
-		"trigger_tum_new_properties_pipeline_parameters_pstartdate": {
-			"value": "@trigger().outputs.windowstarttime"
 		},
 		"containerUri": {
 			"value": ""
