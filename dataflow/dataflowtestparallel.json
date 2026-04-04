@@ -5,17 +5,9 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"dataset": {
-						"referenceName": "AzureSqlDataset_Students",
-						"type": "DatasetReference"
-					},
 					"name": "source"
 				},
 				{
-					"dataset": {
-						"referenceName": "AzureSqlDataset_Product",
-						"type": "DatasetReference"
-					},
 					"name": "source2"
 				}
 			],
@@ -51,10 +43,7 @@
 				"          dept as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'Select * from Students',",
-				"     format: 'query') ~> source",
+				"     validateSchema: false) ~> source",
 				"source(output(",
 				"          ProductID as integer,",
 				"          ProductName as string,",
@@ -63,13 +52,8 @@
 				"          Stock as integer",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'Select * from Products',",
-				"     format: 'query') ~> source2",
-				"source derive(tools = class + '_' + dept\r",
-				"\r",
-				") ~> derivedColumn",
+				"     validateSchema: false) ~> source2",
+				"source derive(tools = class + '_' + dept) ~> derivedColumn",
 				"source2 derive(Qunatity = iif(greaterOrEqual(Price,20), 2, 4)) ~> derivedColumn2",
 				"derivedColumn sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",

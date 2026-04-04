@@ -32,56 +32,39 @@
 							{
 								"source": {
 									"name": "CurrencyKey",
-									"type": "Int32",
-									"physicalType": "int"
+									"type": "Int32"
 								},
 								"sink": {
 									"name": "ProductID",
-									"type": "Int32",
-									"physicalType": "int"
+									"type": "Int32"
 								}
 							},
 							{
 								"source": {
 									"name": "CurrencyAlternateKey",
-									"type": "String",
-									"physicalType": "nchar"
+									"type": "String"
 								},
 								"sink": {
 									"name": "ProductName",
-									"type": "String",
-									"physicalType": "varchar"
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"name": "CurrencyName",
-									"type": "String",
-									"physicalType": "nvarchar"
+									"type": "String"
 								},
 								"sink": {
 									"name": "Category",
-									"type": "String",
-									"physicalType": "varchar"
+									"type": "String"
 								}
 							}
-						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
+						]
 					}
 				},
 				"inputs": [
 					{
 						"referenceName": "SqlServer_Onprem",
-						"type": "DatasetReference"
-					}
-				],
-				"outputs": [
-					{
-						"referenceName": "AzureSqlDataset_Students",
 						"type": "DatasetReference"
 					}
 				]
