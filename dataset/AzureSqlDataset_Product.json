@@ -1,8 +1,0 @@
-{
-	"name": "AzureSqlDataset_Product",
-	"properties": {
-		"annotations": [],
-		"type": "AzureSqlTable",
-		"schema": []
-	}
-}
