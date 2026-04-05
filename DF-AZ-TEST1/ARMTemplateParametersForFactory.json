@@ -342,6 +342,9 @@
 			"value": [
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
+		},
+		"ls_github_proj_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/"
 		}
 	}
 }

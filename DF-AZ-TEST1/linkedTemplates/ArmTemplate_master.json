@@ -455,6 +455,10 @@
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
 		},
+		"ls_github_proj_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -581,9 +585,6 @@
 					"LS_SQLSERVER_password": {
 						"value": "[parameters('LS_SQLSERVER_password')]"
 					},
-					"Oracle_LS_connectionString": {
-						"value": "[parameters('Oracle_LS_connectionString')]"
-					},
 					"Adls_script_ls_properties_typeProperties_serviceEndpoint": {
 						"value": "[parameters('Adls_script_ls_properties_typeProperties_serviceEndpoint')]"
 					},
@@ -595,6 +596,12 @@
 					},
 					"AzureDatabricks_LS_AT_properties_typeProperties_existingClusterId": {
 						"value": "[parameters('AzureDatabricks_LS_AT_properties_typeProperties_existingClusterId')]"
+					},
+					"AzureSqlDatabaseLinkedService_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabaseLinkedService_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabaseLinkedService_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabaseLinkedService_properties_typeProperties_database')]"
 					},
 					"DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_server": {
 						"value": "[parameters('DS_ASQLDB_PIPELINE_PARAMETER_properties_typeProperties_server')]"
@@ -666,6 +673,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"Oracle_LS_connectionString": {
+						"value": "[parameters('Oracle_LS_connectionString')]"
 					},
 					"Oracle_ls_V2_password": {
 						"value": "[parameters('Oracle_ls_V2_password')]"
@@ -792,6 +802,9 @@
 					},
 					"PrivateLinkService492_properties_fqdns": {
 						"value": "[parameters('PrivateLinkService492_properties_fqdns')]"
+					},
+					"ls_github_proj_properties_typeProperties_url": {
+						"value": "[parameters('ls_github_proj_properties_typeProperties_url')]"
 					}
 				}
 			},
@@ -868,12 +881,6 @@
 					"AzurePostgreSql_properties_typeProperties_database": {
 						"value": "[parameters('AzurePostgreSql_properties_typeProperties_database')]"
 					},
-					"AzureSqlDatabaseLinkedService_properties_typeProperties_server": {
-						"value": "[parameters('AzureSqlDatabaseLinkedService_properties_typeProperties_server')]"
-					},
-					"AzureSqlDatabaseLinkedService_properties_typeProperties_database": {
-						"value": "[parameters('AzureSqlDatabaseLinkedService_properties_typeProperties_database')]"
-					},
 					"LS_ASQL_properties_typeProperties_server": {
 						"value": "[parameters('LS_ASQL_properties_typeProperties_server')]"
 					},
@@ -931,9 +938,6 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
-					},
-					"triggereventstorage_properties_typeProperties_scope": {
-						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
 					}
 				}
 			},
@@ -954,6 +958,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"triggereventstorage_properties_typeProperties_scope": {
+						"value": "[parameters('triggereventstorage_properties_typeProperties_scope')]"
 					},
 					"tumbling_trigger_properties_pipeline_parameters_StartTime": {
 						"value": "[parameters('tumbling_trigger_properties_pipeline_parameters_StartTime')]"
