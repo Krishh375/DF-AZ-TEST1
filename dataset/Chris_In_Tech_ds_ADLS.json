@@ -6,9 +6,6 @@
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"SchemaName": {
-				"type": "string"
-			},
 			"TableName": {
 				"type": "string"
 			}
@@ -20,10 +17,6 @@
 				"type": "AzureBlobFSLocation",
 				"fileName": {
 					"value": "@{concat(dataset().TableName,'.parquet')}",
-					"type": "Expression"
-				},
-				"folderPath": {
-					"value": "@{concat('dataset().SchemaName','/','dataset().TableName')}",
 					"type": "Expression"
 				},
 				"fileSystem": "bronze"

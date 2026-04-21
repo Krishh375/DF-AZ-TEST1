@@ -97,7 +97,7 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "Parquet",
+									"referenceName": "Chris_In_Tech_ds_ADLS",
 									"type": "DatasetReference"
 								}
 							]
