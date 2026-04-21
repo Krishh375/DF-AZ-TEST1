@@ -64,7 +64,7 @@
 								"source": {
 									"type": "SqlServerSource",
 									"sqlReaderQuery": {
-										"value": "@concat('SELECT * FROM', item().SchemaName,item().TableName)",
+										"value": "@{concat('SELECT * FROM', item().SchemaName,'.',item().TableName)}",
 										"type": "Expression"
 									},
 									"queryTimeout": "02:00:00",
@@ -97,18 +97,8 @@
 							],
 							"outputs": [
 								{
-									"referenceName": "Chris_In_Tech_ds_ADLS",
-									"type": "DatasetReference",
-									"parameters": {
-										"SchemaName": {
-											"value": "@item().SchemaName",
-											"type": "Expression"
-										},
-										"TableName": {
-											"value": "@item().TableName",
-											"type": "Expression"
-										}
-									}
+									"referenceName": "Parquet",
+									"type": "DatasetReference"
 								}
 							]
 						}
