@@ -8,6 +8,9 @@
 		"parameters": {
 			"TableName": {
 				"type": "string"
+			},
+			"SchemaName": {
+				"type": "string"
 			}
 		},
 		"annotations": [],
@@ -17,6 +20,10 @@
 				"type": "AzureBlobFSLocation",
 				"fileName": {
 					"value": "@{concat(dataset().TableName,'.parquet')}",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@{concat(dataset().SchemaName,'/',dataset().TableName)}",
 					"type": "Expression"
 				},
 				"fileSystem": "bronze"
