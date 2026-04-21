@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "DF-AZ-TEST1"
 		},
+		"ADLS_using_SP_ls_servicePrincipalCredential": {
+			"value": ""
+		},
 		"AZDestinyGlobalDatabase_password": {
 			"value": ""
 		},
@@ -76,6 +79,15 @@
 		},
 		"immutablecopyls_connectionString": {
 			"value": ""
+		},
+		"ADLS_using_SP_ls_properties_typeProperties_url": {
+			"value": "https://adlsdemostorage21.dfs.core.windows.net/"
+		},
+		"ADLS_using_SP_ls_properties_typeProperties_tenant": {
+			"value": "16b3c013-d300-468d-ac64-7eda0820b6d3"
+		},
+		"ADLS_using_SP_ls_properties_typeProperties_servicePrincipalId": {
+			"value": "bb00111b-668b-4ba3-b619-21fa36679640"
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
 			"value": "krishh123.database.windows.net"
@@ -251,6 +263,9 @@
 		"Teradata_user_properties_typeProperties_username": {
 			"value": "dbc"
 		},
+		"ls_github_proj_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/"
+		},
 		"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
 			"value": "https://kv-devqa-datafactory-bi.vault.azure.net/"
 		},
@@ -342,9 +357,6 @@
 			"value": [
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
-		},
-		"ls_github_proj_properties_typeProperties_url": {
-			"value": "https://raw.githubusercontent.com/"
 		}
 	}
 }

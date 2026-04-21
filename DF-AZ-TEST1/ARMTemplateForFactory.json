@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
+		"ADLS_using_SP_ls_servicePrincipalCredential": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalCredential' of 'ADLS_using_SP_ls'"
+		},
 		"AZDestinyGlobalDatabase_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AZDestinyGlobalDatabase'"
@@ -102,6 +106,18 @@
 		"immutablecopyls_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'immutablecopyls'"
+		},
+		"ADLS_using_SP_ls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsdemostorage21.dfs.core.windows.net/"
+		},
+		"ADLS_using_SP_ls_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "16b3c013-d300-468d-ac64-7eda0820b6d3"
+		},
+		"ADLS_using_SP_ls_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "bb00111b-668b-4ba3-b619-21fa36679640"
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
 			"type": "string",
@@ -335,6 +351,10 @@
 			"type": "string",
 			"defaultValue": "dbc"
 		},
+		"ls_github_proj_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/"
+		},
 		"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://kv-devqa-datafactory-bi.vault.azure.net/"
@@ -454,10 +474,6 @@
 			"defaultValue": [
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
-		},
-		"ls_github_proj_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://raw.githubusercontent.com/"
 		}
 	},
 	"variables": {
@@ -1508,6 +1524,216 @@
 				"[concat(variables('factoryId'), '/datasets/SourceDataset')]",
 				"[concat(variables('factoryId'), '/datasets/SinkDataset')]",
 				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ansh_end2end_proj_pipeline')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy data",
+						"description": "copy from git to azure sql",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings"
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "insert",
+								"sqlWriterUseTableLock": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Branch_ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Branch_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Dealer_ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Dealer_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Model_ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Model_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Revenue",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Revenue",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "Units_Sold",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Units_Sold",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "Date_ID",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Date_ID",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Day",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Day",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Month",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Month",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Year",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Year",
+											"type": "Int16",
+											"physicalType": "smallint"
+										}
+									},
+									{
+										"source": {
+											"name": "BranchName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "BranchName",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DealerName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "DealerName",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "ds_git_ansh",
+								"type": "DatasetReference",
+								"parameters": {
+									"load_flag": "SalesData.csv"
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "ds_sql_end2end_proj",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "Ansh_Lamba_end2end_project"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_git_ansh')]",
+				"[concat(variables('factoryId'), '/datasets/ds_sql_end2end_proj')]"
 			]
 		},
 		{
@@ -5951,6 +6177,62 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ds_git_ansh')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_github_proj",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"load_flag": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@concat('/Krishh375/Ansh_Lamba-Azure-DE-project-Resource/refs/heads/main/', dataset().load_flag)",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_github_proj')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_sql_end2end_proj')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "source_cars_data"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseLinkedService')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/fact_file_ds')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -6403,6 +6685,32 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ADLS_using_SP_ls')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ADLS_using_SP_ls_properties_typeProperties_url')]",
+					"tenant": "[parameters('ADLS_using_SP_ls_properties_typeProperties_tenant')]",
+					"servicePrincipalId": "[parameters('ADLS_using_SP_ls_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalCredentialType": "ServicePrincipalKey",
+					"servicePrincipalCredential": {
+						"type": "SecureString",
+						"value": "[parameters('ADLS_using_SP_ls_servicePrincipalCredential')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
 			]
 		},
 		{
@@ -7224,6 +7532,28 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_github_proj')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "ansh lamba end to end azure project",
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('ls_github_proj_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/ls_kv_datafactory_bi')]",
@@ -8719,37 +9049,15 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ls_github_proj')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"description": "ansh lamba end to end azure project",
-				"annotations": [],
-				"type": "HttpServer",
-				"typeProperties": {
-					"url": "[parameters('ls_github_proj_properties_typeProperties_url')]",
-					"enableServerCertificateValidation": true,
-					"authenticationType": "Anonymous"
-				},
-				"connectVia": {
-					"referenceName": "AutoResolveIntegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ansh_end2end_proj_pipeline')]",
+			"name": "[concat(parameters('factoryName'), '/LoadMultipletablespipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy data",
-						"description": "copy from git to azure sql",
-						"type": "Copy",
+						"name": "Lookup",
+						"description": "Load schema and tables from Onprem",
+						"type": "Lookup",
 						"dependsOn": [],
 						"policy": {
 							"timeout": "0.12:00:00",
@@ -8761,249 +9069,195 @@
 						"userProperties": [],
 						"typeProperties": {
 							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "HttpReadSettings",
-									"requestMethod": "GET"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
+								"type": "SqlServerSource",
+								"sqlReaderQuery": "SELECT s.name as SchemaName, t.name as TableName FROM sys.tables as t\nINNER JOIN sys.schemas as s ON t.schema_id = s.schema_id;",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
 							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "insert",
-								"sqlWriterUseTableLock": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "Branch_ID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Branch_ID",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Dealer_ID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Dealer_ID",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Model_ID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Model_ID",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Revenue",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Revenue",
-											"type": "Int64",
-											"physicalType": "bigint"
-										}
-									},
-									{
-										"source": {
-											"name": "Units_Sold",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Units_Sold",
-											"type": "Int64",
-											"physicalType": "bigint"
-										}
-									},
-									{
-										"source": {
-											"name": "Date_ID",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Date_ID",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "Day",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Day",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "Month",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Month",
-											"type": "Int32",
-											"physicalType": "int"
-										}
-									},
-									{
-										"source": {
-											"name": "Year",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "Year",
-											"type": "Int16",
-											"physicalType": "smallint"
-										}
-									},
-									{
-										"source": {
-											"name": "BranchName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "BranchName",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "DealerName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "DealerName",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "ds_git_ansh",
-								"type": "DatasetReference",
-								"parameters": {
-									"load_flag": "SalesData.csv"
-								}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "ds_sql_end2end_proj",
+							"dataset": {
+								"referenceName": "ChrisInTech_DS",
 								"type": "DatasetReference",
 								"parameters": {}
+							},
+							"firstRowOnly": false
+						}
+					},
+					{
+						"name": "ForEach",
+						"type": "ForEach",
+						"dependsOn": [
+							{
+								"activity": "Lookup",
+								"dependencyConditions": [
+									"Succeeded"
+								]
 							}
-						]
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"items": {
+								"value": "@activity('Lookup').output.value",
+								"type": "Expression"
+							},
+							"isSequential": true,
+							"activities": [
+								{
+									"name": "Copy data",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"sqlReaderQuery": {
+												"value": "@concat('SELECT * FROM', item().SchemaName,item().TableName)",
+												"type": "Expression"
+											},
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"sink": {
+											"type": "ParquetSink",
+											"storeSettings": {
+												"type": "AzureBlobFSWriteSettings"
+											},
+											"formatSettings": {
+												"type": "ParquetWriteSettings"
+											}
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "Chris_In_Tech_ds_Onprem_SQL",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "Chris_In_Tech_ds_ADLS",
+											"type": "DatasetReference",
+											"parameters": {
+												"SchemaName": {
+													"value": "@item().SchemaName",
+													"type": "Expression"
+												},
+												"TableName": {
+													"value": "@item().TableName",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
 					}
 				],
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
 				"folder": {
-					"name": "Ansh_Lamba_end2end_project"
+					"name": "ChrisInTech"
 				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_git_ansh')]",
-				"[concat(variables('factoryId'), '/datasets/ds_sql_end2end_proj')]"
+				"[concat(variables('factoryId'), '/datasets/ChrisInTech_DS')]",
+				"[concat(variables('factoryId'), '/datasets/Chris_In_Tech_ds_Onprem_SQL')]",
+				"[concat(variables('factoryId'), '/datasets/Chris_In_Tech_ds_ADLS')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_git_ansh')]",
+			"name": "[concat(parameters('factoryName'), '/ChrisInTech_DS')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "ls_github_proj",
+					"referenceName": "LS_SQLSERVER",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQLSERVER')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Chris_In_Tech_ds_Onprem_SQL')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_SQLSERVER",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_SQLSERVER')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Chris_In_Tech_ds_ADLS')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorageLS",
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
-					"load_flag": {
+					"SchemaName": {
+						"type": "string"
+					},
+					"TableName": {
 						"type": "string"
 					}
 				},
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "Parquet",
 				"typeProperties": {
 					"location": {
-						"type": "HttpServerLocation",
-						"relativeUrl": {
-							"value": "@concat('/Krishh375/Ansh_Lamba-Azure-DE-project-Resource/refs/heads/main/', dataset().load_flag)",
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@concat(dataset().TableName,'.parquet')",
 							"type": "Expression"
-						}
+						},
+						"folderPath": {
+							"value": "@concat('dataset().SchemaName','/','dataset().TableName')",
+							"type": "Expression"
+						},
+						"fileSystem": "bronze"
 					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
+					"compressionCodec": "snappy"
 				},
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_github_proj')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_sql_end2end_proj')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureSqlDatabaseLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "AzureSqlTable",
-				"schema": [],
-				"typeProperties": {
-					"schema": "dbo",
-					"table": "source_cars_data"
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureSqlDatabaseLinkedService')]"
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorageLS')]"
 			]
 		}
 	]

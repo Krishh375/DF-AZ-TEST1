@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
+		"ADLS_using_SP_ls_servicePrincipalCredential": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalCredential' of 'ADLS_using_SP_ls'"
+		},
 		"AZDestinyGlobalDatabase_password": {
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'AZDestinyGlobalDatabase'"
@@ -102,6 +106,18 @@
 		"immutablecopyls_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'immutablecopyls'"
+		},
+		"ADLS_using_SP_ls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsdemostorage21.dfs.core.windows.net/"
+		},
+		"ADLS_using_SP_ls_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "16b3c013-d300-468d-ac64-7eda0820b6d3"
+		},
+		"ADLS_using_SP_ls_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "bb00111b-668b-4ba3-b619-21fa36679640"
 		},
 		"AZDestinyGlobalDatabase_properties_typeProperties_server": {
 			"type": "string",
@@ -335,6 +351,10 @@
 			"type": "string",
 			"defaultValue": "dbc"
 		},
+		"ls_github_proj_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/"
+		},
 		"ls_kv_datafactory_bi_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://kv-devqa-datafactory-bi.vault.azure.net/"
@@ -455,10 +475,6 @@
 				"sqlvm.privatelink.centralus.cloudapp.azure.com"
 			]
 		},
-		"ls_github_proj_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://raw.githubusercontent.com/"
-		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -561,6 +577,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"ADLS_using_SP_ls_servicePrincipalCredential": {
+						"value": "[parameters('ADLS_using_SP_ls_servicePrincipalCredential')]"
+					},
 					"AzureDatabricks1_accessToken": {
 						"value": "[parameters('AzureDatabricks1_accessToken')]"
 					},
@@ -582,8 +601,14 @@
 					"LS_SP_SQLSERVER_password": {
 						"value": "[parameters('LS_SP_SQLSERVER_password')]"
 					},
-					"LS_SQLSERVER_password": {
-						"value": "[parameters('LS_SQLSERVER_password')]"
+					"ADLS_using_SP_ls_properties_typeProperties_url": {
+						"value": "[parameters('ADLS_using_SP_ls_properties_typeProperties_url')]"
+					},
+					"ADLS_using_SP_ls_properties_typeProperties_tenant": {
+						"value": "[parameters('ADLS_using_SP_ls_properties_typeProperties_tenant')]"
+					},
+					"ADLS_using_SP_ls_properties_typeProperties_servicePrincipalId": {
+						"value": "[parameters('ADLS_using_SP_ls_properties_typeProperties_servicePrincipalId')]"
 					},
 					"Adls_script_ls_properties_typeProperties_serviceEndpoint": {
 						"value": "[parameters('Adls_script_ls_properties_typeProperties_serviceEndpoint')]"
@@ -644,15 +669,6 @@
 					},
 					"LS_SP_SQLSERVER_properties_typeProperties_userName": {
 						"value": "[parameters('LS_SP_SQLSERVER_properties_typeProperties_userName')]"
-					},
-					"LS_SQLSERVER_properties_typeProperties_server": {
-						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]"
-					},
-					"LS_SQLSERVER_properties_typeProperties_database": {
-						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]"
-					},
-					"LS_SQLSERVER_properties_typeProperties_userName": {
-						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -673,6 +689,9 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"LS_SQLSERVER_password": {
+						"value": "[parameters('LS_SQLSERVER_password')]"
 					},
 					"Oracle_LS_connectionString": {
 						"value": "[parameters('Oracle_LS_connectionString')]"
@@ -697,6 +716,15 @@
 					},
 					"Teradata_user_password": {
 						"value": "[parameters('Teradata_user_password')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_server": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_database": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]"
+					},
+					"LS_SQLSERVER_properties_typeProperties_userName": {
+						"value": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]"
 					},
 					"Oracle_ls_V2_properties_typeProperties_server": {
 						"value": "[parameters('Oracle_ls_V2_properties_typeProperties_server')]"
@@ -745,6 +773,9 @@
 					},
 					"Teradata_user_properties_typeProperties_username": {
 						"value": "[parameters('Teradata_user_properties_typeProperties_username')]"
+					},
+					"ls_github_proj_properties_typeProperties_url": {
+						"value": "[parameters('ls_github_proj_properties_typeProperties_url')]"
 					},
 					"blob_event_trigger_properties_typeProperties_scope": {
 						"value": "[parameters('blob_event_trigger_properties_typeProperties_scope')]"
@@ -802,9 +833,6 @@
 					},
 					"PrivateLinkService492_properties_fqdns": {
 						"value": "[parameters('PrivateLinkService492_properties_fqdns')]"
-					},
-					"ls_github_proj_properties_typeProperties_url": {
-						"value": "[parameters('ls_github_proj_properties_typeProperties_url')]"
 					}
 				}
 			},
@@ -866,38 +894,11 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
-					"Snowflake_ls_privateKey": {
-						"value": "[parameters('Snowflake_ls_privateKey')]"
-					},
-					"Snowflake_ls_privateKeyPassphrase": {
-						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
-					},
-					"SqlServeronVM_password": {
-						"value": "[parameters('SqlServeronVM_password')]"
-					},
 					"AzurePostgreSql_properties_typeProperties_server": {
 						"value": "[parameters('AzurePostgreSql_properties_typeProperties_server')]"
 					},
 					"AzurePostgreSql_properties_typeProperties_database": {
 						"value": "[parameters('AzurePostgreSql_properties_typeProperties_database')]"
-					},
-					"LS_ASQL_properties_typeProperties_server": {
-						"value": "[parameters('LS_ASQL_properties_typeProperties_server')]"
-					},
-					"LS_ASQL_properties_typeProperties_database": {
-						"value": "[parameters('LS_ASQL_properties_typeProperties_database')]"
-					},
-					"Snowflake_ls_properties_typeProperties_database": {
-						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
-					},
-					"SqlServeronVM_properties_typeProperties_server": {
-						"value": "[parameters('SqlServeronVM_properties_typeProperties_server')]"
-					},
-					"SqlServeronVM_properties_typeProperties_database": {
-						"value": "[parameters('SqlServeronVM_properties_typeProperties_database')]"
-					},
-					"SqlServeronVM_properties_typeProperties_userName": {
-						"value": "[parameters('SqlServeronVM_properties_typeProperties_userName')]"
 					}
 				}
 			},
@@ -918,6 +919,33 @@
 				"parameters": {
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
+					},
+					"Snowflake_ls_privateKey": {
+						"value": "[parameters('Snowflake_ls_privateKey')]"
+					},
+					"Snowflake_ls_privateKeyPassphrase": {
+						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
+					},
+					"SqlServeronVM_password": {
+						"value": "[parameters('SqlServeronVM_password')]"
+					},
+					"LS_ASQL_properties_typeProperties_server": {
+						"value": "[parameters('LS_ASQL_properties_typeProperties_server')]"
+					},
+					"LS_ASQL_properties_typeProperties_database": {
+						"value": "[parameters('LS_ASQL_properties_typeProperties_database')]"
+					},
+					"Snowflake_ls_properties_typeProperties_database": {
+						"value": "[parameters('Snowflake_ls_properties_typeProperties_database')]"
+					},
+					"SqlServeronVM_properties_typeProperties_server": {
+						"value": "[parameters('SqlServeronVM_properties_typeProperties_server')]"
+					},
+					"SqlServeronVM_properties_typeProperties_database": {
+						"value": "[parameters('SqlServeronVM_properties_typeProperties_database')]"
+					},
+					"SqlServeronVM_properties_typeProperties_userName": {
+						"value": "[parameters('SqlServeronVM_properties_typeProperties_userName')]"
 					}
 				}
 			},

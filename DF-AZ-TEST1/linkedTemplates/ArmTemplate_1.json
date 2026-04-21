@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
+		"ADLS_using_SP_ls_servicePrincipalCredential": {
+			"type": "secureString",
+			"metadata": "Secure string for 'servicePrincipalCredential' of 'ADLS_using_SP_ls'"
+		},
 		"AzureDatabricks1_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
@@ -35,9 +39,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LS_SP_SQLSERVER'"
 		},
-		"LS_SQLSERVER_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'LS_SQLSERVER'"
+		"ADLS_using_SP_ls_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://adlsdemostorage21.dfs.core.windows.net/"
+		},
+		"ADLS_using_SP_ls_properties_typeProperties_tenant": {
+			"type": "string",
+			"defaultValue": "16b3c013-d300-468d-ac64-7eda0820b6d3"
+		},
+		"ADLS_using_SP_ls_properties_typeProperties_servicePrincipalId": {
+			"type": "string",
+			"defaultValue": "bb00111b-668b-4ba3-b619-21fa36679640"
 		},
 		"Adls_script_ls_properties_typeProperties_serviceEndpoint": {
 			"type": "string",
@@ -116,18 +128,6 @@
 			"defaultValue": "AdventureWorksDW2019"
 		},
 		"LS_SP_SQLSERVER_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "sa"
-		},
-		"LS_SQLSERVER_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "KRISHHNAPC"
-		},
-		"LS_SQLSERVER_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "TEST"
-		},
-		"LS_SQLSERVER_properties_typeProperties_userName": {
 			"type": "string",
 			"defaultValue": "sa"
 		}
@@ -340,6 +340,30 @@
 					"quoteChar": "\""
 				},
 				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ADLS_using_SP_ls')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('ADLS_using_SP_ls_properties_typeProperties_url')]",
+					"tenant": "[parameters('ADLS_using_SP_ls_properties_typeProperties_tenant')]",
+					"servicePrincipalId": "[parameters('ADLS_using_SP_ls_properties_typeProperties_servicePrincipalId')]",
+					"servicePrincipalCredentialType": "ServicePrincipalKey",
+					"servicePrincipalCredential": {
+						"type": "SecureString",
+						"value": "[parameters('ADLS_using_SP_ls_servicePrincipalCredential')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
 			},
 			"dependsOn": []
 		},
@@ -626,32 +650,6 @@
 					"password": {
 						"type": "SecureString",
 						"value": "[parameters('LS_SP_SQLSERVER_password')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "SHIR-Onprem",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_SQLSERVER')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('LS_SQLSERVER_properties_typeProperties_server')]",
-					"database": "[parameters('LS_SQLSERVER_properties_typeProperties_database')]",
-					"encrypt": "optional",
-					"trustServerCertificate": true,
-					"authenticationType": "SQL",
-					"userName": "[parameters('LS_SQLSERVER_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('LS_SQLSERVER_password')]"
 					}
 				},
 				"connectVia": {

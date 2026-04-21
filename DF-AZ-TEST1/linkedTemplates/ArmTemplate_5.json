@@ -7,18 +7,6 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "DF-AZ-TEST1"
 		},
-		"Snowflake_ls_privateKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'privateKey' of 'Snowflake_ls'"
-		},
-		"Snowflake_ls_privateKeyPassphrase": {
-			"type": "secureString",
-			"metadata": "Secure string for 'privateKeyPassphrase' of 'Snowflake_ls'"
-		},
-		"SqlServeronVM_password": {
-			"type": "secureString",
-			"metadata": "Secure string for 'password' of 'SqlServeronVM'"
-		},
 		"AzurePostgreSql_properties_typeProperties_server": {
 			"type": "string",
 			"defaultValue": "az-postgres-demo.postgres.database.azure.com"
@@ -26,36 +14,28 @@
 		"AzurePostgreSql_properties_typeProperties_database": {
 			"type": "string",
 			"defaultValue": "testdemodatabase"
-		},
-		"LS_ASQL_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "sqlk.database.windows.net"
-		},
-		"LS_ASQL_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "testsql"
-		},
-		"Snowflake_ls_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "MY_DATABASE"
-		},
-		"SqlServeronVM_properties_typeProperties_server": {
-			"type": "string",
-			"defaultValue": "sqlvm.privatelink.centralus.cloudapp.azure.com,1433"
-		},
-		"SqlServeronVM_properties_typeProperties_database": {
-			"type": "string",
-			"defaultValue": "ADFTest"
-		},
-		"SqlServeronVM_properties_typeProperties_userName": {
-			"type": "string",
-			"defaultValue": "sa"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/Teradata_dataset_user')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "Teradata_user",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "TeradataTable",
+				"schema": [],
+				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/WatermarkDataset')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
@@ -244,6 +224,58 @@
 						"folderPath": "csvfiles",
 						"fileSystem": "source"
 					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_git_ansh')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_github_proj",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"load_flag": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@concat('/Krishh375/Ansh_Lamba-Azure-DE-project-Resource/refs/heads/main/', dataset().load_flag)",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_sql_end2end_proj')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureSqlDatabaseLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "source_cars_data"
 				}
 			},
 			"dependsOn": []
@@ -556,82 +588,6 @@
 					"database": "[parameters('AzurePostgreSql_properties_typeProperties_database')]",
 					"sslMode": 3,
 					"authenticationType": "SystemAssignedManagedIdentity"
-				},
-				"connectVia": {
-					"referenceName": "vnetintegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_ASQL')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "AzureSqlDatabase",
-				"typeProperties": {
-					"server": "[parameters('LS_ASQL_properties_typeProperties_server')]",
-					"database": "[parameters('LS_ASQL_properties_typeProperties_database')]",
-					"encrypt": "mandatory",
-					"trustServerCertificate": true,
-					"authenticationType": "SystemAssignedManagedIdentity"
-				},
-				"connectVia": {
-					"referenceName": "vnetintegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/Snowflake_ls')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SnowflakeV2",
-				"typeProperties": {
-					"authenticationType": "KeyPair",
-					"accountIdentifier": "sjejrok-fm56566",
-					"user": "Krishh1996",
-					"database": "[parameters('Snowflake_ls_properties_typeProperties_database')]",
-					"warehouse": "MY_WAREHOUSE",
-					"privateKey": {
-						"type": "SecureString",
-						"value": "[parameters('Snowflake_ls_privateKey')]"
-					},
-					"privateKeyPassphrase": {
-						"type": "SecureString",
-						"value": "[parameters('Snowflake_ls_privateKeyPassphrase')]"
-					}
-				},
-				"connectVia": {
-					"referenceName": "vnetintegrationRuntime",
-					"type": "IntegrationRuntimeReference"
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SqlServeronVM')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "SqlServer",
-				"typeProperties": {
-					"server": "[parameters('SqlServeronVM_properties_typeProperties_server')]",
-					"database": "[parameters('SqlServeronVM_properties_typeProperties_database')]",
-					"encrypt": "mandatory",
-					"trustServerCertificate": true,
-					"authenticationType": "SQL",
-					"userName": "[parameters('SqlServeronVM_properties_typeProperties_userName')]",
-					"password": {
-						"type": "SecureString",
-						"value": "[parameters('SqlServeronVM_password')]"
-					}
 				},
 				"connectVia": {
 					"referenceName": "vnetintegrationRuntime",
