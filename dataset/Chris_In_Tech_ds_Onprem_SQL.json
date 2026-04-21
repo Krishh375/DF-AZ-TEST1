@@ -1,0 +1,12 @@
+{
+	"name": "Chris_In_Tech_ds_Onprem_SQL",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SQLSERVER",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
