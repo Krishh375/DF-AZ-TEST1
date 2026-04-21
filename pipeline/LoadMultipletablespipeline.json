@@ -98,7 +98,13 @@
 							"outputs": [
 								{
 									"referenceName": "Chris_In_Tech_ds_ADLS",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"TableName": {
+											"value": "@item().TableName",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}
