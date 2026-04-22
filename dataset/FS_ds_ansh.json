@@ -1,0 +1,22 @@
+{
+	"name": "FS_ds_ansh",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FileServer1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "EMPLOYEE.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

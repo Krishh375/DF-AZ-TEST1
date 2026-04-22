@@ -1,0 +1,21 @@
+{
+	"name": "Ansh_cicd_Parquet_sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "firstcopy.parquet",
+				"folderPath": "filesystem",
+				"fileSystem": "bronze"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
