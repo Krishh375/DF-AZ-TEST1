@@ -5,12 +5,20 @@
 			"referenceName": "AzureDataLakeStorageLS",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"filename": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "firstcopy.parquet",
+				"fileName": {
+					"value": "@dataset().filename",
+					"type": "Expression"
+				},
 				"folderPath": "filesystem",
 				"fileSystem": "bronze"
 			},
