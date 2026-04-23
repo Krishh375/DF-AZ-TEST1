@@ -11,7 +11,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "lastload.json",
-				"folderPath": "monitor/emptyjson",
+				"folderPath": "monitor/lastload",
 				"fileSystem": "bronze"
 			}
 		},
