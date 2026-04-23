@@ -48,12 +48,8 @@
 								},
 								"enableStaging": false,
 								"translator": {
-									"type": "TabularTranslator",
-									"typeConversion": true,
-									"typeConversionSettings": {
-										"allowDataTruncation": true,
-										"treatBooleanAsNumber": false
-									}
+									"value": "@if(equals(item().filename,'EMPLOYEE.csv'),pipeline().parameters.mapping_EMPLOYEE,if(equals(item().filename,'emptyfile.csv'),pipeline().parameters.mapping_emptyfile,pipeline().parameters.mapping_title))",
+									"type": "Expression"
 								}
 							},
 							"inputs": [
