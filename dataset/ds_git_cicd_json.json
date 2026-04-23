@@ -1,0 +1,20 @@
+{
+	"name": "ds_git_cicd_json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorageLS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "DimAirport.json",
+				"folderPath": "github",
+				"fileSystem": "bronze"
+			}
+		},
+		"schema": {}
+	}
+}
