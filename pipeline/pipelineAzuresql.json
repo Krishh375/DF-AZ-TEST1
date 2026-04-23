@@ -5,9 +5,20 @@
 			{
 				"name": "Copy dataSQL",
 				"type": "Copy",
-				"state": "Inactive",
-				"onInactiveMarkAs": "Succeeded",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Lastload",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "LatestLoad",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -19,7 +30,10 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
-						"sqlReaderQuery": "SELECT * FROM dbo.FactBookings\nWHERE booking_date > '1900-01-01T11:48:40.0027428Z'",
+						"sqlReaderQuery": {
+							"value": "SELECT * FROM dbo.FactBookings\nWHERE booking_date > '@{activity('Lastload').output.firstRow.lastload}'",
+							"type": "Expression"
+						},
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -33,7 +47,7 @@
 				]
 			},
 			{
-				"name": "Lookup",
+				"name": "Lastload",
 				"type": "Lookup",
 				"dependsOn": [],
 				"policy": {
@@ -58,6 +72,31 @@
 					},
 					"dataset": {
 						"referenceName": "Jsonwatermarktimestamp",
+						"type": "DatasetReference"
+					}
+				}
+			},
+			{
+				"name": "LatestLoad",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureSqlSource",
+						"sqlReaderQuery": "SELECT MAX(booking_date) as latestload FROM dbo.FactBookings",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "AzureSqlDataset_CICD",
 						"type": "DatasetReference"
 					}
 				}
