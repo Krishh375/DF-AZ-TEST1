@@ -1,5 +1,5 @@
 {
-	"name": "pipeline5",
+	"name": "GitAPI_data_Ingestion",
 	"properties": {
 		"activities": [
 			{
