@@ -59,6 +59,12 @@
 				},
 				{
 					"name": "Agegratherthan25"
+				},
+				{
+					"name": "Attachnamewith"
+				},
+				{
+					"name": "derivedColumn"
 				}
 			],
 			"scriptLines": [
@@ -117,7 +123,9 @@
 				"select2 derive(gender_FLag = regexReplace(gender_FLag, 'M', 'Male')\r",
 				") ~> ChangegenderMale",
 				"ChangegenderMale derive(gender_FLag = regexReplace(gender_FLag, 'F', 'Female')) ~> ChangegenderFemale",
-				"ChangegenderFemale filter(age > 25 && country != 'Mexico') ~> Agegratherthan25"
+				"ChangegenderFemale filter(age > 25 && country != 'Mexico') ~> Agegratherthan25",
+				"Agegratherthan25 derive(full_name_new = regexReplace(full_name, ' ', '_')) ~> Attachnamewith",
+				"Attachnamewith derive(full_name_split = split(full_name,' ')[1]) ~> derivedColumn"
 			]
 		}
 	}
