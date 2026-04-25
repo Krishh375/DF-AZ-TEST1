@@ -46,35 +46,35 @@
 						"referenceName": "AzureDataLakeStorageLS",
 						"type": "LinkedServiceReference"
 					},
-					"name": "sink1"
+					"name": "sinkDimAirport"
 				},
 				{
 					"linkedService": {
 						"referenceName": "AzureDataLakeStorageLS",
 						"type": "LinkedServiceReference"
 					},
-					"name": "sink2"
+					"name": "sinkDimAirline"
 				},
 				{
 					"linkedService": {
 						"referenceName": "AzureDataLakeStorageLS",
 						"type": "LinkedServiceReference"
 					},
-					"name": "sink3"
+					"name": "sinkDimFlight"
 				},
 				{
 					"linkedService": {
 						"referenceName": "AzureDataLakeStorageLS",
 						"type": "LinkedServiceReference"
 					},
-					"name": "sink4"
+					"name": "sinkDimpassenger"
 				},
 				{
 					"linkedService": {
 						"referenceName": "AzureDataLakeStorageLS",
 						"type": "LinkedServiceReference"
 					},
-					"name": "sink5"
+					"name": "sinkFactBookings"
 				}
 			],
 			"transformations": [
@@ -230,7 +230,7 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1",
+				"     skipDuplicateMapOutputs: true) ~> sinkDimAirport",
 				"AlterRowdimAirline sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'delta',",
@@ -249,7 +249,7 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink2",
+				"     skipDuplicateMapOutputs: true) ~> sinkDimAirline",
 				"alterRowDimFlight sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'delta',",
@@ -267,7 +267,7 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink3",
+				"     skipDuplicateMapOutputs: true) ~> sinkDimFlight",
 				"alterRow2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'delta',",
@@ -286,7 +286,7 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink4",
+				"     skipDuplicateMapOutputs: true) ~> sinkDimpassenger",
 				"alterRow3 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'delta',",
@@ -303,7 +303,7 @@
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink5"
+				"     skipDuplicateMapOutputs: true) ~> sinkFactBookings"
 			]
 		}
 	}
