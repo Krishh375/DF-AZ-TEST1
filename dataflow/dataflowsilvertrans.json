@@ -132,6 +132,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
 				"     ignoreNoFilesFound: false) ~> DimAirline",
 				"source(output(",
 				"          flight_id as short,",
