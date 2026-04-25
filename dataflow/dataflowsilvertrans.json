@@ -236,7 +236,7 @@
 				"     format: 'delta',",
 				"     fileSystem: 'silver',",
 				"     folderPath: 'DimAirline',",
-				"     mergeSchema: false,",
+				"     mergeSchema: true,",
 				"     autoCompact: false,",
 				"     optimizedWrite: false,",
 				"     vacuum: 0,",
