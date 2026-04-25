@@ -1,5 +1,5 @@
 {
-	"name": "dataflow1",
+	"name": "dataflowsilvertrans",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -215,7 +215,7 @@
 				"     validateSchema: false,",
 				"     format: 'delta',",
 				"     fileSystem: 'silver',",
-				"     folderPath: 'DimAirline',",
+				"     folderPath: 'DimAirport',",
 				"     mergeSchema: false,",
 				"     autoCompact: false,",
 				"     optimizedWrite: false,",
